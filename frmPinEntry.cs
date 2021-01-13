@@ -13,7 +13,7 @@ namespace GreatHomeChildcare
     public partial class frmPinEntry : Form
     {
         //Global instance of the SqliteDataAccess object.
-        //SqliteDataAccess SqliteDataAccess = new SqliteDataAccess();
+        SqliteDataAccess SqliteDataAccess = new SqliteDataAccess();
         const string DEFAULT_PIC_TAG = "DefaultPic";
         const string CUSTOM_PIC_TAG = "dickpic";
 
@@ -69,22 +69,59 @@ namespace GreatHomeChildcare
             btnLogin.Enabled = false;
         }
 
+        //
         private void btnLogin_Click(object sender, EventArgs e)
         {
             Form frm2 = new frmMainForm();
             frm2.FormClosed += new FormClosedEventHandler(MainFormClosed);
 
-            btnCE_Click(this, EventArgs.Empty);
+            if(IsValidLogin(strPin))
+            {
+                btnCE_Click(this, EventArgs.Empty);
 
-            frm2.Show();
-            Hide();
+                frm2.Show();
+                Hide();
+            }
         }
 
+        //TODO: implement valid login check.
+        //do this after all the other bits of the program are written/tested.
+        private bool IsValidLogin(string pin_in)
+        {
+            return true;
+        }
+
+        //Show the pin login screen after the main student login/out form is closed.
         private void MainFormClosed(object sender, FormClosedEventArgs e)
         {
-
             Show();
+        }
 
+        /* Checks to see if this is the first-ever time the application has
+         * run by querying number of rows in Guardian table.
+         * If number of rows <= 0, we must setup an admin user in the guardian table.
+         */
+        private void frmPinEntry_Load(object sender, EventArgs e)
+        {
+            bool bIsFirstTime = false;
+            DialogResult dr;
+
+            bIsFirstTime = SqliteDataAccess.isFirstTimeRun();
+
+            if(bIsFirstTime)
+            {
+                dr = MessageBox.Show("Program not setup yet. Setup now?", "Great Home Childcare", MessageBoxButtons.YesNo, MessageBoxIcon.None);
+
+                //TODO: Open the form to add a new guardian.
+                if (dr == DialogResult.Yes)
+                    return;
+
+                else //Show a message and close the application.
+                {
+                    MessageBox.Show("Come back when you are ready to setup the program!", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+                    Close();
+                }
+            }
         }
     }
 }

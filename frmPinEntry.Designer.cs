@@ -210,6 +210,7 @@ namespace GreatHomeChildcare
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "frmPinEntry";
             this.Text = "Great Home Childcare";
+            this.Load += new System.EventHandler(this.frmPinEntry_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
