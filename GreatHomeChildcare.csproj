@@ -14,6 +14,7 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
     <PublishUrl>M:\down\GreatHomeChildcare\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
@@ -29,7 +30,6 @@
     <PublisherName>Great Home Childcare</PublisherName>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>true</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -93,6 +93,7 @@
       <DependentUpon>frmPinEntry.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Attendance.cs" />
+    <Compile Include="Models\Authorized_Guardian.cs" />
     <Compile Include="Models\Child.cs" />
     <Compile Include="Models\Guardian.cs" />
     <Compile Include="Program.cs" />
@@ -113,6 +114,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Content Include="GreatHome.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
