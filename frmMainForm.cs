@@ -16,5 +16,12 @@ namespace GreatHomeChildcare
         {
             InitializeComponent();
         }
+
+        //TODO: Add a button for each child the guardian has.
+        //TODO: Add admin button if guardian isAdmin = 1
+        private void frmMainForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -38,6 +38,7 @@ namespace GreatHomeChildcare
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Name = "frmMainForm";
             this.Text = "Main Screen";
+            this.Load += new System.EventHandler(this.frmMainForm_Load);
             this.ResumeLayout(false);
 
         }
