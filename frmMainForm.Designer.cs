@@ -29,13 +29,28 @@ namespace GreatHomeChildcare
         /// </summary>
         private void InitializeComponent()
         {
+            this.btnAdmin = new System.Windows.Forms.Button();
             this.SuspendLayout();
+            // 
+            // btnAdmin
+            // 
+            this.btnAdmin.Enabled = false;
+            this.btnAdmin.Location = new System.Drawing.Point(675, 12);
+            this.btnAdmin.Name = "btnAdmin";
+            this.btnAdmin.Size = new System.Drawing.Size(113, 41);
+            this.btnAdmin.TabIndex = 0;
+            this.btnAdmin.TabStop = false;
+            this.btnAdmin.Text = ">>ADMIN<<";
+            this.btnAdmin.UseVisualStyleBackColor = true;
+            this.btnAdmin.Visible = false;
+            this.btnAdmin.Click += new System.EventHandler(this.btnAdmin_Click);
             // 
             // frmMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnAdmin);
             this.Name = "frmMainForm";
             this.Text = "Main Screen";
             this.Load += new System.EventHandler(this.frmMainForm_Load);
@@ -44,5 +59,7 @@ namespace GreatHomeChildcare
         }
 
         #endregion
+
+        private System.Windows.Forms.Button btnAdmin;
     }
 }
