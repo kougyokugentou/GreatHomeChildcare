@@ -17,7 +17,7 @@ namespace GreatHomeChildcare
         const string DEFAULT_PIC_TAG = "DefaultPic";
         const string CUSTOM_PIC_TAG = "dickpic";
 
-        string strPin = String.Empty;
+        public static string strPin = String.Empty;
 
         public frmPinEntry()
         {
@@ -77,10 +77,9 @@ namespace GreatHomeChildcare
 
             if(IsValidLogin(strPin))
             {
-                btnCE_Click(this, EventArgs.Empty);
-
                 frm2.Show();
                 Hide();
+                btnCE_Click(this, EventArgs.Empty);
             }
         }
 
