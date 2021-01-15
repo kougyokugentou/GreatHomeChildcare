@@ -22,7 +22,7 @@ namespace GreatHomeChildcare.Models
         public string DisplayName
         {
             get =>
-                $"{LastName}, {FirstName} - Child ID: {id}";
+                $"{LastName}, {FirstName}";
         }
     }
 }
