@@ -173,6 +173,7 @@ namespace GreatHomeChildcare
             this.btnChild2.TabIndex = 1;
             this.btnChild2.Text = "Child 2";
             this.btnChild2.UseVisualStyleBackColor = true;
+            this.btnChild2.Click += new System.EventHandler(this.btnChild_Click);
             // 
             // picturebox_child2
             // 
@@ -205,6 +206,7 @@ namespace GreatHomeChildcare
             this.btnChild3.TabIndex = 1;
             this.btnChild3.Text = "Child 3";
             this.btnChild3.UseVisualStyleBackColor = true;
+            this.btnChild3.Click += new System.EventHandler(this.btnChild_Click);
             // 
             // picturebox_child3
             // 
@@ -249,6 +251,7 @@ namespace GreatHomeChildcare
             this.btnChild4.TabIndex = 1;
             this.btnChild4.Text = "Child 4";
             this.btnChild4.UseVisualStyleBackColor = true;
+            this.btnChild4.Click += new System.EventHandler(this.btnChild_Click);
             // 
             // picturebox_child4
             // 
@@ -281,6 +284,7 @@ namespace GreatHomeChildcare
             this.btnChild5.TabIndex = 1;
             this.btnChild5.Text = "Child 5";
             this.btnChild5.UseVisualStyleBackColor = true;
+            this.btnChild5.Click += new System.EventHandler(this.btnChild_Click);
             // 
             // picturebox_child5
             // 
@@ -313,6 +317,7 @@ namespace GreatHomeChildcare
             this.btnChild6.TabIndex = 1;
             this.btnChild6.Text = "Child 6";
             this.btnChild6.UseVisualStyleBackColor = true;
+            this.btnChild6.Click += new System.EventHandler(this.btnChild_Click);
             // 
             // picturebox_child6
             // 
@@ -345,6 +350,7 @@ namespace GreatHomeChildcare
             this.btnChild7.TabIndex = 1;
             this.btnChild7.Text = "Child 7";
             this.btnChild7.UseVisualStyleBackColor = true;
+            this.btnChild7.Click += new System.EventHandler(this.btnChild_Click);
             // 
             // picturebox_child7
             // 
@@ -409,6 +415,7 @@ namespace GreatHomeChildcare
             this.btnChild9.TabIndex = 1;
             this.btnChild9.Text = "Child 9";
             this.btnChild9.UseVisualStyleBackColor = true;
+            this.btnChild9.Click += new System.EventHandler(this.btnChild_Click);
             // 
             // picturebox_child9
             // 

@@ -55,8 +55,7 @@ namespace GreatHomeChildcare
             foreach(Child child in children)
             {
                 //Make sure we don't break the program.
-                //Keep it in your pants, man!!
-                if (i >= 10)
+                if (i >= 10) //Keep it in your pants, man!!
                 {
                     MessageBox.Show("Sorry, the program only supports 9 children per guardian.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
                     break;
@@ -83,15 +82,16 @@ namespace GreatHomeChildcare
                 if (c is Button)
                 {
                     Button btn = (Button)c;
+                    string strStudentStatus = SqliteDataAccess.GetChildSignInOut(child_in);
+                    string btnText = child_in.DisplayName + " ("+ child_in.gender + ")\n\r" 
+                                   + "DOB: " + child_in.DOB + "\n\r"
+                                   + "The student is checked " + strStudentStatus + "\n\r"
+                                   + "Press this button to sign " + (strStudentStatus == "in" ? "out" : "in");
 
-                    string btnText = child_in.DisplayName + "\n\r"
-                                   + child_in.gender + "\n\r"
-                                   + child_in.DOB + "\n\r"
-                                   + "CHECKOUT STATUS";
-
-                    //TODO: Find a way to bind the child_in data to the button to reuse it when the button is clicked.
-                    //btn.DataBindings.Add("childdata", child_in,);
-                    Console.WriteLine("blaaaha");
+                    //shove the child into the Tag property which is a type of 'object' for later retrieval.
+                    //see also: cheap hax
+                    btn.Text = btnText;
+                    btn.Tag = child_in;
                 }
             } //foreach control
         }
@@ -108,7 +108,25 @@ namespace GreatHomeChildcare
 
         private void btnChild_Click(object sender, EventArgs e)
         {
+            //to the passed in sender source and cast it to a Button
+            Button button = (Button)sender;
 
+            //here comes that cast we talked about.
+            //also: cheap hax
+            Child selectedChild = (Child)button.Tag;
+
+            //Sign the student in or out. Logic handled in function.
+            SqliteDataAccess.SignChildInOut(selectedChild, guardian);
+
+            //Re-grok the student's status.
+            string strStudentStatus = SqliteDataAccess.GetChildSignInOut(selectedChild);
+
+            //Update the button text.
+            string btnText = selectedChild.DisplayName + " (" + selectedChild.gender + ")\n\r"
+                                   + "DOB: " + selectedChild.DOB + "\n\r"
+                                   + "The student is checked " + strStudentStatus + "\n\r"
+                                   + "Press this button to sign " + (strStudentStatus == "in" ? "out" : "in");
+            button.Text = btnText;
         }
     }
 }
