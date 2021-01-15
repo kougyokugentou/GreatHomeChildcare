@@ -92,6 +92,7 @@
     <Compile Include="frmPinEntry.Designer.cs">
       <DependentUpon>frmPinEntry.cs</DependentUpon>
     </Compile>
+    <Compile Include="ImageWrangler.cs" />
     <Compile Include="Models\Attendance.cs" />
     <Compile Include="Models\Authorized_Guardian.cs" />
     <Compile Include="Models\Child.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqliteDataAccess.cs" />
+    <None Include="Resources\child.png" />
     <EmbeddedResource Include="frmMainForm.resx">
       <DependentUpon>frmMainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -113,6 +115,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Content Include="GreatHome.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
