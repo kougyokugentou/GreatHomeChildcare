@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GreatHomeChildcare.Models;
 
 namespace GreatHomeChildcare
 {
@@ -83,10 +84,25 @@ namespace GreatHomeChildcare
             }
         }
 
-        //TODO: implement valid login check.
-        //do this after all the other bits of the program are written/tested.
+        /* valid login check to see if pin# exists in the db.
+         * INPUT integer pin number
+         * OUTPUT boolean true/false
+         */
         private bool IsValidLogin(string pin_in)
         {
+            return true;
+            //TODO: Remove above return statement and implement after code testing.
+            //Could possibly move guardian to global and pass guardian to frmMainForm.
+            Guardian guardian = new Guardian();
+
+            guardian = SqliteDataAccess.GetGuardianByPin(Int32.Parse(pin_in));
+
+            if(guardian == null)
+            {
+                MessageBox.Show("Sorry, that is an invalid login.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+                return false;
+            }
+
             return true;
         }
 
