@@ -99,11 +99,11 @@ WHERE Guardians.id = @id
          */
         internal void SignChildInOut(Child child_in, Guardian guardian_in)
         {
-            string strStudentStatus = GetChildSignInOut(child_in);
+            Attendance strStudentStatus = GetChildSignInOut(child_in);
 
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
-                string strInOut = (strStudentStatus == "in" ? "out" : "in");
+                string strInOut = (strStudentStatus.in_out == "in" ? "out" : "in");
                 string strQuery = "INSERT INTO Attendence(child_id, guardian_id,in_out) VALUES(@child_id, @guardian_id, @in_out)";
                 cnn.Execute(strQuery, new
                 {
@@ -118,16 +118,16 @@ WHERE Guardians.id = @id
 
         /* gets a single child in/out status.
          * INPUT Child
-         * OUTPUT string "in" or "out".
+         * OUTPUT string "in" or "out", plus the timestamp.
          */
-        internal string GetChildSignInOut(Child child_in)
+        internal Attendance GetChildSignInOut(Child child_in)
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
                 //Select only the latest attendence data for this student.
-                string strQuery = "SELECT in_out FROM Attendence WHERE child_id=@id AND id = (SELECT MAX(id) FROM Attendence WHERE child_id = @id)";
+                string strQuery = "SELECT in_out,timestamp FROM Attendence WHERE child_id=@id AND id = (SELECT MAX(id) FROM Attendence WHERE child_id = @id)";
 
-                string output = cnn.Query<string>(strQuery, child_in).SingleOrDefault();
+                Attendance output = cnn.Query<Attendance>(strQuery, child_in).SingleOrDefault();
                 return output;
             }
         }
