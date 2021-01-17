@@ -82,11 +82,10 @@ namespace GreatHomeChildcare
                 if (c is Button)
                 {
                     Button btn = (Button)c;
-                    string strStudentStatus = SqliteDataAccess.GetChildSignInOut(child_in);
-                    string btnText = child_in.DisplayName + " ("+ child_in.gender + ")\n\r" 
-                                   + "DOB: " + child_in.DOB + "\n\r"
-                                   + "The student is checked " + strStudentStatus + "\n\r"
-                                   + "Press this button to sign " + (strStudentStatus == "in" ? "out" : "in");
+                    Attendance studentStatus = SqliteDataAccess.GetChildSignInOut(child_in);
+                    string btnText = child_in.DisplayName + "\n\r"
+                                   + "Status: Signed " + studentStatus.in_out.ToUpper() + "\n\r"
+                                   + studentStatus.timestamp;
 
                     //shove the child into the Tag property which is a type of 'object' for later retrieval.
                     //see also: cheap hax
@@ -119,13 +118,12 @@ namespace GreatHomeChildcare
             SqliteDataAccess.SignChildInOut(selectedChild, guardian);
 
             //Re-grok the student's status.
-            string strStudentStatus = SqliteDataAccess.GetChildSignInOut(selectedChild);
+            Attendance studentStatus = SqliteDataAccess.GetChildSignInOut(selectedChild);
 
             //Update the button text.
-            string btnText = selectedChild.DisplayName + " (" + selectedChild.gender + ")\n\r"
-                                   + "DOB: " + selectedChild.DOB + "\n\r"
-                                   + "The student is checked " + strStudentStatus + "\n\r"
-                                   + "Press this button to sign " + (strStudentStatus == "in" ? "out" : "in");
+            string btnText = selectedChild.DisplayName + "\n\r"
+                                   + "Status: Signed " + studentStatus.in_out.ToUpper() + "\n\r"
+                                   + studentStatus.timestamp;
             button.Text = btnText;
         }
     }
