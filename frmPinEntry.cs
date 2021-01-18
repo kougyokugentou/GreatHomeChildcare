@@ -25,6 +25,10 @@ namespace GreatHomeChildcare
             InitializeComponent();
         }
 
+        /* Event delegate to handle all the numerical buttons on the page.
+         * INPUT object sender, eventargs e
+         * OUTPUT: Stores pin in hidden variable strPin, while displaying * in the text box.
+         */
         private void btnNumButton_Click(object sender, EventArgs e)
         {
             //Don't allow a PIN length longer than 4 digits.
@@ -40,12 +44,18 @@ namespace GreatHomeChildcare
                 btnLogin.Enabled = true;
         }
 
+        //Prevents typing in the pin number box.
         private void tbPinNumber_KeyPress(object sender, KeyPressEventArgs e)
         {
             //Don't allow typing in the control.
             e.Handled = true;
         }
 
+        /*Clears the pin entry completely, 
+         * resetting the hidden variable strPin,
+         * clearing the text box,
+         * and disabling the login button.
+         */
         private void btnCE_Click(object sender, EventArgs e)
         {
             strPin = String.Empty;
@@ -53,6 +63,7 @@ namespace GreatHomeChildcare
             btnLogin.Enabled = false;
         }
 
+        // Deletes the last number entered into the pinpad.
         private void btnBack_Click(object sender, EventArgs e)
         {
             //If there is nothing in the display, do not attempt
@@ -70,7 +81,11 @@ namespace GreatHomeChildcare
             btnLogin.Enabled = false;
         }
 
-        //
+        /* Implements login functionality. If the pin # is valid (present in Guardian table)
+         * then it will instantiate a new object of Form2, and attach a form closed delegate to it.
+         * Then, the program shows the new form. strPin is public global so the new form can grab it.
+         * The program will then hide the pinpad form and clear the entry/pin value from memory.
+         */
         private void btnLogin_Click(object sender, EventArgs e)
         {
             Form frm2 = new frmMainForm();

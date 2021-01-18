@@ -142,6 +142,8 @@ WHERE Guardians.id = @id
 
         /* Checks to see if this is the first time the application has run.
          * by counting the number of guardians in the guardian table.
+         * INPUT: void from program, count of guardians from db.
+         * OUTPUT: boolean true/false.
          */
         internal bool isFirstTimeRun()
         {
@@ -167,6 +169,7 @@ WHERE Guardians.id = @id
         // ***************** Delete *****************
         #endregion
 
+        // Gets the connection string to the db and returns it to the program.
         private static string LoadConnectionString(string id = "Default")
         {
             return ConfigurationManager.ConnectionStrings[id].ConnectionString;
