@@ -22,11 +22,12 @@ namespace GreatHomeChildcare
             InitializeComponent();
         }
 
-        //TODO: Add a button for each child the guardian has.
-        //TODO: Add admin button if guardian isAdmin = 1
+        /* Event handler for form load.
+         * Shows a button for each child that has been assigned to the guardian.
+         */
         private void frmMainForm_Load(object sender, EventArgs e)
         {
-            int i = 1; //for iteration
+            int child_count = 1; //for iteration
 
             int guardian_pin = Int32.Parse(frmPinEntry.strPin);
             guardian = SqliteDataAccess.GetGuardianByPin(guardian_pin);
@@ -55,19 +56,25 @@ namespace GreatHomeChildcare
             foreach(Child child in children)
             {
                 //Make sure we don't break the program.
-                if (i >= 10) //Keep it in your pants, man!!
+                if (child_count >= 10) //Keep it in your pants, man!!
                 {
                     MessageBox.Show("Sorry, the program only supports 9 children per guardian.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
                     break;
                 }
 
-                Control controls = tableLayoutPanel1.Controls["panelChild" + i];
+                Control controls = tableLayoutPanel1.Controls["panelChild" + child_count];
                 controls.Visible = true;
+
+                //Populate the newly shown button with the child's information
                 PopulateButton(child, controls);
-                i++;
+                child_count++;
             }
         }
 
+        /* Populate a button with a child's information.
+         * INPUT: child, panel (as a control)
+         * OUTPUT: void to program, child information to button/gui.
+         */
         private void PopulateButton(Child child_in, Control controls_in)
         {
             Control.ControlCollection nested_controls = controls_in.Controls;
@@ -91,20 +98,41 @@ namespace GreatHomeChildcare
                     //see also: cheap hax
                     btn.Text = btnText;
                     btn.Tag = child_in;
+
+                    UpdatePanelColor(btn.Parent, studentStatus.in_out);
                 }
             } //foreach control
         }
-        //TODO: implement via another form.
+
+        // Open the main administration form.
         private void btnAdmin_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("The admin button was clicked.");
+            Form frmAdm = new frmAdminForm();
+            frmAdm.FormClosed += new FormClosedEventHandler(AdminFormClosed);
+            frmAdm.Show();
+            Hide();
         }
 
+        //Show this main child login/out screen after the admin form is closed.
+        private void AdminFormClosed(object sender, FormClosedEventArgs e)
+        {
+            Show();
+        }
+
+        //Close the child sign in/out screen.
         private void btnDone_Click(object sender, EventArgs e)
         {
             Close();
         }
 
+        /* Event handler delegate for all children buttons to sign
+         * the specific child in or out.
+         * The child object was previously bound to the Tag property
+         * of the button in question as a cheap hack/workaround
+         * to access the specific child that a button is for.
+         * INPUT object sender as button.
+         * OUTPUT: Text to gui/button.
+         */
         private void btnChild_Click(object sender, EventArgs e)
         {
             //to the passed in sender source and cast it to a Button
@@ -125,6 +153,29 @@ namespace GreatHomeChildcare
                                    + "Status: Signed " + studentStatus.in_out.ToUpper() + "\n\r"
                                    + studentStatus.timestamp;
             button.Text = btnText;
+
+            UpdatePanelColor(button.Parent, studentStatus.in_out);
+        }
+
+        /* Updates the child panel color to green if signed in, gray if not signed in.
+         * INPUT: Panel as control, string in_out as "in" or "out"
+         * OUTPUT: Green color if signed in, gray if not signed in.
+         */
+        private void UpdatePanelColor(Control control, string in_out_status)
+        {
+            Panel panel = (Panel)control;
+
+            switch(in_out_status)
+            {
+                case "in":
+                    panel.BackColor = Color.Green;
+                    break;
+                case "out":
+                    panel.BackColor = Color.Gray;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
