@@ -20,6 +20,20 @@ namespace GreatHomeChildcare
         #region student
         // ***************** Create *****************
         // ***************** Read *******************
+
+        /* Gets all children from the sqlite database.
+         * INPUT: void
+         * OUTPUT: list of Child objects
+         */
+        internal List<Child> GetAllChildren()
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string strQuery = "SELECT * FROM Children";
+                var output = cnn.Query<Child>(strQuery);
+                return output.ToList();
+            }
+        }
         // ***************** Update *****************
         // ***************** Delete *****************
         #endregion
