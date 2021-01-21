@@ -29,7 +29,7 @@ namespace GreatHomeChildcare
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
-                string strQuery = "SELECT * FROM Children";
+                string strQuery = "SELECT * FROM Children ORDER BY LastName ASC";
                 var output = cnn.Query<Child>(strQuery);
                 return output.ToList();
             }
