@@ -34,6 +34,8 @@ namespace GreatHomeChildcare
             this.sqLiteCommand1 = new System.Data.SQLite.SQLiteCommand();
             this.btnAdd = new System.Windows.Forms.Button();
             this.dgvChildren = new System.Windows.Forms.DataGridView();
+            this.btnUpdate = new System.Windows.Forms.Button();
+            this.btnQuit = new System.Windows.Forms.Button();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Photo = new System.Windows.Forms.DataGridViewImageColumn();
             this.DisplayName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -48,6 +50,7 @@ namespace GreatHomeChildcare
             this.btnReports.TabIndex = 1;
             this.btnReports.Text = "Reports";
             this.btnReports.UseVisualStyleBackColor = true;
+            this.btnReports.Click += new System.EventHandler(this.btnReports_Click);
             // 
             // btnClose
             // 
@@ -57,6 +60,7 @@ namespace GreatHomeChildcare
             this.btnClose.TabIndex = 2;
             this.btnClose.Text = "Back to sign in page";
             this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // sqLiteCommand1
             // 
@@ -70,6 +74,7 @@ namespace GreatHomeChildcare
             this.btnAdd.TabIndex = 3;
             this.btnAdd.Text = "Add New Child";
             this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // dgvChildren
             // 
@@ -85,9 +90,29 @@ namespace GreatHomeChildcare
             this.dgvChildren.Name = "dgvChildren";
             this.dgvChildren.ReadOnly = true;
             this.dgvChildren.RowHeadersWidth = 51;
-            this.dgvChildren.RowTemplate.Height = 24;
+            this.dgvChildren.RowTemplate.Height = 82;
             this.dgvChildren.Size = new System.Drawing.Size(571, 392);
             this.dgvChildren.TabIndex = 4;
+            // 
+            // btnUpdate
+            // 
+            this.btnUpdate.Location = new System.Drawing.Point(12, 213);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(130, 47);
+            this.btnUpdate.TabIndex = 5;
+            this.btnUpdate.Text = "Update Child";
+            this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            // 
+            // btnQuit
+            // 
+            this.btnQuit.Location = new System.Drawing.Point(12, 279);
+            this.btnQuit.Name = "btnQuit";
+            this.btnQuit.Size = new System.Drawing.Size(122, 47);
+            this.btnQuit.TabIndex = 6;
+            this.btnQuit.Text = "Quit Program";
+            this.btnQuit.UseVisualStyleBackColor = true;
+            this.btnQuit.Click += new System.EventHandler(this.btnQuit_Click);
             // 
             // id
             // 
@@ -101,12 +126,13 @@ namespace GreatHomeChildcare
             // Photo
             // 
             this.Photo.HeaderText = "Photo";
+            this.Photo.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
             this.Photo.MinimumWidth = 6;
             this.Photo.Name = "Photo";
             this.Photo.ReadOnly = true;
             this.Photo.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.Photo.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Photo.Width = 125;
+            this.Photo.Width = 118;
             // 
             // DisplayName
             // 
@@ -121,6 +147,8 @@ namespace GreatHomeChildcare
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnQuit);
+            this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.dgvChildren);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.btnClose);
@@ -140,6 +168,8 @@ namespace GreatHomeChildcare
         private System.Data.SQLite.SQLiteCommand sqLiteCommand1;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.DataGridView dgvChildren;
+        private System.Windows.Forms.Button btnUpdate;
+        private System.Windows.Forms.Button btnQuit;
         private System.Windows.Forms.DataGridViewTextBoxColumn id;
         private System.Windows.Forms.DataGridViewImageColumn Photo;
         private System.Windows.Forms.DataGridViewTextBoxColumn DisplayName;
