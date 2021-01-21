@@ -34,6 +34,9 @@ namespace GreatHomeChildcare
             this.sqLiteCommand1 = new System.Data.SQLite.SQLiteCommand();
             this.btnAdd = new System.Windows.Forms.Button();
             this.dgvChildren = new System.Windows.Forms.DataGridView();
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Photo = new System.Windows.Forms.DataGridViewImageColumn();
+            this.DisplayName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvChildren)).BeginInit();
             this.SuspendLayout();
             // 
@@ -73,6 +76,10 @@ namespace GreatHomeChildcare
             this.dgvChildren.AllowUserToAddRows = false;
             this.dgvChildren.AllowUserToDeleteRows = false;
             this.dgvChildren.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvChildren.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.id,
+            this.Photo,
+            this.DisplayName});
             this.dgvChildren.Location = new System.Drawing.Point(217, 36);
             this.dgvChildren.MultiSelect = false;
             this.dgvChildren.Name = "dgvChildren";
@@ -81,6 +88,33 @@ namespace GreatHomeChildcare
             this.dgvChildren.RowTemplate.Height = 24;
             this.dgvChildren.Size = new System.Drawing.Size(571, 392);
             this.dgvChildren.TabIndex = 4;
+            // 
+            // id
+            // 
+            this.id.HeaderText = "id";
+            this.id.MinimumWidth = 6;
+            this.id.Name = "id";
+            this.id.ReadOnly = true;
+            this.id.Visible = false;
+            this.id.Width = 125;
+            // 
+            // Photo
+            // 
+            this.Photo.HeaderText = "Photo";
+            this.Photo.MinimumWidth = 6;
+            this.Photo.Name = "Photo";
+            this.Photo.ReadOnly = true;
+            this.Photo.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Photo.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Photo.Width = 125;
+            // 
+            // DisplayName
+            // 
+            this.DisplayName.HeaderText = "DisplayName";
+            this.DisplayName.MinimumWidth = 6;
+            this.DisplayName.Name = "DisplayName";
+            this.DisplayName.ReadOnly = true;
+            this.DisplayName.Width = 125;
             // 
             // frmAdminForm
             // 
@@ -106,5 +140,8 @@ namespace GreatHomeChildcare
         private System.Data.SQLite.SQLiteCommand sqLiteCommand1;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.DataGridView dgvChildren;
+        private System.Windows.Forms.DataGridViewTextBoxColumn id;
+        private System.Windows.Forms.DataGridViewImageColumn Photo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DisplayName;
     }
 }
