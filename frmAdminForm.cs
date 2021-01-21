@@ -20,6 +20,7 @@ namespace GreatHomeChildcare
     {
         //globals for cheap access.
         SqliteDataAccess SqliteDataAccess = new SqliteDataAccess();
+        int child_id = 0;
 
         public frmAdminForm()
         {
