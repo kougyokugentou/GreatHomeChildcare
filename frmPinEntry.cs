@@ -15,8 +15,6 @@ namespace GreatHomeChildcare
     {
         //Global instance of the SqliteDataAccess object.
         SqliteDataAccess SqliteDataAccess = new SqliteDataAccess();
-        const string DEFAULT_PIC_TAG = "DefaultPic";
-        const string CUSTOM_PIC_TAG = "dickpic";
 
         public static string strPin = String.Empty;
 
