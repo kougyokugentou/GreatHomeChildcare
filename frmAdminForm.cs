@@ -20,7 +20,7 @@ namespace GreatHomeChildcare
     {
         //globals for cheap access.
         SqliteDataAccess SqliteDataAccess = new SqliteDataAccess();
-        int child_id = 0;
+        public static int child_id = 0;
 
         public frmAdminForm()
         {
@@ -42,6 +42,8 @@ namespace GreatHomeChildcare
          */
         private void RefreshAdminView()
         {
+            dgvChildren.Rows.Clear();
+
             List<Child> children = new List<Child>();
             children = SqliteDataAccess.GetAllChildren();
 
@@ -67,14 +69,37 @@ namespace GreatHomeChildcare
         //TODO: new form to add a new child and their guardian(s)
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Add button clicked.");
+            child_id = -1; //ENSURE!!!!
+
+            ShowChildCrudForm();
         }
 
         //TODO: new form(or same form as adding) for updating children
         //PB&J: get currently selected row from dgv, then pass to GetChildByID() to get Child object.
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Update button clicked.");
+            child_id = dgvChildren.CurrentRow.Index;
+
+            //child_id must be incremented as the index starts at 0.
+            //TODO: FIX BUG!!
+            child_id++;
+
+            ShowChildCrudForm();
+        }
+
+        private void ShowChildCrudForm()
+        {
+            Form frmCrud = new frmChildCrud();
+            frmCrud.FormClosed += new FormClosedEventHandler(CrudFormClosed);
+            frmCrud.Show();
+            Hide();
+        }
+
+        //Show this admin screen after the child crud form is closed.
+        private void CrudFormClosed(object sender, FormClosedEventArgs e)
+        {
+            RefreshAdminView();
+            Show();
         }
 
         private void btnQuit_Click(object sender, EventArgs e)
