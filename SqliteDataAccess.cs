@@ -21,6 +21,21 @@ namespace GreatHomeChildcare
         // ***************** Create *****************
         // ***************** Read *******************
 
+        /* Gets a single child from the sqlite database
+         * provided an id number.
+         * INPUT: integer id
+         * OUTPUT: Child object
+         */
+        internal Child GetChildByID(int id_in)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string strQuery = "SELECT * FROM Children WHERE id=@id";
+                Child output = cnn.Query<Child>(strQuery, new { id = id_in }).SingleOrDefault();
+                return output;
+            }
+        }
+
         /* Gets all children from the sqlite database.
          * INPUT: void
          * OUTPUT: list of Child objects
@@ -42,6 +57,20 @@ namespace GreatHomeChildcare
         // ***************** Create *****************
 
         // ***************** Read *****************
+
+        /* Gets all guardians for a single child.
+         * INPUT: Child
+         * OUTPUT: List of guardian object.
+         */
+        internal List<Guardian> GetGuardiansByChild(Child child_in)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string strQuery = "SELECT * FROM Guardians WHERE id IN (SELECT guardian_id FROM Authorized_Guardians WHERE child_id = @id)";
+                var output = cnn.Query<Guardian>(strQuery, child_in);
+                return output.ToList();
+            }
+        }
 
         /* Gets a Guardian by a distinct pin number. Distinctness enforced elsewhere.
          * INPUT: integer pin#
