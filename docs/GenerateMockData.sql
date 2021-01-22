@@ -4,8 +4,10 @@ INSERT INTO Children(FirstName,LastName,DOB,address,race,gender) VALUES ('Katie'
 
 INSERT INTO Guardians(FirstName,LastName,PhoneNumber,EmailAddress,PinNumber,isAdmin) VALUES ('Main','Admin',1000000001,'main@admin.com','9999',1);
 INSERT INTO Guardians(FirstName,LastName,PhoneNumber,EmailAddress,PinNumber) VALUES ('Parent','Smith',1000000001,'parent@smith.com','1234');
+INSERT INTO Guardians(FirstName,LastName,PhoneNumber,EmailAddress,PinNumber) VALUES ('Parent2','Smith',1000000001,'parent2@smith.com','1235');
 
 INSERT INTO Authorized_Guardians(child_id, guardian_id) VALUES (1,2);
+INSERT INTO Authorized_Guardians(child_id, guardian_id) VALUES (1,3);
 INSERT INTO Authorized_Guardians(child_id, guardian_id) VALUES (2,2);
 INSERT INTO Authorized_Guardians(child_id, guardian_id) VALUES (3,1);
 
