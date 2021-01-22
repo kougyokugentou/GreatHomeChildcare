@@ -34,34 +34,43 @@
             System.Windows.Forms.Label raceLabel;
             System.Windows.Forms.Label genderLabel;
             System.Windows.Forms.Label addressLabel;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmChildCrud));
             System.Windows.Forms.Label photoLabel;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmChildCrud));
             this.firstNameTextBox = new System.Windows.Forms.TextBox();
+            this.childBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.lastNameTextBox = new System.Windows.Forms.TextBox();
             this.raceTextBox = new System.Windows.Forms.TextBox();
             this.genderComboBox = new System.Windows.Forms.ComboBox();
             this.addressTextBox = new System.Windows.Forms.TextBox();
             this.lblGuardians = new System.Windows.Forms.Label();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dgvGuardians = new System.Windows.Forms.DataGridView();
             this.btnAddGuardian = new System.Windows.Forms.Button();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.btnEditGuardian = new System.Windows.Forms.Button();
             this.btnDeleteGuardian = new System.Windows.Forms.Button();
             this.btnPhotoFromCam = new System.Windows.Forms.Button();
             this.btnPhotoFromDisk = new System.Windows.Forms.Button();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.btnSave = new System.Windows.Forms.Button();
             this.photoPictureBox = new System.Windows.Forms.PictureBox();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.childBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.idNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.frmChildCrudBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PhoneNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EmailAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
             firstNameLabel = new System.Windows.Forms.Label();
             lastNameLabel = new System.Windows.Forms.Label();
             raceLabel = new System.Windows.Forms.Label();
             genderLabel = new System.Windows.Forms.Label();
             addressLabel = new System.Windows.Forms.Label();
             photoLabel = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.photoPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.childBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvGuardians)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.photoPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.idNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.frmChildCrudBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // firstNameLabel
@@ -109,6 +118,15 @@
             addressLabel.TabIndex = 9;
             addressLabel.Text = "address:";
             // 
+            // photoLabel
+            // 
+            photoLabel.AutoSize = true;
+            photoLabel.Location = new System.Drawing.Point(545, 19);
+            photoLabel.Name = "photoLabel";
+            photoLabel.Size = new System.Drawing.Size(48, 17);
+            photoLabel.TabIndex = 21;
+            photoLabel.Text = "photo:";
+            // 
             // firstNameTextBox
             // 
             this.firstNameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.childBindingSource, "FirstName", true));
@@ -116,6 +134,10 @@
             this.firstNameTextBox.Name = "firstNameTextBox";
             this.firstNameTextBox.Size = new System.Drawing.Size(100, 22);
             this.firstNameTextBox.TabIndex = 2;
+            // 
+            // childBindingSource
+            // 
+            this.childBindingSource.DataSource = typeof(GreatHomeChildcare.Models.Child);
             // 
             // lastNameTextBox
             // 
@@ -160,18 +182,24 @@
             this.lblGuardians.TabIndex = 11;
             this.lblGuardians.Text = "Guardians";
             // 
-            // dataGridView1
+            // dgvGuardians
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(18, 302);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(384, 106);
-            this.dataGridView1.TabIndex = 12;
+            this.dgvGuardians.AllowUserToAddRows = false;
+            this.dgvGuardians.AllowUserToDeleteRows = false;
+            this.dgvGuardians.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvGuardians.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.id,
+            this.LastName,
+            this.FirstName,
+            this.PhoneNumber,
+            this.EmailAddress});
+            this.dgvGuardians.Location = new System.Drawing.Point(18, 302);
+            this.dgvGuardians.Name = "dgvGuardians";
+            this.dgvGuardians.ReadOnly = true;
+            this.dgvGuardians.RowHeadersWidth = 51;
+            this.dgvGuardians.RowTemplate.Height = 24;
+            this.dgvGuardians.Size = new System.Drawing.Size(450, 106);
+            this.dgvGuardians.TabIndex = 12;
             // 
             // btnAddGuardian
             // 
@@ -185,20 +213,44 @@
             this.btnAddGuardian.Text = "Add Guardian";
             this.btnAddGuardian.UseVisualStyleBackColor = true;
             // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "Add_16x.png");
+            this.imageList1.Images.SetKeyName(1, "AddButton_16x.png");
+            this.imageList1.Images.SetKeyName(2, "Address_16x.png");
+            this.imageList1.Images.SetKeyName(3, "Camera_16x.png");
+            this.imageList1.Images.SetKeyName(4, "Cancel_16x.png");
+            this.imageList1.Images.SetKeyName(5, "Close_16x.png");
+            this.imageList1.Images.SetKeyName(6, "DeleteUser_16x.png");
+            this.imageList1.Images.SetKeyName(7, "Edit_16x.png");
+            this.imageList1.Images.SetKeyName(8, "ResultToCSV_16x.png");
+            this.imageList1.Images.SetKeyName(9, "Save_16x.png");
+            this.imageList1.Images.SetKeyName(10, "SaveClose_16x.png");
+            this.imageList1.Images.SetKeyName(11, "SaveFileDialogControl_16x.png");
+            this.imageList1.Images.SetKeyName(12, "Search_16x.png");
+            // 
             // btnEditGuardian
             // 
+            this.btnEditGuardian.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnEditGuardian.ImageIndex = 7;
+            this.btnEditGuardian.ImageList = this.imageList1;
             this.btnEditGuardian.Location = new System.Drawing.Point(162, 421);
             this.btnEditGuardian.Name = "btnEditGuardian";
-            this.btnEditGuardian.Size = new System.Drawing.Size(112, 26);
+            this.btnEditGuardian.Size = new System.Drawing.Size(133, 26);
             this.btnEditGuardian.TabIndex = 14;
             this.btnEditGuardian.Text = "Edit Guardian";
             this.btnEditGuardian.UseVisualStyleBackColor = true;
             // 
             // btnDeleteGuardian
             // 
-            this.btnDeleteGuardian.Location = new System.Drawing.Point(281, 421);
+            this.btnDeleteGuardian.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnDeleteGuardian.ImageIndex = 4;
+            this.btnDeleteGuardian.ImageList = this.imageList1;
+            this.btnDeleteGuardian.Location = new System.Drawing.Point(323, 421);
             this.btnDeleteGuardian.Name = "btnDeleteGuardian";
-            this.btnDeleteGuardian.Size = new System.Drawing.Size(121, 26);
+            this.btnDeleteGuardian.Size = new System.Drawing.Size(145, 26);
             this.btnDeleteGuardian.TabIndex = 15;
             this.btnDeleteGuardian.Text = "Delete Guardian";
             this.btnDeleteGuardian.UseVisualStyleBackColor = true;
@@ -222,41 +274,14 @@
             this.btnPhotoFromDisk.Text = "From Disk";
             this.btnPhotoFromDisk.UseVisualStyleBackColor = true;
             // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "Add_16x.png");
-            this.imageList1.Images.SetKeyName(1, "AddButton_16x.png");
-            this.imageList1.Images.SetKeyName(2, "Address_16x.png");
-            this.imageList1.Images.SetKeyName(3, "Camera_16x.png");
-            this.imageList1.Images.SetKeyName(4, "Cancel_16x.png");
-            this.imageList1.Images.SetKeyName(5, "Close_16x.png");
-            this.imageList1.Images.SetKeyName(6, "DeleteUser_16x.png");
-            this.imageList1.Images.SetKeyName(7, "Edit_16x.png");
-            this.imageList1.Images.SetKeyName(8, "ResultToCSV_16x.png");
-            this.imageList1.Images.SetKeyName(9, "Save_16x.png");
-            this.imageList1.Images.SetKeyName(10, "SaveClose_16x.png");
-            this.imageList1.Images.SetKeyName(11, "SaveFileDialogControl_16x.png");
-            this.imageList1.Images.SetKeyName(12, "Search_16x.png");
-            // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(604, 404);
+            this.btnSave.Location = new System.Drawing.Point(522, 404);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(100, 43);
             this.btnSave.TabIndex = 21;
             this.btnSave.Text = "Save && Close";
             this.btnSave.UseVisualStyleBackColor = true;
-            // 
-            // photoLabel
-            // 
-            photoLabel.AutoSize = true;
-            photoLabel.Location = new System.Drawing.Point(545, 19);
-            photoLabel.Name = "photoLabel";
-            photoLabel.Size = new System.Drawing.Size(48, 17);
-            photoLabel.TabIndex = 21;
-            photoLabel.Text = "photo:";
             // 
             // photoPictureBox
             // 
@@ -270,22 +295,75 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(474, 404);
+            this.btnCancel.Location = new System.Drawing.Point(522, 355);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(100, 43);
             this.btnCancel.TabIndex = 23;
             this.btnCancel.Text = "Cancel && Close";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
-            // childBindingSource
+            // idNumericUpDown
             // 
-            this.childBindingSource.DataSource = typeof(GreatHomeChildcare.Models.Child);
+            this.idNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.childBindingSource, "id", true));
+            this.idNumericUpDown.Location = new System.Drawing.Point(611, 11);
+            this.idNumericUpDown.Name = "idNumericUpDown";
+            this.idNumericUpDown.ReadOnly = true;
+            this.idNumericUpDown.Size = new System.Drawing.Size(76, 22);
+            this.idNumericUpDown.TabIndex = 24;
+            this.idNumericUpDown.TabStop = false;
+            this.idNumericUpDown.Visible = false;
+            // 
+            // frmChildCrudBindingSource
+            // 
+            this.frmChildCrudBindingSource.DataSource = typeof(GreatHomeChildcare.frmChildCrud);
+            // 
+            // id
+            // 
+            this.id.HeaderText = "id";
+            this.id.MinimumWidth = 6;
+            this.id.Name = "id";
+            this.id.ReadOnly = true;
+            this.id.Visible = false;
+            this.id.Width = 125;
+            // 
+            // LastName
+            // 
+            this.LastName.HeaderText = "LastName";
+            this.LastName.MinimumWidth = 6;
+            this.LastName.Name = "LastName";
+            this.LastName.ReadOnly = true;
+            this.LastName.Width = 125;
+            // 
+            // FirstName
+            // 
+            this.FirstName.HeaderText = "FirstName";
+            this.FirstName.MinimumWidth = 6;
+            this.FirstName.Name = "FirstName";
+            this.FirstName.ReadOnly = true;
+            this.FirstName.Width = 125;
+            // 
+            // PhoneNumber
+            // 
+            this.PhoneNumber.HeaderText = "PhoneNumber";
+            this.PhoneNumber.MinimumWidth = 6;
+            this.PhoneNumber.Name = "PhoneNumber";
+            this.PhoneNumber.ReadOnly = true;
+            this.PhoneNumber.Width = 125;
+            // 
+            // EmailAddress
+            // 
+            this.EmailAddress.HeaderText = "EmailAddress";
+            this.EmailAddress.MinimumWidth = 6;
+            this.EmailAddress.Name = "EmailAddress";
+            this.EmailAddress.ReadOnly = true;
+            this.EmailAddress.Width = 125;
             // 
             // frmChildCrud
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 493);
+            this.ClientSize = new System.Drawing.Size(687, 493);
+            this.Controls.Add(this.idNumericUpDown);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(photoLabel);
             this.Controls.Add(this.photoPictureBox);
@@ -295,7 +373,7 @@
             this.Controls.Add(this.btnDeleteGuardian);
             this.Controls.Add(this.btnEditGuardian);
             this.Controls.Add(this.btnAddGuardian);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dgvGuardians);
             this.Controls.Add(this.lblGuardians);
             this.Controls.Add(addressLabel);
             this.Controls.Add(this.addressTextBox);
@@ -309,9 +387,12 @@
             this.Controls.Add(this.firstNameTextBox);
             this.Name = "frmChildCrud";
             this.Text = "Child Management : Great Home Childcare";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.photoPictureBox)).EndInit();
+            this.Load += new System.EventHandler(this.frmChildCrud_Load);
             ((System.ComponentModel.ISupportInitialize)(this.childBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvGuardians)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.photoPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.idNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.frmChildCrudBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -326,7 +407,7 @@
         private System.Windows.Forms.ComboBox genderComboBox;
         private System.Windows.Forms.TextBox addressTextBox;
         private System.Windows.Forms.Label lblGuardians;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dgvGuardians;
         private System.Windows.Forms.Button btnAddGuardian;
         private System.Windows.Forms.Button btnEditGuardian;
         private System.Windows.Forms.Button btnDeleteGuardian;
@@ -336,5 +417,12 @@
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.PictureBox photoPictureBox;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.NumericUpDown idNumericUpDown;
+        private System.Windows.Forms.BindingSource frmChildCrudBindingSource;
+        private System.Windows.Forms.DataGridViewTextBoxColumn id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LastName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FirstName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PhoneNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn EmailAddress;
     }
 }
