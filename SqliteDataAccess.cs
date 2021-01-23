@@ -17,8 +17,23 @@ namespace GreatHomeChildcare
 {
     class SqliteDataAccess
     {
-        #region student
+        #region child
         // ***************** Create *****************
+
+        /* Inserts a new child to the database.
+         * INPUT child
+         * OUTPUT new row to SQL database, void to program.
+         */
+        internal void InsertNewChild(Child child)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string strQuery = "INSERT INTO STUDENTS (FirstName, LastName, DOB, address, race, gender, photo)" +
+                    "VALUES (@FirstName, @LastName, @DOB, @address, @race, @gender, @photo);";
+                cnn.Execute(strQuery, child);
+            }
+        }
+
         // ***************** Read *******************
 
         /* Gets a single child from the sqlite database
@@ -50,6 +65,37 @@ namespace GreatHomeChildcare
             }
         }
         // ***************** Update *****************
+
+        /* Updates an individual child in the DB.
+         * Needs to do field mapping in the Execute call because
+         * the photo field can be null or not null, and 
+         * the conditional operator can be used to change the query on the fly.
+         * 
+         * INPUT: Child
+         * OUTPUT: Data to SQL Database, void to program
+         */
+        internal void UpdateChild(Child child)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string strQuery = "UPDATE Children SET FirstName = @First_Name, LastName = @Last_Name, " +
+                "DOB = @_dob, address = @_address, race = @_race, gender = @_gender, photo = @_photo" +
+                "WHERE id = @_id;";
+
+                cnn.Execute(strQuery, new
+                {
+                    _id = child.id,
+                    First_Name = child.FirstName,
+                    Last_Name = child.LastName,
+                    _dob = child.DOB,
+                    _address = child.address,
+                    _race = child.race,
+                    _gender = child.gender,
+                    _photo = child.photo ?? null
+                });
+            }
+        }
+
         // ***************** Delete *****************
         #endregion
 
