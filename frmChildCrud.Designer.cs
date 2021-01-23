@@ -34,9 +34,11 @@
             System.Windows.Forms.Label raceLabel;
             System.Windows.Forms.Label genderLabel;
             System.Windows.Forms.Label photoLabel;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmChildCrud));
             System.Windows.Forms.Label addressLabel;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmChildCrud));
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.firstNameTextBox = new System.Windows.Forms.TextBox();
+            this.childBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.lastNameTextBox = new System.Windows.Forms.TextBox();
             this.raceTextBox = new System.Windows.Forms.TextBox();
             this.genderComboBox = new System.Windows.Forms.ComboBox();
@@ -49,29 +51,30 @@
             this.PhoneNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EmailAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnAddGuardian = new System.Windows.Forms.Button();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.btnEditGuardian = new System.Windows.Forms.Button();
             this.btnDeleteGuardian = new System.Windows.Forms.Button();
-            this.btnPhotoFromCam = new System.Windows.Forms.Button();
+            this.btnStartCam = new System.Windows.Forms.Button();
             this.btnPhotoFromDisk = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.photoPictureBox = new System.Windows.Forms.PictureBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.idNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.openFileDialogPhotoFromDisk = new System.Windows.Forms.OpenFileDialog();
-            this.childBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.frmChildCrudBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.photoPanel = new System.Windows.Forms.Panel();
+            this.btnTakePhoto = new System.Windows.Forms.Button();
             firstNameLabel = new System.Windows.Forms.Label();
             lastNameLabel = new System.Windows.Forms.Label();
             raceLabel = new System.Windows.Forms.Label();
             genderLabel = new System.Windows.Forms.Label();
             photoLabel = new System.Windows.Forms.Label();
             addressLabel = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.childBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvGuardians)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.photoPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.idNumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.childBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.frmChildCrudBindingSource)).BeginInit();
+            this.photoPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // firstNameLabel
@@ -119,6 +122,31 @@
             photoLabel.TabIndex = 21;
             photoLabel.Text = "photo:";
             // 
+            // addressLabel
+            // 
+            addressLabel.AutoSize = true;
+            addressLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            addressLabel.ImageIndex = 1;
+            addressLabel.ImageList = this.imageList1;
+            addressLabel.Location = new System.Drawing.Point(12, 165);
+            addressLabel.Name = "addressLabel";
+            addressLabel.Size = new System.Drawing.Size(84, 17);
+            addressLabel.TabIndex = 9;
+            addressLabel.Text = "     Address:";
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "AddButton_16x.png");
+            this.imageList1.Images.SetKeyName(1, "Address_16x.png");
+            this.imageList1.Images.SetKeyName(2, "Camera_16x.png");
+            this.imageList1.Images.SetKeyName(3, "Cancel_16x.png");
+            this.imageList1.Images.SetKeyName(4, "DeleteUser_16x.png");
+            this.imageList1.Images.SetKeyName(5, "Edit_16x.png");
+            this.imageList1.Images.SetKeyName(6, "SaveClose_16x.png");
+            this.imageList1.Images.SetKeyName(7, "OpenfileDialog_16x.png");
+            // 
             // firstNameTextBox
             // 
             this.firstNameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.childBindingSource, "FirstName", true));
@@ -126,6 +154,10 @@
             this.firstNameTextBox.Name = "firstNameTextBox";
             this.firstNameTextBox.Size = new System.Drawing.Size(100, 22);
             this.firstNameTextBox.TabIndex = 2;
+            // 
+            // childBindingSource
+            // 
+            this.childBindingSource.DataSource = typeof(GreatHomeChildcare.Models.Child);
             // 
             // lastNameTextBox
             // 
@@ -243,19 +275,6 @@
             this.btnAddGuardian.UseVisualStyleBackColor = true;
             this.btnAddGuardian.Click += new System.EventHandler(this.btnAddGuardian_Click);
             // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "AddButton_16x.png");
-            this.imageList1.Images.SetKeyName(1, "Address_16x.png");
-            this.imageList1.Images.SetKeyName(2, "Camera_16x.png");
-            this.imageList1.Images.SetKeyName(3, "Cancel_16x.png");
-            this.imageList1.Images.SetKeyName(4, "DeleteUser_16x.png");
-            this.imageList1.Images.SetKeyName(5, "Edit_16x.png");
-            this.imageList1.Images.SetKeyName(6, "SaveClose_16x.png");
-            this.imageList1.Images.SetKeyName(7, "OpenfileDialog_16x.png");
-            // 
             // btnEditGuardian
             // 
             this.btnEditGuardian.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -282,25 +301,25 @@
             this.btnDeleteGuardian.UseVisualStyleBackColor = true;
             this.btnDeleteGuardian.Click += new System.EventHandler(this.btnDeleteGuardian_Click);
             // 
-            // btnPhotoFromCam
+            // btnStartCam
             // 
-            this.btnPhotoFromCam.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnPhotoFromCam.ImageIndex = 2;
-            this.btnPhotoFromCam.ImageList = this.imageList1;
-            this.btnPhotoFromCam.Location = new System.Drawing.Point(325, 204);
-            this.btnPhotoFromCam.Name = "btnPhotoFromCam";
-            this.btnPhotoFromCam.Size = new System.Drawing.Size(146, 42);
-            this.btnPhotoFromCam.TabIndex = 18;
-            this.btnPhotoFromCam.Text = "From Camera";
-            this.btnPhotoFromCam.UseVisualStyleBackColor = true;
-            this.btnPhotoFromCam.Click += new System.EventHandler(this.btnPhotoFromCam_Click);
+            this.btnStartCam.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnStartCam.ImageIndex = 2;
+            this.btnStartCam.ImageList = this.imageList1;
+            this.btnStartCam.Location = new System.Drawing.Point(325, 204);
+            this.btnStartCam.Name = "btnStartCam";
+            this.btnStartCam.Size = new System.Drawing.Size(146, 42);
+            this.btnStartCam.TabIndex = 18;
+            this.btnStartCam.Text = "Start Camera";
+            this.btnStartCam.UseVisualStyleBackColor = true;
+            this.btnStartCam.Click += new System.EventHandler(this.btnStartCam_Click);
             // 
             // btnPhotoFromDisk
             // 
             this.btnPhotoFromDisk.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnPhotoFromDisk.ImageIndex = 7;
             this.btnPhotoFromDisk.ImageList = this.imageList1;
-            this.btnPhotoFromDisk.Location = new System.Drawing.Point(323, 263);
+            this.btnPhotoFromDisk.Location = new System.Drawing.Point(325, 263);
             this.btnPhotoFromDisk.Name = "btnPhotoFromDisk";
             this.btnPhotoFromDisk.Size = new System.Drawing.Size(147, 41);
             this.btnPhotoFromDisk.TabIndex = 19;
@@ -324,8 +343,9 @@
             // photoPictureBox
             // 
             this.photoPictureBox.DataBindings.Add(new System.Windows.Forms.Binding("Image", this.childBindingSource, "photo", true));
+            this.photoPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.photoPictureBox.Image = global::GreatHomeChildcare.Properties.Resources.child;
-            this.photoPictureBox.Location = new System.Drawing.Point(323, 21);
+            this.photoPictureBox.Location = new System.Drawing.Point(0, 0);
             this.photoPictureBox.Name = "photoPictureBox";
             this.photoPictureBox.Size = new System.Drawing.Size(156, 161);
             this.photoPictureBox.TabIndex = 22;
@@ -355,42 +375,49 @@
             this.idNumericUpDown.TabStop = false;
             this.idNumericUpDown.Visible = false;
             // 
-            // addressLabel
-            // 
-            addressLabel.AutoSize = true;
-            addressLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            addressLabel.ImageIndex = 1;
-            addressLabel.ImageList = this.imageList1;
-            addressLabel.Location = new System.Drawing.Point(12, 165);
-            addressLabel.Name = "addressLabel";
-            addressLabel.Size = new System.Drawing.Size(84, 17);
-            addressLabel.TabIndex = 9;
-            addressLabel.Text = "     Address:";
-            // 
             // openFileDialogPhotoFromDisk
             // 
             this.openFileDialogPhotoFromDisk.FileName = "openFileDialog1";
             // 
-            // childBindingSource
-            // 
-            this.childBindingSource.DataSource = typeof(GreatHomeChildcare.Models.Child);
-            // 
             // frmChildCrudBindingSource
             // 
             this.frmChildCrudBindingSource.DataSource = typeof(GreatHomeChildcare.frmChildCrud);
+            // 
+            // photoPanel
+            // 
+            this.photoPanel.Controls.Add(this.photoPictureBox);
+            this.photoPanel.Location = new System.Drawing.Point(315, 21);
+            this.photoPanel.Name = "photoPanel";
+            this.photoPanel.Size = new System.Drawing.Size(156, 161);
+            this.photoPanel.TabIndex = 25;
+            // 
+            // btnTakePhoto
+            // 
+            this.btnTakePhoto.Enabled = false;
+            this.btnTakePhoto.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnTakePhoto.ImageIndex = 2;
+            this.btnTakePhoto.ImageList = this.imageList1;
+            this.btnTakePhoto.Location = new System.Drawing.Point(487, 204);
+            this.btnTakePhoto.Name = "btnTakePhoto";
+            this.btnTakePhoto.Size = new System.Drawing.Size(136, 42);
+            this.btnTakePhoto.TabIndex = 26;
+            this.btnTakePhoto.Text = "Take Photo";
+            this.btnTakePhoto.UseVisualStyleBackColor = true;
+            this.btnTakePhoto.Click += new System.EventHandler(this.btnTakePhoto_Click);
             // 
             // frmChildCrud
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(834, 608);
+            this.Controls.Add(this.btnTakePhoto);
+            this.Controls.Add(this.photoPanel);
             this.Controls.Add(this.idNumericUpDown);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(photoLabel);
-            this.Controls.Add(this.photoPictureBox);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnPhotoFromDisk);
-            this.Controls.Add(this.btnPhotoFromCam);
+            this.Controls.Add(this.btnStartCam);
             this.Controls.Add(this.btnDeleteGuardian);
             this.Controls.Add(this.btnEditGuardian);
             this.Controls.Add(this.btnAddGuardian);
@@ -409,11 +436,12 @@
             this.Name = "frmChildCrud";
             this.Text = "Child Management : Great Home Childcare";
             this.Load += new System.EventHandler(this.frmChildCrud_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.childBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvGuardians)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.photoPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.idNumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.childBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.frmChildCrudBindingSource)).EndInit();
+            this.photoPanel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -432,7 +460,7 @@
         private System.Windows.Forms.Button btnAddGuardian;
         private System.Windows.Forms.Button btnEditGuardian;
         private System.Windows.Forms.Button btnDeleteGuardian;
-        private System.Windows.Forms.Button btnPhotoFromCam;
+        private System.Windows.Forms.Button btnStartCam;
         private System.Windows.Forms.Button btnPhotoFromDisk;
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.Button btnSave;
@@ -446,5 +474,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn PhoneNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn EmailAddress;
         private System.Windows.Forms.OpenFileDialog openFileDialogPhotoFromDisk;
+        private System.Windows.Forms.Panel photoPanel;
+        private System.Windows.Forms.Button btnTakePhoto;
     }
 }

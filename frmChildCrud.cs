@@ -5,9 +5,15 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GreatHomeChildcare.Models;
+using OpenCvSharp;
+using OpenCvSharp.Extensions;
+
+//Refs:
+// https://ourcodeworld.com/articles/read/761/how-to-take-snapshots-with-the-web-camera-with-c-sharp-using-the-opencvsharp-library-in-winforms
 
 namespace GreatHomeChildcare
 {
@@ -18,6 +24,46 @@ namespace GreatHomeChildcare
 
         //Global instance of the SqliteDataAccess object.
         SqliteDataAccess SqliteDataAccess = new SqliteDataAccess();
+        Child child = new Child();
+
+        //Smile, you're on candid camera
+        VideoCapture capture;
+        Mat frame;
+        Bitmap image;
+        private Thread camera;
+        bool isCameraRunning = false;
+
+        #region camera
+        //https://ourcodeworld.com/articles/read/761/how-to-take-snapshots-with-the-web-camera-with-c-sharp-using-the-opencvsharp-library-in-winforms
+        // Declare required methods
+        private void CaptureCamera()
+        {
+            camera = new Thread(new ThreadStart(CaptureCameraCallback));
+            camera.Start();
+        }
+
+        private void CaptureCameraCallback()
+        {
+            frame = new Mat();
+            capture = new VideoCapture(0);
+            capture.Open(0);
+
+            if (capture.IsOpened())
+            {
+                while (isCameraRunning)
+                {
+
+                    capture.Read(frame);
+                    image = BitmapConverter.ToBitmap(frame);
+                    if (photoPictureBox.Image != null)
+                    {
+                        photoPictureBox.Image.Dispose();
+                    }
+                    photoPictureBox.Image = image;
+                }
+            }
+        }
+        #endregion
 
         enum Gender
         {
@@ -61,7 +107,7 @@ namespace GreatHomeChildcare
          */
         private void LoadChild(int child_id_in)
         {
-            Child child = SqliteDataAccess.GetChildByID(child_id_in);
+            child = SqliteDataAccess.GetChildByID(child_id_in);
             Gender genderOut;
 
             // sanity check, though it shouldn't be needed...
@@ -101,9 +147,43 @@ namespace GreatHomeChildcare
             Close();
         }
 
-        private void btnPhotoFromCam_Click(object sender, EventArgs e)
+        private void btnStartCam_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("From cam");
+            if (btnStartCam.Text.StartsWith("Start"))
+            {
+                btnTakePhoto.Enabled = true;
+                CaptureCamera();
+                btnStartCam.Text = "Stop Camera";
+                isCameraRunning = true;
+            }
+            else
+            {
+                btnTakePhoto.Enabled = false;
+                capture.Release();
+                btnStartCam.Text = "Start Camera";
+                isCameraRunning = false;
+            }
+        }
+
+        private void btnTakePhoto_Click(object sender, EventArgs e)
+        {
+            if (isCameraRunning)
+            {
+                // Take snapshot of the current image generate by OpenCV in the Picture Box
+                Bitmap snapshot = new Bitmap(photoPictureBox.Image);
+
+                //TODO: Do something with the new snapshot, desired state is to stick
+                //whatever image is there on "take photo".
+
+                // Save in some directory
+                // in this example, we'll generate a random filename e.g 47059681-95ed-4e95-9b50-320092a3d652.png
+                // snapshot.Save(@"C:\Users\sdkca\Desktop\mysnapshot.png", ImageFormat.Png);
+                //snapshot.Save(string.Format(@"C:\Users\sdkca\Desktop\{0}.png", Guid.NewGuid()), ImageFormat.Png);
+            }
+            else
+            {
+                MessageBox.Show("Cannot take picture without starting the camera!", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+            }
         }
 
         private void btnPhotoFromDisk_Click(object sender, EventArgs e)
