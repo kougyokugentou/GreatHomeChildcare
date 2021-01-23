@@ -38,6 +38,8 @@ namespace GreatHomeChildcare
          */
         private void frmChildCrud_Load(object sender, EventArgs e)
         {
+            FillGenderComboBox();
+
             int child_id = frmAdminForm.child_id;
 
             //If the update button was selected.
@@ -47,6 +49,12 @@ namespace GreatHomeChildcare
             }
         }
 
+        private void FillGenderComboBox()
+        {
+            genderComboBox.Items.Add(Gender.Female);
+            genderComboBox.Items.Add(Gender.Male);
+        }
+
         /* Load an existing child onto the form for update/delete operations.
          * INPUT: integer child_id
          * OUTPUT: data to screen
@@ -54,7 +62,8 @@ namespace GreatHomeChildcare
         private void LoadChild(int child_id_in)
         {
             Child child = SqliteDataAccess.GetChildByID(child_id_in);
-            
+            Gender genderOut;
+
             // sanity check, though it shouldn't be needed...
             if (child == null)
                 return;
@@ -63,7 +72,13 @@ namespace GreatHomeChildcare
             idNumericUpDown.Value = child.id;
             firstNameTextBox.Text = child.FirstName;
             lastNameTextBox.Text = child.LastName;
-            //TODO: Gender via enum
+            raceTextBox.Text = child.race;
+            
+            //Load the gender combo box based from enum value.
+            //ref: chuck costarella
+            Enum.TryParse<Gender>(child.gender, out genderOut);
+            genderComboBox.SelectedItem = genderOut;
+
             addressTextBox.Text = child.address;
             photoPictureBox.Image = (child.photo != null) ? ImageWrangler.ByteArrayToImage(child.photo) : Properties.Resources.child;
             LoadGuardiansForChild(child);
@@ -71,12 +86,49 @@ namespace GreatHomeChildcare
 
         private void LoadGuardiansForChild(Child child_in)
         {
+            dgvGuardians.Rows.Clear();
+
             List<Guardian> guardians = SqliteDataAccess.GetGuardiansByChild(child_in);
 
             foreach (Guardian g in guardians)
             {
                 dgvGuardians.Rows.Add(g.id, g.LastName, g.FirstName, g.PhoneNumber, g.EmailAddress);
             }
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void btnPhotoFromCam_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("From cam");
+        }
+
+        private void btnPhotoFromDisk_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("From disk");
+        }
+
+        private void btnAddGuardian_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Add guardian");
+        }
+
+        private void btnEditGuardian_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Edit Guardian");
+        }
+
+        private void btnDeleteGuardian_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Delete Guardian");
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Save and close");
         }
     }
 }
