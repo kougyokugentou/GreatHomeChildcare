@@ -78,11 +78,11 @@ namespace GreatHomeChildcare
         //PB&J: get currently selected row from dgv, then pass to GetChildByID() to get Child object.
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            child_id = dgvChildren.CurrentRow.Index;
-
-            //child_id must be incremented as the index starts at 0.
-            //TODO: FIX BUG!!
-            child_id++;
+            /* Get the child's database ID which is secretly hidden
+             * in the datagrid view at column 0. Since value is an
+             * Object, cast it to Int because that's what we know it is.
+             */
+            child_id = (int)dgvChildren.CurrentRow.Cells[0].Value;
 
             ShowChildCrudForm();
         }
