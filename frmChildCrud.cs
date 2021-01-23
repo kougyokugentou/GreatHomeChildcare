@@ -101,6 +101,7 @@ namespace GreatHomeChildcare
             Close();
         }
 
+        //TODO: Ted, find a better way to do this than I did.
         private void btnPhotoFromCam_Click(object sender, EventArgs e)
         {
             MessageBox.Show("From cam");
