@@ -11,9 +11,12 @@ namespace GreatHomeChildcare
          * OUPUT byte[] array
          * https://stackoverflow.com/questions/3801275/how-to-convert-image-to-byte-array
          */
-        public byte[] ImageToByteArray(Image imageIn)
+        public static byte[] ImageToByteArray(Image imageIn)
         {
             if (imageIn == null)
+                return null;
+
+            if (imageIn == Properties.Resources.child)
                 return null;
 
             using (var ms = new MemoryStream())
