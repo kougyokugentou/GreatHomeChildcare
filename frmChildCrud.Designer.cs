@@ -39,7 +39,6 @@
             System.Windows.Forms.Label dOBLabel;
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.firstNameTextBox = new System.Windows.Forms.TextBox();
-            this.childBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.lastNameTextBox = new System.Windows.Forms.TextBox();
             this.raceTextBox = new System.Windows.Forms.TextBox();
             this.genderComboBox = new System.Windows.Forms.ComboBox();
@@ -60,9 +59,10 @@
             this.photoPictureBox = new System.Windows.Forms.PictureBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.idNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.openFileDialogPhotoFromDisk = new System.Windows.Forms.OpenFileDialog();
-            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.dOBMonthCalendar = new System.Windows.Forms.MonthCalendar();
+            this.childBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.pic_openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             firstNameLabel = new System.Windows.Forms.Label();
             lastNameLabel = new System.Windows.Forms.Label();
             raceLabel = new System.Windows.Forms.Label();
@@ -70,10 +70,10 @@
             photoLabel = new System.Windows.Forms.Label();
             addressLabel = new System.Windows.Forms.Label();
             dOBLabel = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.childBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvGuardians)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.photoPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.idNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.childBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -147,6 +147,15 @@
             this.imageList1.Images.SetKeyName(6, "SaveClose_16x.png");
             this.imageList1.Images.SetKeyName(7, "OpenfileDialog_16x.png");
             // 
+            // dOBLabel
+            // 
+            dOBLabel.AutoSize = true;
+            dOBLabel.Location = new System.Drawing.Point(425, 19);
+            dOBLabel.Name = "dOBLabel";
+            dOBLabel.Size = new System.Drawing.Size(42, 17);
+            dOBLabel.TabIndex = 24;
+            dOBLabel.Text = "DOB:";
+            // 
             // firstNameTextBox
             // 
             this.firstNameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.childBindingSource, "FirstName", true));
@@ -154,10 +163,6 @@
             this.firstNameTextBox.Name = "firstNameTextBox";
             this.firstNameTextBox.Size = new System.Drawing.Size(100, 22);
             this.firstNameTextBox.TabIndex = 2;
-            // 
-            // childBindingSource
-            // 
-            this.childBindingSource.DataSource = typeof(GreatHomeChildcare.Models.Child);
             // 
             // lastNameTextBox
             // 
@@ -374,23 +379,6 @@
             this.idNumericUpDown.TabStop = false;
             this.idNumericUpDown.Visible = false;
             // 
-            // openFileDialogPhotoFromDisk
-            // 
-            this.openFileDialogPhotoFromDisk.FileName = "openFileDialog1";
-            // 
-            // errorProvider1
-            // 
-            this.errorProvider1.ContainerControl = this;
-            // 
-            // dOBLabel
-            // 
-            dOBLabel.AutoSize = true;
-            dOBLabel.Location = new System.Drawing.Point(425, 19);
-            dOBLabel.Name = "dOBLabel";
-            dOBLabel.Size = new System.Drawing.Size(42, 17);
-            dOBLabel.TabIndex = 24;
-            dOBLabel.Text = "DOB:";
-            // 
             // dOBMonthCalendar
             // 
             this.dOBMonthCalendar.DataBindings.Add(new System.Windows.Forms.Binding("SelectionRange", this.childBindingSource, "DOB", true));
@@ -398,6 +386,22 @@
             this.dOBMonthCalendar.MaxSelectionCount = 1;
             this.dOBMonthCalendar.Name = "dOBMonthCalendar";
             this.dOBMonthCalendar.TabIndex = 25;
+            // 
+            // childBindingSource
+            // 
+            this.childBindingSource.DataSource = typeof(GreatHomeChildcare.Models.Child);
+            // 
+            // pic_openFileDialog
+            // 
+            this.pic_openFileDialog.DefaultExt = "*.png";
+            this.pic_openFileDialog.FileName = "pic_openFileDialog";
+            this.pic_openFileDialog.Filter = "Photos|*.png";
+            this.pic_openFileDialog.Title = "Upload child photo";
+            this.pic_openFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.pic_openFileDialog_FileOk);
+            // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
             // 
             // frmChildCrud
             // 
@@ -428,13 +432,14 @@
             this.Controls.Add(this.lastNameTextBox);
             this.Controls.Add(firstNameLabel);
             this.Controls.Add(this.firstNameTextBox);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmChildCrud";
             this.Text = "Child Management : Great Home Childcare";
             this.Load += new System.EventHandler(this.frmChildCrud_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.childBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvGuardians)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.photoPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.idNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.childBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -466,8 +471,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn FirstName;
         private System.Windows.Forms.DataGridViewTextBoxColumn PhoneNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn EmailAddress;
-        private System.Windows.Forms.OpenFileDialog openFileDialogPhotoFromDisk;
-        private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.MonthCalendar dOBMonthCalendar;
+        private System.Windows.Forms.OpenFileDialog pic_openFileDialog;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

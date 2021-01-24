@@ -29,6 +29,7 @@ namespace GreatHomeChildcare
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMainForm));
             this.btnAdmin = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panelChild1 = new System.Windows.Forms.Panel();
@@ -456,6 +457,7 @@ namespace GreatHomeChildcare
             this.Controls.Add(this.lblInstructions);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.btnAdmin);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmMainForm";
             this.Text = "Main Screen";
             this.Load += new System.EventHandler(this.frmMainForm_Load);
