@@ -29,16 +29,16 @@ namespace GreatHomeChildcare
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmAdminForm));
             this.btnReports = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
-            this.sqLiteCommand1 = new System.Data.SQLite.SQLiteCommand();
             this.btnAdd = new System.Windows.Forms.Button();
             this.dgvChildren = new System.Windows.Forms.DataGridView();
-            this.btnUpdate = new System.Windows.Forms.Button();
-            this.btnQuit = new System.Windows.Forms.Button();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Photo = new System.Windows.Forms.DataGridViewImageColumn();
             this.DisplayName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnUpdate = new System.Windows.Forms.Button();
+            this.btnQuit = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvChildren)).BeginInit();
             this.SuspendLayout();
             // 
@@ -61,10 +61,6 @@ namespace GreatHomeChildcare
             this.btnClose.Text = "Back to sign in page";
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-            // 
-            // sqLiteCommand1
-            // 
-            this.sqLiteCommand1.CommandText = null;
             // 
             // btnAdd
             // 
@@ -94,26 +90,6 @@ namespace GreatHomeChildcare
             this.dgvChildren.Size = new System.Drawing.Size(571, 392);
             this.dgvChildren.TabIndex = 4;
             // 
-            // btnUpdate
-            // 
-            this.btnUpdate.Location = new System.Drawing.Point(12, 213);
-            this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(130, 47);
-            this.btnUpdate.TabIndex = 5;
-            this.btnUpdate.Text = "Update Child";
-            this.btnUpdate.UseVisualStyleBackColor = true;
-            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
-            // 
-            // btnQuit
-            // 
-            this.btnQuit.Location = new System.Drawing.Point(12, 279);
-            this.btnQuit.Name = "btnQuit";
-            this.btnQuit.Size = new System.Drawing.Size(122, 47);
-            this.btnQuit.TabIndex = 6;
-            this.btnQuit.Text = "Quit Program";
-            this.btnQuit.UseVisualStyleBackColor = true;
-            this.btnQuit.Click += new System.EventHandler(this.btnQuit_Click);
-            // 
             // id
             // 
             this.id.HeaderText = "id";
@@ -142,6 +118,26 @@ namespace GreatHomeChildcare
             this.DisplayName.ReadOnly = true;
             this.DisplayName.Width = 125;
             // 
+            // btnUpdate
+            // 
+            this.btnUpdate.Location = new System.Drawing.Point(12, 213);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(130, 47);
+            this.btnUpdate.TabIndex = 5;
+            this.btnUpdate.Text = "Update Child";
+            this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            // 
+            // btnQuit
+            // 
+            this.btnQuit.Location = new System.Drawing.Point(12, 279);
+            this.btnQuit.Name = "btnQuit";
+            this.btnQuit.Size = new System.Drawing.Size(122, 47);
+            this.btnQuit.TabIndex = 6;
+            this.btnQuit.Text = "Quit Program";
+            this.btnQuit.UseVisualStyleBackColor = true;
+            this.btnQuit.Click += new System.EventHandler(this.btnQuit_Click);
+            // 
             // frmAdminForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -153,6 +149,7 @@ namespace GreatHomeChildcare
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnReports);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmAdminForm";
             this.Text = "Administration : Great Home Childcare";
             this.Load += new System.EventHandler(this.frmAdminForm_Load);
@@ -165,7 +162,6 @@ namespace GreatHomeChildcare
 
         private System.Windows.Forms.Button btnReports;
         private System.Windows.Forms.Button btnClose;
-        private System.Data.SQLite.SQLiteCommand sqLiteCommand1;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.DataGridView dgvChildren;
         private System.Windows.Forms.Button btnUpdate;
