@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ namespace GreatHomeChildcare
     {
         const string DEFAULT_PIC_TAG = "DefaultPic";
         const string CUSTOM_PIC_TAG = "dickpic";
+        const int MAX_PIC_SIZE = 2147483647;
 
         //Global instance of the SqliteDataAccess object.
         SqliteDataAccess SqliteDataAccess = new SqliteDataAccess();
@@ -109,9 +111,44 @@ namespace GreatHomeChildcare
             MessageBox.Show("From cam");
         }
 
+        /* On click of the button, open a file picker dialog box
+         * for the user to browse/choose a picture.
+         * Once the user clicks OK, the _FileOK event below fires,
+         * validates the input. If file is OK, then read the file from disk,
+         * convert it into an Image, and save it to the student picture box.
+         */
         private void btnPhotoFromDisk_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("From disk");
+            DialogResult dr = pic_openFileDialog.ShowDialog();
+            byte[] pic_in;
+
+            if (dr == DialogResult.OK)
+            {
+                try
+                {
+                    //Read picture
+                    pic_in = File.ReadAllBytes(pic_openFileDialog.FileName);
+
+                    //Check once again to make sure the picture's not too big...
+                    if(pic_in.Length >= MAX_PIC_SIZE)
+                    {
+                        MessageBox.Show("The selected child's photo size is too large. Choose a smaller photo size or shrink the photo.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+                        return;
+                    }
+                    Image dickPic = ImageWrangler.ByteArrayToImage(pic_in);
+
+                    //Place in dicpic box
+                    photoPictureBox.Image = dickPic;
+
+                    //change tag of pic box to something else
+                    photoPictureBox.Tag = CUSTOM_PIC_TAG;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Unable to read selected file, try again.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+                    return;
+                }
+            }
         }
 
         private void btnAddGuardian_Click(object sender, EventArgs e)
@@ -164,6 +201,24 @@ namespace GreatHomeChildcare
                  */
             }
             Close();
+        }
+
+        /* Event that occurs when the user clicks Open in the file dialog box.
+         * Check to see if the photo size is too large for the database.
+         * If so, reject the file and inform the user.
+         */
+        private void pic_openFileDialog_FileOk(object sender, CancelEventArgs e)
+        {
+            byte[] dickpic;
+
+            //Chunk file into bytes.
+            //If file > MAX_PIC_SIZE bytes long, reject file.
+            dickpic = File.ReadAllBytes(pic_openFileDialog.FileName);
+            if (dickpic.Length >= MAX_PIC_SIZE) //THAT'S WHAT SHE SAID
+            {
+                MessageBox.Show("The selected child's photo size is too large. Choose a smaller photo size or shrink the photo.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+                return;
+            }
         }
     }
 }
