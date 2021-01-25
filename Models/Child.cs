@@ -17,7 +17,7 @@ namespace GreatHomeChildcare.Models
         public string gender { get; set; }
         public byte[] photo { get; set; }
 
-        //readonly property to populate the found student searchbox.
+        //readonly property to populate a single child's full name.
         // this is a "Get" only property
         public string DisplayName
         {
