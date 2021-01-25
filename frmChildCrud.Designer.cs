@@ -60,9 +60,12 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.idNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.dOBMonthCalendar = new System.Windows.Forms.MonthCalendar();
-            this.childBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.pic_openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.lblExistingGuardians = new System.Windows.Forms.Label();
+            this.cbExistingGuardians = new System.Windows.Forms.ComboBox();
+            this.btnNewGuardian = new System.Windows.Forms.Button();
+            this.childBindingSource = new System.Windows.Forms.BindingSource(this.components);
             firstNameLabel = new System.Windows.Forms.Label();
             lastNameLabel = new System.Windows.Forms.Label();
             raceLabel = new System.Windows.Forms.Label();
@@ -73,8 +76,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvGuardians)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.photoPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.idNumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.childBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.childBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // firstNameLabel
@@ -146,6 +149,7 @@
             this.imageList1.Images.SetKeyName(5, "Edit_16x.png");
             this.imageList1.Images.SetKeyName(6, "SaveClose_16x.png");
             this.imageList1.Images.SetKeyName(7, "OpenfileDialog_16x.png");
+            this.imageList1.Images.SetKeyName(8, "Add_16x.png");
             // 
             // dOBLabel
             // 
@@ -272,11 +276,11 @@
             this.btnAddGuardian.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAddGuardian.ImageKey = "AddButton_16x.png";
             this.btnAddGuardian.ImageList = this.imageList1;
-            this.btnAddGuardian.Location = new System.Drawing.Point(18, 439);
+            this.btnAddGuardian.Location = new System.Drawing.Point(206, 441);
             this.btnAddGuardian.Name = "btnAddGuardian";
-            this.btnAddGuardian.Size = new System.Drawing.Size(168, 26);
+            this.btnAddGuardian.Size = new System.Drawing.Size(195, 66);
             this.btnAddGuardian.TabIndex = 13;
-            this.btnAddGuardian.Text = "Add Guardian";
+            this.btnAddGuardian.Text = "Add Chosen Existing Guardian to Child";
             this.btnAddGuardian.UseVisualStyleBackColor = true;
             this.btnAddGuardian.Click += new System.EventHandler(this.btnAddGuardian_Click);
             // 
@@ -285,11 +289,11 @@
             this.btnEditGuardian.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnEditGuardian.ImageIndex = 5;
             this.btnEditGuardian.ImageList = this.imageList1;
-            this.btnEditGuardian.Location = new System.Drawing.Point(305, 439);
+            this.btnEditGuardian.Location = new System.Drawing.Point(689, 441);
             this.btnEditGuardian.Name = "btnEditGuardian";
-            this.btnEditGuardian.Size = new System.Drawing.Size(185, 26);
+            this.btnEditGuardian.Size = new System.Drawing.Size(225, 34);
             this.btnEditGuardian.TabIndex = 14;
-            this.btnEditGuardian.Text = "Edit Guardian";
+            this.btnEditGuardian.Text = "Edit Selected Guardian";
             this.btnEditGuardian.UseVisualStyleBackColor = true;
             this.btnEditGuardian.Click += new System.EventHandler(this.btnEditGuardian_Click);
             // 
@@ -298,11 +302,11 @@
             this.btnDeleteGuardian.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnDeleteGuardian.ImageIndex = 4;
             this.btnDeleteGuardian.ImageList = this.imageList1;
-            this.btnDeleteGuardian.Location = new System.Drawing.Point(634, 439);
+            this.btnDeleteGuardian.Location = new System.Drawing.Point(689, 481);
             this.btnDeleteGuardian.Name = "btnDeleteGuardian";
-            this.btnDeleteGuardian.Size = new System.Drawing.Size(175, 26);
+            this.btnDeleteGuardian.Size = new System.Drawing.Size(225, 38);
             this.btnDeleteGuardian.TabIndex = 15;
-            this.btnDeleteGuardian.Text = "Delete Guardian";
+            this.btnDeleteGuardian.Text = "Delete Selected Guardian";
             this.btnDeleteGuardian.UseVisualStyleBackColor = true;
             this.btnDeleteGuardian.Click += new System.EventHandler(this.btnDeleteGuardian_Click);
             // 
@@ -387,10 +391,6 @@
             this.dOBMonthCalendar.Name = "dOBMonthCalendar";
             this.dOBMonthCalendar.TabIndex = 25;
             // 
-            // childBindingSource
-            // 
-            this.childBindingSource.DataSource = typeof(GreatHomeChildcare.Models.Child);
-            // 
             // pic_openFileDialog
             // 
             this.pic_openFileDialog.DefaultExt = "*.png";
@@ -403,11 +403,48 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
+            // lblExistingGuardians
+            // 
+            this.lblExistingGuardians.AutoSize = true;
+            this.lblExistingGuardians.Location = new System.Drawing.Point(12, 441);
+            this.lblExistingGuardians.Name = "lblExistingGuardians";
+            this.lblExistingGuardians.Size = new System.Drawing.Size(130, 17);
+            this.lblExistingGuardians.TabIndex = 27;
+            this.lblExistingGuardians.Text = "Existing Guardians:";
+            // 
+            // cbExistingGuardians
+            // 
+            this.cbExistingGuardians.FormattingEnabled = true;
+            this.cbExistingGuardians.Location = new System.Drawing.Point(12, 464);
+            this.cbExistingGuardians.Name = "cbExistingGuardians";
+            this.cbExistingGuardians.Size = new System.Drawing.Size(171, 24);
+            this.cbExistingGuardians.TabIndex = 26;
+            // 
+            // btnNewGuardian
+            // 
+            this.btnNewGuardian.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnNewGuardian.ImageIndex = 8;
+            this.btnNewGuardian.ImageList = this.imageList1;
+            this.btnNewGuardian.Location = new System.Drawing.Point(428, 441);
+            this.btnNewGuardian.Name = "btnNewGuardian";
+            this.btnNewGuardian.Size = new System.Drawing.Size(195, 66);
+            this.btnNewGuardian.TabIndex = 28;
+            this.btnNewGuardian.Text = "Create New Guardian\r\n&& Add to Child";
+            this.btnNewGuardian.UseVisualStyleBackColor = true;
+            this.btnNewGuardian.Click += new System.EventHandler(this.btnNewGuardian_Click);
+            // 
+            // childBindingSource
+            // 
+            this.childBindingSource.DataSource = typeof(GreatHomeChildcare.Models.Child);
+            // 
             // frmChildCrud
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1004, 608);
+            this.ClientSize = new System.Drawing.Size(1004, 657);
+            this.Controls.Add(this.btnNewGuardian);
+            this.Controls.Add(this.lblExistingGuardians);
+            this.Controls.Add(this.cbExistingGuardians);
             this.Controls.Add(dOBLabel);
             this.Controls.Add(this.dOBMonthCalendar);
             this.Controls.Add(this.idNumericUpDown);
@@ -439,8 +476,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvGuardians)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.photoPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.idNumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.childBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.childBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -474,5 +511,8 @@
         private System.Windows.Forms.MonthCalendar dOBMonthCalendar;
         private System.Windows.Forms.OpenFileDialog pic_openFileDialog;
         private System.Windows.Forms.ErrorProvider errorProvider1;
+        private System.Windows.Forms.Label lblExistingGuardians;
+        private System.Windows.Forms.ComboBox cbExistingGuardians;
+        private System.Windows.Forms.Button btnNewGuardian;
     }
 }

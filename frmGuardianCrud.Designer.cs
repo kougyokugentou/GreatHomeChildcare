@@ -42,9 +42,10 @@ namespace GreatHomeChildcare
             this.firstNameTextBox = new System.Windows.Forms.TextBox();
             this.phoneNumberNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.emailAddressTextBox = new System.Windows.Forms.TextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.isAdminComboBox = new System.Windows.Forms.ComboBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.button2 = new System.Windows.Forms.Button();
             lastNameLabel = new System.Windows.Forms.Label();
             firstNameLabel = new System.Windows.Forms.Label();
             phoneNumberLabel = new System.Windows.Forms.Label();
@@ -55,10 +56,55 @@ namespace GreatHomeChildcare
             ((System.ComponentModel.ISupportInitialize)(this.phoneNumberNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
+            // lastNameLabel
+            // 
+            lastNameLabel.AutoSize = true;
+            lastNameLabel.Location = new System.Drawing.Point(12, 9);
+            lastNameLabel.Name = "lastNameLabel";
+            lastNameLabel.Size = new System.Drawing.Size(80, 17);
+            lastNameLabel.TabIndex = 2;
+            lastNameLabel.Text = "Last Name:";
+            // 
+            // firstNameLabel
+            // 
+            firstNameLabel.AutoSize = true;
+            firstNameLabel.Location = new System.Drawing.Point(150, 9);
+            firstNameLabel.Name = "firstNameLabel";
+            firstNameLabel.Size = new System.Drawing.Size(80, 17);
+            firstNameLabel.TabIndex = 3;
+            firstNameLabel.Text = "First Name:";
+            // 
+            // phoneNumberLabel
+            // 
+            phoneNumberLabel.AutoSize = true;
+            phoneNumberLabel.Location = new System.Drawing.Point(12, 69);
+            phoneNumberLabel.Name = "phoneNumberLabel";
+            phoneNumberLabel.Size = new System.Drawing.Size(107, 17);
+            phoneNumberLabel.TabIndex = 5;
+            phoneNumberLabel.Text = "Phone Number:";
+            // 
+            // emailAddressLabel
+            // 
+            emailAddressLabel.AutoSize = true;
+            emailAddressLabel.Location = new System.Drawing.Point(151, 69);
+            emailAddressLabel.Name = "emailAddressLabel";
+            emailAddressLabel.Size = new System.Drawing.Size(102, 17);
+            emailAddressLabel.TabIndex = 7;
+            emailAddressLabel.Text = "Email Address:";
+            // 
+            // isAdminLabel
+            // 
+            isAdminLabel.AutoSize = true;
+            isAdminLabel.Location = new System.Drawing.Point(96, 130);
+            isAdminLabel.Name = "isAdminLabel";
+            isAdminLabel.Size = new System.Drawing.Size(65, 17);
+            isAdminLabel.TabIndex = 12;
+            isAdminLabel.Text = "is Admin:";
+            // 
             // idNumericUpDown
             // 
             this.idNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.guardianBindingSource, "id", true));
-            this.idNumericUpDown.Location = new System.Drawing.Point(15, 121);
+            this.idNumericUpDown.Location = new System.Drawing.Point(229, 150);
             this.idNumericUpDown.Name = "idNumericUpDown";
             this.idNumericUpDown.ReadOnly = true;
             this.idNumericUpDown.Size = new System.Drawing.Size(84, 22);
@@ -70,15 +116,6 @@ namespace GreatHomeChildcare
             // 
             this.guardianBindingSource.DataSource = typeof(GreatHomeChildcare.Models.Guardian);
             // 
-            // lastNameLabel
-            // 
-            lastNameLabel.AutoSize = true;
-            lastNameLabel.Location = new System.Drawing.Point(12, 9);
-            lastNameLabel.Name = "lastNameLabel";
-            lastNameLabel.Size = new System.Drawing.Size(80, 17);
-            lastNameLabel.TabIndex = 2;
-            lastNameLabel.Text = "Last Name:";
-            // 
             // lastNameTextBox
             // 
             this.lastNameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.guardianBindingSource, "LastName", true));
@@ -87,15 +124,6 @@ namespace GreatHomeChildcare
             this.lastNameTextBox.Size = new System.Drawing.Size(100, 22);
             this.lastNameTextBox.TabIndex = 3;
             // 
-            // firstNameLabel
-            // 
-            firstNameLabel.AutoSize = true;
-            firstNameLabel.Location = new System.Drawing.Point(150, 9);
-            firstNameLabel.Name = "firstNameLabel";
-            firstNameLabel.Size = new System.Drawing.Size(80, 17);
-            firstNameLabel.TabIndex = 3;
-            firstNameLabel.Text = "First Name:";
-            // 
             // firstNameTextBox
             // 
             this.firstNameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.guardianBindingSource, "FirstName", true));
@@ -103,15 +131,6 @@ namespace GreatHomeChildcare
             this.firstNameTextBox.Name = "firstNameTextBox";
             this.firstNameTextBox.Size = new System.Drawing.Size(100, 22);
             this.firstNameTextBox.TabIndex = 4;
-            // 
-            // phoneNumberLabel
-            // 
-            phoneNumberLabel.AutoSize = true;
-            phoneNumberLabel.Location = new System.Drawing.Point(12, 69);
-            phoneNumberLabel.Name = "phoneNumberLabel";
-            phoneNumberLabel.Size = new System.Drawing.Size(107, 17);
-            phoneNumberLabel.TabIndex = 5;
-            phoneNumberLabel.Text = "Phone Number:";
             // 
             // phoneNumberNumericUpDown
             // 
@@ -136,15 +155,6 @@ namespace GreatHomeChildcare
             0,
             0});
             // 
-            // emailAddressLabel
-            // 
-            emailAddressLabel.AutoSize = true;
-            emailAddressLabel.Location = new System.Drawing.Point(151, 69);
-            emailAddressLabel.Name = "emailAddressLabel";
-            emailAddressLabel.Size = new System.Drawing.Size(102, 17);
-            emailAddressLabel.TabIndex = 7;
-            emailAddressLabel.Text = "Email Address:";
-            // 
             // emailAddressTextBox
             // 
             this.emailAddressTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.guardianBindingSource, "EmailAddress", true));
@@ -153,50 +163,55 @@ namespace GreatHomeChildcare
             this.emailAddressTextBox.Size = new System.Drawing.Size(100, 22);
             this.emailAddressTextBox.TabIndex = 8;
             // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(353, 29);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 24);
-            this.comboBox1.TabIndex = 11;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(353, 6);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(130, 17);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "Existing Guardians:";
-            // 
-            // isAdminLabel
-            // 
-            isAdminLabel.AutoSize = true;
-            isAdminLabel.Location = new System.Drawing.Point(104, 155);
-            isAdminLabel.Name = "isAdminLabel";
-            isAdminLabel.Size = new System.Drawing.Size(65, 17);
-            isAdminLabel.TabIndex = 12;
-            isAdminLabel.Text = "is Admin:";
-            // 
             // isAdminComboBox
             // 
             this.isAdminComboBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.guardianBindingSource, "isAdmin", true));
             this.isAdminComboBox.FormattingEnabled = true;
-            this.isAdminComboBox.Location = new System.Drawing.Point(87, 175);
+            this.isAdminComboBox.Location = new System.Drawing.Point(79, 150);
             this.isAdminComboBox.Name = "isAdminComboBox";
             this.isAdminComboBox.Size = new System.Drawing.Size(121, 24);
             this.isAdminComboBox.TabIndex = 13;
+            // 
+            // button1
+            // 
+            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button1.ImageIndex = 0;
+            this.button1.ImageList = this.imageList1;
+            this.button1.Location = new System.Drawing.Point(21, 209);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(140, 50);
+            this.button1.TabIndex = 14;
+            this.button1.Text = "Cancel && Close";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "Cancel_16x.png");
+            this.imageList1.Images.SetKeyName(1, "SaveClose_16x.png");
+            // 
+            // button2
+            // 
+            this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button2.ImageIndex = 1;
+            this.button2.ImageList = this.imageList1;
+            this.button2.Location = new System.Drawing.Point(204, 208);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(139, 50);
+            this.button2.TabIndex = 15;
+            this.button2.Text = "Save && Close";
+            this.button2.UseVisualStyleBackColor = true;
             // 
             // frmGuardianCrud
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(873, 450);
+            this.ClientSize = new System.Drawing.Size(362, 312);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
             this.Controls.Add(isAdminLabel);
             this.Controls.Add(this.isAdminComboBox);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.comboBox1);
             this.Controls.Add(emailAddressLabel);
             this.Controls.Add(this.emailAddressTextBox);
             this.Controls.Add(phoneNumberLabel);
@@ -225,8 +240,9 @@ namespace GreatHomeChildcare
         private System.Windows.Forms.TextBox firstNameTextBox;
         private System.Windows.Forms.NumericUpDown phoneNumberNumericUpDown;
         private System.Windows.Forms.TextBox emailAddressTextBox;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox isAdminComboBox;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.Button button2;
     }
 }
