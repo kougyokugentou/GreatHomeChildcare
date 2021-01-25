@@ -104,6 +104,20 @@ namespace GreatHomeChildcare
 
         // ***************** Read *****************
 
+        /* Gets all guardians from the DB.
+         * INPUT: void
+         * OUTPUT: list of guardian objects.
+         */
+        internal List<Guardian> GetAllGuardians()
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string strQuery = "SELECT * FROM Guardians ORDER BY LastName ASC;";
+                var output = cnn.Query<Guardian>(strQuery);
+                return output.ToList();
+            }
+        }
+
         /* Gets all guardians for a single child.
          * INPUT: Child
          * OUTPUT: List of guardian object.
@@ -138,7 +152,38 @@ namespace GreatHomeChildcare
         #region authorized_guardians
         // ***************** Create *****************
 
+        /* Add a guardian as an authorized_guardian of a specific child.
+         * INPUT: child, guardian
+         * OUTPUT: void to program, new row in authorized_guardian table of sql db.
+         */
+        internal void AddNewGuardianToChild(Child child_in, Guardian guardian_in)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string strQuery = "INSERT INTO Authorized_Guardians (child_id, guardian_id) VALUES (@_child_id, @_guardian_id);";
+                cnn.Execute(strQuery, new
+                {
+                    _child_id = child_in.id,
+                    _guardian_id = guardian_in.id
+                });
+            }
+        }
+
         // ***************** Read *****************
+
+        /* Check for octomom.
+         * INPUT: Guardian
+         * OUTPUT: integer Count of children per guardian.
+         */
+        internal int CheckForOctomom(Guardian guardian_in)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string strQuery = "SELECT COUNT(child_id) from Authorized_Guardians WHERE guardian_id = @id;";
+                int output = cnn.Query<int>(strQuery, guardian_in).SingleOrDefault();
+                return output;
+            }
+        }
 
         /* Gets a list of all children per a specific guardian.
          * INPUT: Guardian
@@ -173,6 +218,20 @@ WHERE Guardians.id = @id
         }
         // ***************** Update *****************
         // ***************** Delete *****************
+
+        //TODO: Not sure if I need this.
+        internal void RemoveGuardianFromChild(Child child_in, Guardian guardian_in)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string strQuery = "DELETE FROM Authorized_Guardians WHERE child_id = @_child_id AND guardian_id = @_guardian_id;";
+                cnn.Execute(strQuery, new { 
+                    _child_id = child_in.id,
+                    _guardian_id = guardian_in.id
+                });
+            }
+        }
+
         #endregion
 
         #region attendance
