@@ -21,6 +21,7 @@ namespace GreatHomeChildcare
         //Global instance of the SqliteDataAccess object.
         SqliteDataAccess SqliteDataAccess = new SqliteDataAccess();
         Child child;
+        int guardian_id;
 
         enum Gender
         {
@@ -42,6 +43,7 @@ namespace GreatHomeChildcare
         private void frmChildCrud_Load(object sender, EventArgs e)
         {
             FillGenderComboBox();
+            FillGuardiansComboBox();
 
             int child_id = frmAdminForm.child_id;
 
@@ -52,10 +54,29 @@ namespace GreatHomeChildcare
             }
         }
 
+        //Populate the gender combo box with our enum.
         private void FillGenderComboBox()
         {
             genderComboBox.Items.Add(Gender.Female);
             genderComboBox.Items.Add(Gender.Male);
+        }
+
+        /* Populate the existing guardian combobox
+         * with a listing of all guardians in the DB
+         * sorted by last name. Bind the guardian object
+         * to the drop-down so it can be easily referenced upon click
+         * of "add existing guardian".
+         * INPUTS: void from program
+         * OUTPUT: list of guardians from SQL db
+         */
+        private void FillGuardiansComboBox()
+        {
+            List<Guardian> guardians = new List<Guardian>();
+            guardians = SqliteDataAccess.GetAllGuardians();
+
+            cbExistingGuardians.DataSource = guardians;
+            cbExistingGuardians.DisplayMember = "DisplayName";
+            cbExistingGuardians.Text = "Choose a guardian to add to this child";
         }
 
         /* Load an existing child onto the form for update/delete operations.
@@ -153,16 +174,63 @@ namespace GreatHomeChildcare
 
         private void btnAddGuardian_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Add guardian");
+            int iOctomomCheck;
+
+            if(cbExistingGuardians.Text == "Choose a guardian to add to this child")
+            {
+                MessageBox.Show("Please select an existing guardian.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+                return;
+            }
+            
+            Guardian newGuardian = (Guardian)cbExistingGuardians.SelectedItem;
+            //Check to see if newGuardian is already a guardian of this child.
+            foreach(DataGridViewRow row in dgvGuardians.Rows)
+            {
+                if((int)row.Cells[0].Value == newGuardian.id)
+                {
+                    MessageBox.Show("That guardian is already assigned to this child.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+                    return;
+                }
+            }
+
+            // Check for octomom.
+            iOctomomCheck = SqliteDataAccess.CheckForOctomom(newGuardian);
+            if(iOctomomCheck > 9) // SERIOUSLY, KEEP IT IN YOUR PANTS
+            {
+                MessageBox.Show("Sorry, a single guardian can't have more than 9 children.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+                return;
+            }
+
+            // We are clear to add this guardian.
+            SqliteDataAccess.AddNewGuardianToChild(child, newGuardian);
+            LoadGuardiansForChild(child);
+        }
+
+        private void btnNewGuardian_Click(object sender, EventArgs e)
+        {
+            guardian_id = -1;
+            MessageBox.Show("Add (create) New guardian");
         }
 
         private void btnEditGuardian_Click(object sender, EventArgs e)
         {
+            /* Get the guardian's database ID which is secretly hidden
+             * in the datagrid view at column 0. Since value is an
+             * Object, cast it to Int because that's what we know it is.
+             */
+            guardian_id = (int)dgvGuardians.CurrentRow.Cells[0].Value;
+
             MessageBox.Show("Edit Guardian");
         }
 
         private void btnDeleteGuardian_Click(object sender, EventArgs e)
         {
+            /* Get the guardian's database ID which is secretly hidden
+             * in the datagrid view at column 0. Since value is an
+             * Object, cast it to Int because that's what we know it is.
+             */
+            guardian_id = (int)dgvGuardians.CurrentRow.Cells[0].Value;
+
             MessageBox.Show("Delete Guardian");
         }
 
@@ -211,14 +279,23 @@ namespace GreatHomeChildcare
         {
             byte[] dickpic;
 
-            //Chunk file into bytes.
-            //If file > MAX_PIC_SIZE bytes long, reject file.
-            dickpic = File.ReadAllBytes(pic_openFileDialog.FileName);
-            if (dickpic.Length >= MAX_PIC_SIZE) //THAT'S WHAT SHE SAID
+            try
             {
-                MessageBox.Show("The selected child's photo size is too large. Choose a smaller photo size or shrink the photo.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+                //Chunk file into bytes.
+                //If file > MAX_PIC_SIZE bytes long, reject file.
+                dickpic = File.ReadAllBytes(pic_openFileDialog.FileName);
+                if (dickpic.Length >= MAX_PIC_SIZE) //THAT'S WHAT SHE SAID
+                {
+                    MessageBox.Show("The selected child's photo size is too large. Choose a smaller photo size or shrink the photo.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+                    return;
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Unable to read selected file, try again.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
                 return;
             }
         }
+
     }
 }
