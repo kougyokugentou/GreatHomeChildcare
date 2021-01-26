@@ -39,6 +39,7 @@
             System.Windows.Forms.Label dOBLabel;
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.firstNameTextBox = new System.Windows.Forms.TextBox();
+            this.childBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.lastNameTextBox = new System.Windows.Forms.TextBox();
             this.raceTextBox = new System.Windows.Forms.TextBox();
             this.genderComboBox = new System.Windows.Forms.ComboBox();
@@ -50,7 +51,7 @@
             this.FirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PhoneNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EmailAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnAddGuardian = new System.Windows.Forms.Button();
+            this.btnAddExistingGuardian = new System.Windows.Forms.Button();
             this.btnEditGuardian = new System.Windows.Forms.Button();
             this.btnDeleteGuardian = new System.Windows.Forms.Button();
             this.btnPhotoFromCam = new System.Windows.Forms.Button();
@@ -65,7 +66,6 @@
             this.lblExistingGuardians = new System.Windows.Forms.Label();
             this.cbExistingGuardians = new System.Windows.Forms.ComboBox();
             this.btnNewGuardian = new System.Windows.Forms.Button();
-            this.childBindingSource = new System.Windows.Forms.BindingSource(this.components);
             firstNameLabel = new System.Windows.Forms.Label();
             lastNameLabel = new System.Windows.Forms.Label();
             raceLabel = new System.Windows.Forms.Label();
@@ -73,11 +73,11 @@
             photoLabel = new System.Windows.Forms.Label();
             addressLabel = new System.Windows.Forms.Label();
             dOBLabel = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.childBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvGuardians)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.photoPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.idNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.childBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // firstNameLabel
@@ -167,6 +167,10 @@
             this.firstNameTextBox.Name = "firstNameTextBox";
             this.firstNameTextBox.Size = new System.Drawing.Size(100, 22);
             this.firstNameTextBox.TabIndex = 2;
+            // 
+            // childBindingSource
+            // 
+            this.childBindingSource.DataSource = typeof(GreatHomeChildcare.Models.Child);
             // 
             // lastNameTextBox
             // 
@@ -271,25 +275,25 @@
             this.EmailAddress.ReadOnly = true;
             this.EmailAddress.Width = 125;
             // 
-            // btnAddGuardian
+            // btnAddExistingGuardian
             // 
-            this.btnAddGuardian.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddGuardian.ImageKey = "AddButton_16x.png";
-            this.btnAddGuardian.ImageList = this.imageList1;
-            this.btnAddGuardian.Location = new System.Drawing.Point(206, 441);
-            this.btnAddGuardian.Name = "btnAddGuardian";
-            this.btnAddGuardian.Size = new System.Drawing.Size(195, 66);
-            this.btnAddGuardian.TabIndex = 13;
-            this.btnAddGuardian.Text = "Add Chosen Existing Guardian to Child";
-            this.btnAddGuardian.UseVisualStyleBackColor = true;
-            this.btnAddGuardian.Click += new System.EventHandler(this.btnAddGuardian_Click);
+            this.btnAddExistingGuardian.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAddExistingGuardian.ImageKey = "AddButton_16x.png";
+            this.btnAddExistingGuardian.ImageList = this.imageList1;
+            this.btnAddExistingGuardian.Location = new System.Drawing.Point(206, 441);
+            this.btnAddExistingGuardian.Name = "btnAddExistingGuardian";
+            this.btnAddExistingGuardian.Size = new System.Drawing.Size(241, 75);
+            this.btnAddExistingGuardian.TabIndex = 13;
+            this.btnAddExistingGuardian.Text = "Add Chosen Existing\r\nGuardian (from Dropdown)\r\nto Child";
+            this.btnAddExistingGuardian.UseVisualStyleBackColor = true;
+            this.btnAddExistingGuardian.Click += new System.EventHandler(this.btnAddExistingGuardian_Click);
             // 
             // btnEditGuardian
             // 
             this.btnEditGuardian.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnEditGuardian.ImageIndex = 5;
             this.btnEditGuardian.ImageList = this.imageList1;
-            this.btnEditGuardian.Location = new System.Drawing.Point(689, 441);
+            this.btnEditGuardian.Location = new System.Drawing.Point(756, 438);
             this.btnEditGuardian.Name = "btnEditGuardian";
             this.btnEditGuardian.Size = new System.Drawing.Size(225, 34);
             this.btnEditGuardian.TabIndex = 14;
@@ -302,7 +306,7 @@
             this.btnDeleteGuardian.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnDeleteGuardian.ImageIndex = 4;
             this.btnDeleteGuardian.ImageList = this.imageList1;
-            this.btnDeleteGuardian.Location = new System.Drawing.Point(689, 481);
+            this.btnDeleteGuardian.Location = new System.Drawing.Point(756, 478);
             this.btnDeleteGuardian.Name = "btnDeleteGuardian";
             this.btnDeleteGuardian.Size = new System.Drawing.Size(225, 38);
             this.btnDeleteGuardian.TabIndex = 15;
@@ -425,17 +429,13 @@
             this.btnNewGuardian.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnNewGuardian.ImageIndex = 8;
             this.btnNewGuardian.ImageList = this.imageList1;
-            this.btnNewGuardian.Location = new System.Drawing.Point(428, 441);
+            this.btnNewGuardian.Location = new System.Drawing.Point(540, 442);
             this.btnNewGuardian.Name = "btnNewGuardian";
             this.btnNewGuardian.Size = new System.Drawing.Size(195, 66);
             this.btnNewGuardian.TabIndex = 28;
             this.btnNewGuardian.Text = "Create New Guardian\r\n&& Add to Child";
             this.btnNewGuardian.UseVisualStyleBackColor = true;
             this.btnNewGuardian.Click += new System.EventHandler(this.btnNewGuardian_Click);
-            // 
-            // childBindingSource
-            // 
-            this.childBindingSource.DataSource = typeof(GreatHomeChildcare.Models.Child);
             // 
             // frmChildCrud
             // 
@@ -456,7 +456,7 @@
             this.Controls.Add(this.btnPhotoFromCam);
             this.Controls.Add(this.btnDeleteGuardian);
             this.Controls.Add(this.btnEditGuardian);
-            this.Controls.Add(this.btnAddGuardian);
+            this.Controls.Add(this.btnAddExistingGuardian);
             this.Controls.Add(this.dgvGuardians);
             this.Controls.Add(this.lblGuardians);
             this.Controls.Add(addressLabel);
@@ -473,11 +473,11 @@
             this.Name = "frmChildCrud";
             this.Text = "Child Management : Great Home Childcare";
             this.Load += new System.EventHandler(this.frmChildCrud_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.childBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvGuardians)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.photoPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.idNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.childBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -493,7 +493,7 @@
         private System.Windows.Forms.TextBox addressTextBox;
         private System.Windows.Forms.Label lblGuardians;
         private System.Windows.Forms.DataGridView dgvGuardians;
-        private System.Windows.Forms.Button btnAddGuardian;
+        private System.Windows.Forms.Button btnAddExistingGuardian;
         private System.Windows.Forms.Button btnEditGuardian;
         private System.Windows.Forms.Button btnDeleteGuardian;
         private System.Windows.Forms.Button btnPhotoFromCam;
