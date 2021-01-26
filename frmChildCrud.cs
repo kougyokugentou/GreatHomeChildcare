@@ -21,7 +21,7 @@ namespace GreatHomeChildcare
         //Global instance of the SqliteDataAccess object.
         SqliteDataAccess SqliteDataAccess = new SqliteDataAccess();
         Child child;
-        int guardian_id;
+        public static int guardian_id;
 
         enum Gender
         {
@@ -109,6 +109,11 @@ namespace GreatHomeChildcare
             LoadGuardiansForChild(child);
         }
 
+        /* Loads all guardians for a single child
+         * and populates them in the datagridview.
+         * INPUT: child
+         * OUTPUT: list of guardians to datagridview.
+         */
         private void LoadGuardiansForChild(Child child_in)
         {
             dgvGuardians.Rows.Clear();
@@ -121,6 +126,7 @@ namespace GreatHomeChildcare
             }
         }
 
+        // Close the form without saving changes to the child.
         private void btnCancel_Click(object sender, EventArgs e)
         {
             Close();
@@ -172,17 +178,27 @@ namespace GreatHomeChildcare
             }
         }
 
-        private void btnAddGuardian_Click(object sender, EventArgs e)
+        /* Adds an existing guardian to the child, if that guardian is not already assigned
+         * to the child. The existing guardians are in the drop down list immediately
+         * to the right of the button. First choose one, then click this button.
+         * INPUTS: Guardian from the dropdown list
+         * OUTPUTS: Updated list of authorized guardians for the child.
+         */
+        private void btnAddExistingGuardian_Click(object sender, EventArgs e)
         {
             int iOctomomCheck;
 
+            //If the user did not select a guardian from the drop-down list.
             if(cbExistingGuardians.Text == "Choose a guardian to add to this child")
             {
                 MessageBox.Show("Please select an existing guardian.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
                 return;
             }
-            
+
+            //The combobox is bound to a list of guardians, so we can just grab
+            // the individual guardian object.
             Guardian newGuardian = (Guardian)cbExistingGuardians.SelectedItem;
+
             //Check to see if newGuardian is already a guardian of this child.
             foreach(DataGridViewRow row in dgvGuardians.Rows)
             {
@@ -206,12 +222,21 @@ namespace GreatHomeChildcare
             LoadGuardiansForChild(child);
         }
 
+        /* Open a new form to create new guardians.
+         * INPUTS: none
+         * OUTPUTS: none
+         */
         private void btnNewGuardian_Click(object sender, EventArgs e)
         {
-            guardian_id = -1;
-            MessageBox.Show("Add (create) New guardian");
+            guardian_id = -1; //ENSURE!!!!
+
+            ShowGuardianCrudForm();
         }
 
+        /* Open a new form to update new guardians.
+         * INPUTS: none
+         * OUTPUTS: none
+         */
         private void btnEditGuardian_Click(object sender, EventArgs e)
         {
             /* Get the guardian's database ID which is secretly hidden
@@ -220,9 +245,33 @@ namespace GreatHomeChildcare
              */
             guardian_id = (int)dgvGuardians.CurrentRow.Cells[0].Value;
 
-            MessageBox.Show("Edit Guardian");
+            ShowGuardianCrudForm();
         }
 
+        /* Single function to show guardian crud form
+         * as both the 'new' and the 'update' buttons need it,
+         * the only difference is passing guardian_id.
+         */
+        private void ShowGuardianCrudForm()
+        {
+            Form frmGCrud = new frmGuardianCrud();
+            frmGCrud.FormClosed += new FormClosedEventHandler(GCrudFormClosed);
+            frmGCrud.Show();
+            Hide();
+        }
+
+        //Show this admin screen after the child crud form is closed.
+        private void GCrudFormClosed(object sender, FormClosedEventArgs e)
+        {
+            LoadGuardiansForChild(child);
+            Show();
+        }
+
+        /* Irrevocably deletes a guardian and all attendence data
+         * for that guardian out of the database.
+         * INPUT: guardian
+         * OUTPUT: void
+         */
         private void btnDeleteGuardian_Click(object sender, EventArgs e)
         {
             /* Get the guardian's database ID which is secretly hidden
@@ -231,13 +280,42 @@ namespace GreatHomeChildcare
              */
             guardian_id = (int)dgvGuardians.CurrentRow.Cells[0].Value;
 
-            MessageBox.Show("Delete Guardian");
+            DialogResult dr = MessageBox.Show(">>WARNING!! Deleting the guardian will delete all attendence records associated with the guardian for all children.\n\rYOU CANNOT RECOVER OR UNDO THIS OPERATION.\n\rTHIS IS YOUR FINAL WARNING.\n\rDo you wish to continue?","Great Home Childcare",MessageBoxButtons.YesNoCancel,MessageBoxIcon.None);
+
+            if(dr == DialogResult.Yes)
+            {
+                Guardian guardian = new Guardian(); //does not need to be full object.
+                guardian.id = guardian_id;
+
+                //Delete all the attendence data of that guardian.
+                SqliteDataAccess.DeleteAttendenceForGuardian(guardian);
+
+                //Remove the guardian from the child.
+                SqliteDataAccess.RemoveGuardianFromAllChildren(guardian);
+
+                //So long, sweet prince.
+                SqliteDataAccess.DeleteGuardian(guardian);
+                
+                MessageBox.Show("The guardian has been deleted.");
+                LoadGuardiansForChild(child);
+            }
+            else
+            {
+                MessageBox.Show("Delete canceled, no changes have been made.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+            }
         }
 
+        /* Saves a new child to the DB
+         * or updates an existing child.
+         * INPUT: Data from form
+         * OUTPUT: Data to SQL database.
+         */
         private void btnSave_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Save and close");
             return;
+
+            //TODO: Validate form
 
             //collect form and save to child object.
             child.id = (int)idNumericUpDown.Value;
@@ -261,12 +339,14 @@ namespace GreatHomeChildcare
             else
             {
                 //TODO: write code to add child. >> bee-gee's "Stayin' alive" plays <<
+                //TED
                 /* PB&J
                  * Pop new window to add at least one guardian to the child, either existing or new.
                  * Validate guardian exist in db upon return to this form.
                  * if valid, then populate guardian table and update authorized_guardians
                  * LAST THING: InsertNewStudent(child);
                  */
+
             }
             Close();
         }
@@ -296,6 +376,5 @@ namespace GreatHomeChildcare
                 return;
             }
         }
-
     }
 }
