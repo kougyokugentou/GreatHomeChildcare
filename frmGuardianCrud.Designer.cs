@@ -37,6 +37,7 @@ namespace GreatHomeChildcare
             System.Windows.Forms.Label isAdminLabel;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmGuardianCrud));
             this.idNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.guardianBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.lastNameTextBox = new System.Windows.Forms.TextBox();
             this.firstNameTextBox = new System.Windows.Forms.TextBox();
             this.phoneNumberNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -49,16 +50,15 @@ namespace GreatHomeChildcare
             this.lblPinEntry = new System.Windows.Forms.Label();
             this.tbPinNumber = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.guardianBindingSource = new System.Windows.Forms.BindingSource(this.components);
             lastNameLabel = new System.Windows.Forms.Label();
             firstNameLabel = new System.Windows.Forms.Label();
             phoneNumberLabel = new System.Windows.Forms.Label();
             emailAddressLabel = new System.Windows.Forms.Label();
             isAdminLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.idNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.guardianBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.phoneNumberNumericUpDown)).BeginInit();
             this.panelPinEntry.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.guardianBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // lastNameLabel
@@ -116,6 +116,10 @@ namespace GreatHomeChildcare
             this.idNumericUpDown.TabIndex = 2;
             this.idNumericUpDown.TabStop = false;
             this.idNumericUpDown.Visible = false;
+            // 
+            // guardianBindingSource
+            // 
+            this.guardianBindingSource.DataSource = typeof(GreatHomeChildcare.Models.Guardian);
             // 
             // lastNameTextBox
             // 
@@ -256,10 +260,6 @@ namespace GreatHomeChildcare
             this.tableLayoutPanel1.Size = new System.Drawing.Size(250, 240);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
-            // guardianBindingSource
-            // 
-            this.guardianBindingSource.DataSource = typeof(GreatHomeChildcare.Models.Guardian);
-            // 
             // frmGuardianCrud
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -281,13 +281,13 @@ namespace GreatHomeChildcare
             this.Controls.Add(this.idNumericUpDown);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmGuardianCrud";
-            this.Text = "frmGuardianCrud";
+            this.Text = "Guardian Management: Great Home Childcare";
             this.Load += new System.EventHandler(this.frmGuardianCrud_Load);
             ((System.ComponentModel.ISupportInitialize)(this.idNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.guardianBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.phoneNumberNumericUpDown)).EndInit();
             this.panelPinEntry.ResumeLayout(false);
             this.panelPinEntry.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.guardianBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
