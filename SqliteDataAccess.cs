@@ -104,6 +104,20 @@ namespace GreatHomeChildcare
 
         // ***************** Read *****************
 
+        /* Gets a single guardian from the DB given db id.
+         * INPUT: integer
+         * OUTPUT Guardian object or null
+         */
+        internal Guardian GetGuardianById(int id_in)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string sqlQuery = "SELECT * FROM Guardians WHERE id=@id;";
+                Guardian output = cnn.Query<Guardian>(sqlQuery, new { id = id_in }).SingleOrDefault();
+                return output;
+            }
+        }
+
         /* Gets all guardians from the DB.
          * INPUT: void
          * OUTPUT: list of guardian objects.
@@ -147,6 +161,14 @@ namespace GreatHomeChildcare
         }
         // ***************** Update *****************
         // ***************** Delete *****************
+        internal void DeleteGuardian(Guardian guardian_in)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string strQuery = "DELETE FROM Guardians WHERE id = @id;";
+                cnn.Execute(strQuery, guardian_in);
+            }
+        }
         #endregion
 
         #region authorized_guardians
@@ -219,16 +241,12 @@ WHERE Guardians.id = @id
         // ***************** Update *****************
         // ***************** Delete *****************
 
-        //TODO: Not sure if I need this.
-        internal void RemoveGuardianFromChild(Child child_in, Guardian guardian_in)
+        internal void RemoveGuardianFromAllChildren(Guardian guardian_in)
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
-                string strQuery = "DELETE FROM Authorized_Guardians WHERE child_id = @_child_id AND guardian_id = @_guardian_id;";
-                cnn.Execute(strQuery, new { 
-                    _child_id = child_in.id,
-                    _guardian_id = guardian_in.id
-                });
+                string strQuery = "DELETE FROM Authorized_Guardians WHERE guardian_id = @id;";
+                cnn.Execute(strQuery, guardian_in);
             }
         }
 
@@ -282,6 +300,15 @@ WHERE Guardians.id = @id
         // ***************** Update *****************
 
         // ***************** Delete *****************
+        internal void DeleteAttendenceForGuardian(Guardian for_guardian)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string strQuery = "DELETE FROM Attendence WHERE guardian_id = @id;";
+                cnn.Execute(strQuery, for_guardian);
+            }
+        }
+
         #endregion
 
         #region misc
