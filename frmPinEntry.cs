@@ -140,10 +140,14 @@ namespace GreatHomeChildcare
             {
                 dr = MessageBox.Show("Program not setup yet. Setup now?", "Great Home Childcare", MessageBoxButtons.YesNo, MessageBoxIcon.None);
 
-                //TODO: Open the form to add a new guardian.
+                // Open the form to add a new guardian.
                 if (dr == DialogResult.Yes)
-                    return;
-
+                {
+                    Form frm2 = new frmGuardianCrud();
+                    frm2.FormClosed += new FormClosedEventHandler(MainFormClosed);
+                    frm2.Show();
+                    Hide();
+                }
                 else //Show a message and close the application.
                 {
                     MessageBox.Show("Come back when you are ready to setup the program!", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
