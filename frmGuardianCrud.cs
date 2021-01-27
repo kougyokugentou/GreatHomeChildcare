@@ -48,7 +48,7 @@ namespace GreatHomeChildcare
             {
                 isAdminComboBox.SelectedItem = IsAdmin.Yes;
                 isAdminComboBox.Enabled = false;
-                
+                btnCancelClose.Enabled = false;
             }
             else
             {
@@ -64,12 +64,12 @@ namespace GreatHomeChildcare
                 phoneNumberNumericUpDown.Value = guardian.PhoneNumber;
                 emailAddressTextBox.Text = guardian.EmailAddress;
                 strPin = guardian.PinNumber.ToString();
+                tbPinNumber.Text = "****";
 
                 //Load the isAdmin combo box based from enum value.
                 //ref: chuck costarella
                 Enum.TryParse<IsAdmin>(guardian.isAdmin.ToString(), out adminOut);
                 isAdminComboBox.SelectedItem = adminOut;
-
             }
         }
 
@@ -87,7 +87,6 @@ namespace GreatHomeChildcare
             Close();
         }
 
-        //TODO: implement
         /* Save a new guardian or update 
          * an existing guardian.
          * INPUT: Data from form.
@@ -98,6 +97,7 @@ namespace GreatHomeChildcare
             MessageBox.Show("Save and close clicked");
 
             this.Validate();
+            this.ValidateChildren();
 
             // Check to see if any control is in error.
             foreach (Control c in errorProvider1.ContainerControl.Controls)
@@ -115,6 +115,15 @@ namespace GreatHomeChildcare
             guardian.PhoneNumber = long.Parse(phoneNumberNumericUpDown.Value.ToString());
             guardian.EmailAddress = emailAddressTextBox.Text;
             guardian.PinNumber = Int32.Parse(strPin);
+
+            if(guardian.id == 0) // new guardian
+            {
+                SqliteDataAccess.InsertNewGuardian(guardian);
+            }
+            else
+            {
+                SqliteDataAccess.UpdateGuardian(guardian);
+            }
 
             Close();
         }
