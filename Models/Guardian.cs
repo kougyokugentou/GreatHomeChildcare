@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GreatHomeChildcare.Models
 {
-    class Guardian
+    public class Guardian
     {
         public int id { get; set; }
         public string FirstName { get; set; }
