@@ -50,6 +50,19 @@ namespace GreatHomeChildcare
             this.lblPinEntry = new System.Windows.Forms.Label();
             this.tbPinNumber = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnBack = new System.Windows.Forms.Button();
+            this.btn0 = new System.Windows.Forms.Button();
+            this.btn3 = new System.Windows.Forms.Button();
+            this.btn1 = new System.Windows.Forms.Button();
+            this.btn6 = new System.Windows.Forms.Button();
+            this.btn5 = new System.Windows.Forms.Button();
+            this.btn4 = new System.Windows.Forms.Button();
+            this.btn8 = new System.Windows.Forms.Button();
+            this.btn7 = new System.Windows.Forms.Button();
+            this.btn2 = new System.Windows.Forms.Button();
+            this.btnCE = new System.Windows.Forms.Button();
+            this.btn9 = new System.Windows.Forms.Button();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             lastNameLabel = new System.Windows.Forms.Label();
             firstNameLabel = new System.Windows.Forms.Label();
             phoneNumberLabel = new System.Windows.Forms.Label();
@@ -59,6 +72,8 @@ namespace GreatHomeChildcare
             ((System.ComponentModel.ISupportInitialize)(this.guardianBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.phoneNumberNumericUpDown)).BeginInit();
             this.panelPinEntry.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // lastNameLabel
@@ -128,6 +143,7 @@ namespace GreatHomeChildcare
             this.lastNameTextBox.Name = "lastNameTextBox";
             this.lastNameTextBox.Size = new System.Drawing.Size(100, 22);
             this.lastNameTextBox.TabIndex = 3;
+            this.lastNameTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.String_TextBox_Validating);
             // 
             // firstNameTextBox
             // 
@@ -136,6 +152,7 @@ namespace GreatHomeChildcare
             this.firstNameTextBox.Name = "firstNameTextBox";
             this.firstNameTextBox.Size = new System.Drawing.Size(100, 22);
             this.firstNameTextBox.TabIndex = 4;
+            this.firstNameTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.String_TextBox_Validating);
             // 
             // phoneNumberNumericUpDown
             // 
@@ -159,6 +176,7 @@ namespace GreatHomeChildcare
             0,
             0,
             0});
+            this.phoneNumberNumericUpDown.Validating += new System.ComponentModel.CancelEventHandler(this.phoneNumberNumericUpDown_Validating);
             // 
             // emailAddressTextBox
             // 
@@ -167,6 +185,7 @@ namespace GreatHomeChildcare
             this.emailAddressTextBox.Name = "emailAddressTextBox";
             this.emailAddressTextBox.Size = new System.Drawing.Size(190, 22);
             this.emailAddressTextBox.TabIndex = 8;
+            this.emailAddressTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.emailAddressTextBox_Validating);
             // 
             // isAdminComboBox
             // 
@@ -176,6 +195,7 @@ namespace GreatHomeChildcare
             this.isAdminComboBox.Name = "isAdminComboBox";
             this.isAdminComboBox.Size = new System.Drawing.Size(121, 24);
             this.isAdminComboBox.TabIndex = 13;
+            this.isAdminComboBox.Validating += new System.ComponentModel.CancelEventHandler(this.isAdminComboBox_Validating);
             // 
             // btnCancelClose
             // 
@@ -242,6 +262,8 @@ namespace GreatHomeChildcare
             this.tbPinNumber.TabIndex = 3;
             this.tbPinNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.tbPinNumber.UseSystemPasswordChar = true;
+            this.tbPinNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbPinNumber_KeyPress);
+            this.tbPinNumber.Validating += new System.ComponentModel.CancelEventHandler(this.tbPinNumber_Validating);
             // 
             // tableLayoutPanel1
             // 
@@ -249,6 +271,18 @@ namespace GreatHomeChildcare
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.Controls.Add(this.btnBack, 2, 3);
+            this.tableLayoutPanel1.Controls.Add(this.btn0, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.btn3, 2, 2);
+            this.tableLayoutPanel1.Controls.Add(this.btn1, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.btn6, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.btn5, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.btn4, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.btn8, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.btn7, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.btn2, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.btnCE, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.btn9, 2, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 55);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -260,11 +294,147 @@ namespace GreatHomeChildcare
             this.tableLayoutPanel1.Size = new System.Drawing.Size(250, 240);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
+            // btnBack
+            // 
+            this.btnBack.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnBack.Location = new System.Drawing.Point(169, 183);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(78, 54);
+            this.btnBack.TabIndex = 11;
+            this.btnBack.Text = "<<";
+            this.btnBack.UseVisualStyleBackColor = true;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
+            // 
+            // btn0
+            // 
+            this.btn0.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn0.Location = new System.Drawing.Point(86, 183);
+            this.btn0.Name = "btn0";
+            this.btn0.Size = new System.Drawing.Size(77, 54);
+            this.btn0.TabIndex = 10;
+            this.btn0.Text = "0";
+            this.btn0.UseVisualStyleBackColor = true;
+            this.btn0.Click += new System.EventHandler(this.btnNumButton_Click);
+            // 
+            // btn3
+            // 
+            this.btn3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn3.Location = new System.Drawing.Point(169, 123);
+            this.btn3.Name = "btn3";
+            this.btn3.Size = new System.Drawing.Size(78, 54);
+            this.btn3.TabIndex = 8;
+            this.btn3.Text = "3";
+            this.btn3.UseVisualStyleBackColor = true;
+            this.btn3.Click += new System.EventHandler(this.btnNumButton_Click);
+            // 
+            // btn1
+            // 
+            this.btn1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn1.Location = new System.Drawing.Point(3, 123);
+            this.btn1.Name = "btn1";
+            this.btn1.Size = new System.Drawing.Size(77, 54);
+            this.btn1.TabIndex = 6;
+            this.btn1.Text = "1";
+            this.btn1.UseVisualStyleBackColor = true;
+            this.btn1.Click += new System.EventHandler(this.btnNumButton_Click);
+            // 
+            // btn6
+            // 
+            this.btn6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn6.Location = new System.Drawing.Point(169, 63);
+            this.btn6.Name = "btn6";
+            this.btn6.Size = new System.Drawing.Size(78, 54);
+            this.btn6.TabIndex = 5;
+            this.btn6.Text = "6";
+            this.btn6.UseVisualStyleBackColor = true;
+            this.btn6.Click += new System.EventHandler(this.btnNumButton_Click);
+            // 
+            // btn5
+            // 
+            this.btn5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn5.Location = new System.Drawing.Point(86, 63);
+            this.btn5.Name = "btn5";
+            this.btn5.Size = new System.Drawing.Size(77, 54);
+            this.btn5.TabIndex = 4;
+            this.btn5.Text = "5";
+            this.btn5.UseVisualStyleBackColor = true;
+            this.btn5.Click += new System.EventHandler(this.btnNumButton_Click);
+            // 
+            // btn4
+            // 
+            this.btn4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn4.Location = new System.Drawing.Point(3, 63);
+            this.btn4.Name = "btn4";
+            this.btn4.Size = new System.Drawing.Size(77, 54);
+            this.btn4.TabIndex = 3;
+            this.btn4.Text = "4";
+            this.btn4.UseVisualStyleBackColor = true;
+            this.btn4.Click += new System.EventHandler(this.btnNumButton_Click);
+            // 
+            // btn8
+            // 
+            this.btn8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn8.Location = new System.Drawing.Point(86, 3);
+            this.btn8.Name = "btn8";
+            this.btn8.Size = new System.Drawing.Size(77, 54);
+            this.btn8.TabIndex = 1;
+            this.btn8.Text = "8";
+            this.btn8.UseVisualStyleBackColor = true;
+            this.btn8.Click += new System.EventHandler(this.btnNumButton_Click);
+            // 
+            // btn7
+            // 
+            this.btn7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn7.Location = new System.Drawing.Point(3, 3);
+            this.btn7.Name = "btn7";
+            this.btn7.Size = new System.Drawing.Size(77, 54);
+            this.btn7.TabIndex = 0;
+            this.btn7.Text = "7";
+            this.btn7.UseVisualStyleBackColor = true;
+            this.btn7.Click += new System.EventHandler(this.btnNumButton_Click);
+            // 
+            // btn2
+            // 
+            this.btn2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn2.Location = new System.Drawing.Point(86, 123);
+            this.btn2.Name = "btn2";
+            this.btn2.Size = new System.Drawing.Size(77, 54);
+            this.btn2.TabIndex = 7;
+            this.btn2.Text = "2";
+            this.btn2.UseVisualStyleBackColor = true;
+            this.btn2.Click += new System.EventHandler(this.btnNumButton_Click);
+            // 
+            // btnCE
+            // 
+            this.btnCE.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnCE.Location = new System.Drawing.Point(3, 183);
+            this.btnCE.Name = "btnCE";
+            this.btnCE.Size = new System.Drawing.Size(77, 54);
+            this.btnCE.TabIndex = 9;
+            this.btnCE.Text = "CE";
+            this.btnCE.UseVisualStyleBackColor = true;
+            this.btnCE.Click += new System.EventHandler(this.btnCE_Click);
+            // 
+            // btn9
+            // 
+            this.btn9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn9.Location = new System.Drawing.Point(169, 3);
+            this.btn9.Name = "btn9";
+            this.btn9.Size = new System.Drawing.Size(78, 54);
+            this.btn9.TabIndex = 2;
+            this.btn9.Text = "9";
+            this.btn9.UseVisualStyleBackColor = true;
+            this.btn9.Click += new System.EventHandler(this.btnNumButton_Click);
+            // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            // 
             // frmGuardianCrud
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(624, 321);
+            this.ClientSize = new System.Drawing.Size(636, 368);
             this.Controls.Add(this.panelPinEntry);
             this.Controls.Add(this.btnSaveClose);
             this.Controls.Add(this.btnCancelClose);
@@ -288,6 +458,8 @@ namespace GreatHomeChildcare
             ((System.ComponentModel.ISupportInitialize)(this.phoneNumberNumericUpDown)).EndInit();
             this.panelPinEntry.ResumeLayout(false);
             this.panelPinEntry.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -309,5 +481,18 @@ namespace GreatHomeChildcare
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label lblPinEntry;
         private System.Windows.Forms.TextBox tbPinNumber;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
+        private System.Windows.Forms.Button btnBack;
+        private System.Windows.Forms.Button btn0;
+        private System.Windows.Forms.Button btnCE;
+        private System.Windows.Forms.Button btn3;
+        private System.Windows.Forms.Button btn2;
+        private System.Windows.Forms.Button btn1;
+        private System.Windows.Forms.Button btn6;
+        private System.Windows.Forms.Button btn5;
+        private System.Windows.Forms.Button btn4;
+        private System.Windows.Forms.Button btn9;
+        private System.Windows.Forms.Button btn8;
+        private System.Windows.Forms.Button btn7;
     }
 }
