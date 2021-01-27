@@ -264,6 +264,19 @@ namespace GreatHomeChildcare
         //Show this admin screen after the child crud form is closed.
         private void GCrudFormClosed(object sender, FormClosedEventArgs e)
         {
+            //This TOTALLY works!!!
+            Guardian gFromGCrudForm = new Guardian();
+            gFromGCrudForm = frmGuardianCrud.guardian;
+
+            //We added a new guardian.
+            //TODO: TEST
+            if(gFromGCrudForm.id == 0)
+            {
+                Guardian gToAddToChild = new Guardian();
+                gToAddToChild = SqliteDataAccess.GetGuardianByPin(gFromGCrudForm.PinNumber);
+                SqliteDataAccess.AddNewGuardianToChild(child, gToAddToChild);
+            }
+
             LoadGuardiansForChild(child);
             Show();
         }
@@ -326,7 +339,13 @@ namespace GreatHomeChildcare
                 }
             }
 
-            //TODO: Ensure the child has at least one guardian.
+            // Ensure the child has at least one guardian. This should work...
+            // TODO: Test
+            if(dgvGuardians.Rows.Count < 1)
+            {
+                MessageBox.Show("The child has no guardians assigned. Please fix that and try again.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+                return;
+            }
 
             //collect form and save to child object.
             child.id = (int)idNumericUpDown.Value;
@@ -342,6 +361,7 @@ namespace GreatHomeChildcare
             else
                 child.photo = ImageWrangler.ImageToByteArray(photoPictureBox.Image);
 
+            //TODO: test
             if(child.id > 0) //Should be all that's needed.....
             {
                 SqliteDataAccess.UpdateChild(child);
@@ -410,7 +430,10 @@ namespace GreatHomeChildcare
                 { errorProvider1.SetError(cb, ""); }
         }
 
-        //Basic validation on DOB, can't be today.
+        /* Validation of DOB Date Time Picker does not really do any validation
+         * other than check the basic, most probable case of the date is still today.
+         * Yes, the Child can literally be born yesterday, and enrolled in daycare.
+         */
         private void dOBMonthCalendar_Validating(object sender, CancelEventArgs e)
         {
             MonthCalendar mc = (MonthCalendar)sender;
