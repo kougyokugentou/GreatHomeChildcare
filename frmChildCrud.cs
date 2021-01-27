@@ -130,6 +130,13 @@ namespace GreatHomeChildcare
         // Close the form without saving changes to the child.
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            // Ensure an existing child has at least one guardian.
+            if (idNumericUpDown.Value != 0 && dgvGuardians.Rows.Count < 1)
+            {
+                MessageBox.Show("The child has no guardians assigned. Please fix that and try again.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+                return;
+            }
+
             Close();
         }
 
@@ -339,8 +346,7 @@ namespace GreatHomeChildcare
                 }
             }
 
-            // Ensure the child has at least one guardian. This should work...
-            // TODO: Test
+            // Ensure the child has at least one guardian.
             if(dgvGuardians.Rows.Count < 1)
             {
                 MessageBox.Show("The child has no guardians assigned. Please fix that and try again.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
@@ -367,9 +373,9 @@ namespace GreatHomeChildcare
                 SqliteDataAccess.UpdateChild(child);
                 MessageBox.Show("Child updated successfully! Data saved!");
             }
-            else
+            else //add child. >> bee-gee's "Stayin' alive" plays <<
             {
-                //TODO: write code to add child. >> bee-gee's "Stayin' alive" plays <<
+                //TODO: write code to add child.
                 //TED
                 /* PB&J
                  * Pop new window to add at least one guardian to the child, either existing or new.
