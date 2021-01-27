@@ -28,7 +28,7 @@ namespace GreatHomeChildcare
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
-                string strQuery = "INSERT INTO STUDENTS (FirstName, LastName, DOB, address, race, gender, photo)" +
+                string strQuery = "INSERT INTO Children (FirstName, LastName, DOB, address, race, gender, photo)" +
                     "VALUES (@FirstName, @LastName, @DOB, @address, @race, @gender, @photo);";
                 cnn.Execute(strQuery, child);
             }
@@ -101,6 +101,15 @@ namespace GreatHomeChildcare
 
         #region guardian
         // ***************** Create *****************
+        internal void InsertNewGuardian(Guardian guardian_in)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string strQuery = "INSERT INTO Guardians (FirstName, LastName, PhoneNumber, EmailAddress, PinNumber, IsAdmin)" +
+                    "VALUES (@FirstName, @LastName, @PhoneNumber, @EmailAddress, @PinNumber, @IsAdmin);";
+                cnn.Execute(strQuery, guardian_in);
+            }
+        }
 
         // ***************** Read *****************
 
@@ -160,6 +169,17 @@ namespace GreatHomeChildcare
             }
         }
         // ***************** Update *****************
+        internal void UpdateGuardian(Guardian guardian_in)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string strQuery = "UPDATE Guardians SET FirstName = @FirstName, LastName = @LastName, " +
+                    "PhoneNumber = @PhoneNumber, EmailAddress = @EmailAddress, PinNumber = @PinNumber, " +
+                    "isAdmin = @isAdmin WHERE id=@id";
+                cnn.Execute(strQuery, guardian_in);
+            }
+        }
+
         // ***************** Delete *****************
         internal void DeleteGuardian(Guardian guardian_in)
         {
