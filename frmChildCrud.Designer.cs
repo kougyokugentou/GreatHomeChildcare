@@ -167,6 +167,7 @@
             this.firstNameTextBox.Name = "firstNameTextBox";
             this.firstNameTextBox.Size = new System.Drawing.Size(100, 22);
             this.firstNameTextBox.TabIndex = 2;
+            this.firstNameTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.String_TextBox_Validating);
             // 
             // childBindingSource
             // 
@@ -179,6 +180,7 @@
             this.lastNameTextBox.Name = "lastNameTextBox";
             this.lastNameTextBox.Size = new System.Drawing.Size(100, 22);
             this.lastNameTextBox.TabIndex = 4;
+            this.lastNameTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.String_TextBox_Validating);
             // 
             // raceTextBox
             // 
@@ -187,6 +189,7 @@
             this.raceTextBox.Name = "raceTextBox";
             this.raceTextBox.Size = new System.Drawing.Size(100, 22);
             this.raceTextBox.TabIndex = 6;
+            this.raceTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.String_TextBox_Validating);
             // 
             // genderComboBox
             // 
@@ -196,6 +199,7 @@
             this.genderComboBox.Name = "genderComboBox";
             this.genderComboBox.Size = new System.Drawing.Size(121, 24);
             this.genderComboBox.TabIndex = 8;
+            this.genderComboBox.Validating += new System.ComponentModel.CancelEventHandler(this.genderComboBox_Validating);
             // 
             // addressTextBox
             // 
@@ -205,6 +209,7 @@
             this.addressTextBox.Name = "addressTextBox";
             this.addressTextBox.Size = new System.Drawing.Size(283, 79);
             this.addressTextBox.TabIndex = 10;
+            this.addressTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.String_TextBox_Validating);
             // 
             // lblGuardians
             // 
@@ -394,6 +399,7 @@
             this.dOBMonthCalendar.MaxSelectionCount = 1;
             this.dOBMonthCalendar.Name = "dOBMonthCalendar";
             this.dOBMonthCalendar.TabIndex = 25;
+            this.dOBMonthCalendar.Validating += new System.ComponentModel.CancelEventHandler(this.dOBMonthCalendar_Validating);
             // 
             // pic_openFileDialog
             // 

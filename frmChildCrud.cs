@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GreatHomeChildcare.Models;
@@ -312,10 +313,20 @@ namespace GreatHomeChildcare
          */
         private void btnSave_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Save and close");
-            return;
+            //Perform sanity check, ensure all data is filled except picture
+            this.Validate();
 
-            //TODO: Validate form
+            // Check to see if any control is in error.
+            foreach (Control c in errorProvider1.ContainerControl.Controls)
+            {
+                if (errorProvider1.GetError(c) != "")
+                {
+                    MessageBox.Show("Child not saved due to errors on the form!", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+                    return;
+                }
+            }
+
+            //TODO: Ensure the child has at least one guardian.
 
             //collect form and save to child object.
             child.id = (int)idNumericUpDown.Value;
@@ -376,5 +387,39 @@ namespace GreatHomeChildcare
                 return;
             }
         }
+
+        // Basic input validation on a string given a textbox control
+        // ensures only values a-z, with length two or greater.
+        private void String_TextBox_Validating(object sender, CancelEventArgs e)
+        {
+            TextBox tb = (TextBox)sender;
+            if (!Regex.IsMatch(tb.Text, "[A-Za-z]{2,}"))
+                errorProvider1.SetError(tb, "Enter a value a-z only of length two or longer.");
+            else
+                errorProvider1.SetError(tb, "");
+        }
+        
+        //Ensures a gender was chosen.
+        private void genderComboBox_Validating(object sender, CancelEventArgs e)
+        {
+            ComboBox cb = (ComboBox)sender;
+
+            if (cb.SelectedIndex < 0)
+                { errorProvider1.SetError(cb, "Select an item."); }
+            else
+                { errorProvider1.SetError(cb, ""); }
+        }
+
+        //Basic validation on DOB, can't be today.
+        private void dOBMonthCalendar_Validating(object sender, CancelEventArgs e)
+        {
+            MonthCalendar mc = (MonthCalendar)sender;
+
+            if (mc.SelectionStart == DateTime.Today)
+                { errorProvider1.SetError(mc, "Please choose the DOB."); }
+            else
+                { errorProvider1.SetError(mc, ""); }
+        }
+
     }
 }
