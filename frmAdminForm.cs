@@ -94,7 +94,7 @@ namespace GreatHomeChildcare
         
         /* Seperate function to show the crud form
          * because both the add and the update buttons
-         * will show the crud form.
+         * will show the same crud form.
          * INPUT: void
          * OUTPUT: void
          */
