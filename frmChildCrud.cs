@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using GreatHomeChildcare.Models;
 
@@ -74,6 +70,11 @@ namespace GreatHomeChildcare
         {
             List<Guardian> guardians = new List<Guardian>();
             guardians = SqliteDataAccess.GetAllGuardians();
+
+            cbExistingGuardians.DataSource = null;
+
+            //TODO: check if needed.
+            //cbExistingGuardians.Items.Clear();
 
             cbExistingGuardians.DataSource = guardians;
             cbExistingGuardians.DisplayMember = "DisplayName";
@@ -284,6 +285,7 @@ namespace GreatHomeChildcare
                 SqliteDataAccess.AddNewGuardianToChild(child, gToAddToChild);
             }
 
+            FillGuardiansComboBox();
             LoadGuardiansForChild(child);
             Show();
         }
@@ -346,13 +348,6 @@ namespace GreatHomeChildcare
                 }
             }
 
-            // Ensure the child has at least one guardian.
-            if(dgvGuardians.Rows.Count < 1)
-            {
-                MessageBox.Show("The child has no guardians assigned. Please fix that and try again.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
-                return;
-            }
-
             //collect form and save to child object.
             child.id = (int)idNumericUpDown.Value;
             child.address = addressTextBox.Text;
@@ -370,13 +365,18 @@ namespace GreatHomeChildcare
             //TODO: test
             if(child.id > 0) //Should be all that's needed.....
             {
+                // Ensure the child has at least one guardian.
+                if (dgvGuardians.Rows.Count < 1)
+                {
+                    MessageBox.Show("The child has no guardians assigned. Please fix that and try again.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+                    return;
+                }
+
                 SqliteDataAccess.UpdateChild(child);
                 MessageBox.Show("Child updated successfully! Data saved!");
             }
             else //add child. >> bee-gee's "Stayin' alive" plays <<
             {
-                //TODO: write code to add child.
-                //TED
                 /* PB&J
                  * Pop new window to add at least one guardian to the child, either existing or new.
                  * Validate guardian exist in db upon return to this form.
@@ -384,6 +384,36 @@ namespace GreatHomeChildcare
                  * LAST THING: InsertNewStudent(child);
                  */
 
+                //STEP 1: Attach a guardian to this child.
+
+                /* If the user did not select a guardian from the drop-down list.,
+                 * Pop up the new window to add at least one guardian to the child.
+                 * We do NOT need to attach them to the child here as that is handled
+                 * in the GCrudFormClosed delegate.
+                 */
+                if (cbExistingGuardians.Text == "Choose a guardian to add to this child")
+                {
+                    btnNewGuardian_Click(btnSave, EventArgs.Empty);                    
+                }
+                else //An existing guardian was selected. Code to attach is handled by the 'add existing guardian' button.
+                {
+                    btnAddExistingGuardian_Click(btnSave, EventArgs.Empty);
+                }
+
+                //STEP 2:
+                //Validate the child has at least one guardian.
+                if(dgvGuardians.RowCount < 0)
+                {
+                    MessageBox.Show("The new child must have at least one guardian.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+                    return;
+                }
+
+                /* STEP 3:
+                 * Add new child
+                 * The form has already been validated...
+                 * Do not need to add a guardian to the child here as that is taken care of in step 1.
+                 */
+                SqliteDataAccess.InsertNewChild(child);
             }
             Close();
         }
