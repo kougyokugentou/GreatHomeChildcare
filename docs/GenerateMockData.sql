@@ -1,6 +1,6 @@
 INSERT INTO Children(FirstName,LastName,DOB,address,race,gender) VALUES ('Joe','Smith','1/13/2021 4:56:33 PM','123 Fake Street','White','Male');
 INSERT INTO Children(FirstName,LastName,DOB,address,race,gender) VALUES ('Mary','Smith','1/13/2021 4:56:33 PM','123 Fake Street','White','Female');
-INSERT INTO Children(FirstName,LastName,DOB,address,race,gender) VALUES ('Katie','Admin','1/13/2021 4:56:33 PM','123 Fake Street','White','Male');
+INSERT INTO Children(FirstName,LastName,DOB,address,race,gender) VALUES ('Katie','Admin','1/13/2021 4:56:33 PM','123 Fake Street','White','Female');
 
 INSERT INTO Guardians(FirstName,LastName,PhoneNumber,EmailAddress,PinNumber,isAdmin) VALUES ('Main','Admin',1000000001,'main@admin.com','9999',1);
 INSERT INTO Guardians(FirstName,LastName,PhoneNumber,EmailAddress,PinNumber) VALUES ('Parent','Smith',1000000001,'parent@smith.com','1234');
