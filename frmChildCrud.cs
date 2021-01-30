@@ -152,6 +152,17 @@ namespace GreatHomeChildcare
                 return;
             }
 
+            /* If it's a new child and has one guardian already assigned, don't allow cancelling.
+             * This is a sloppy-ass hack as popping the new guardian form on 'save and close' a new child
+             * does not correctly work; and the program saves the child before attaching a new guardian
+             * any god damn ways.... so fuck you. HOURS_WASTED_ON_TRYING_TO_FIX_IT = 10;
+             */
+            if (idNumericUpDown.Value == 0 && dgvGuardians.Rows.Count >= 1)
+            {
+                MessageBox.Show("You have already assigned this new child a guardian. Please choose save and close instead.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+                return;
+            }
+
             Close();
         }
 
@@ -296,6 +307,7 @@ namespace GreatHomeChildcare
             //This TOTALLY works!!!
             Guardian gFromGCrudForm = new Guardian();
             gFromGCrudForm = frmGuardianCrud.guardian;
+            int next_child_id = 0;
 
             //We added a new guardian.
             //TODO: TEST
@@ -303,7 +315,14 @@ namespace GreatHomeChildcare
             {
                 Guardian gToAddToChild = new Guardian();
                 gToAddToChild = SqliteDataAccess.GetGuardianByPin(gFromGCrudForm.PinNumber);
-                SqliteDataAccess.AddNewGuardianToChild(child, gToAddToChild);
+
+                //If this is a new child, get the next available child ID.
+                if(idNumericUpDown.Value <= 0)
+                {
+                    next_child_id = SqliteDataAccess.GetNextChildID();
+                    child.id = next_child_id;
+                }
+                 SqliteDataAccess.AddNewGuardianToChild(child, gToAddToChild);
             }
 
             FillGuardiansComboBox();
@@ -424,25 +443,21 @@ namespace GreatHomeChildcare
                  * LAST THING: InsertNewStudent(child);
                  */
 
-                //STEP 1: Attach a guardian to this child.
+                //STEP 1: Attach a guardian to this child. This is done by "create new guardian and add to child" button.
 
-                /* If the user did not select a guardian from the drop-down list.,
-                 * Pop up the new window to add at least one guardian to the child.
-                 * We do NOT need to attach them to the child here as that is handled
-                 * in the GCrudFormClosed delegate.
+                /* If the user selected a guardian from the drop-down list.,
+                 * This is a sloppy-ass hack as popping the new guardian form on 'save and close' a new child
+                 * does not correctly work; and the program saves the child before attaching a new guardian
+                 * any god damn ways.... so fuck you. HOURS_WASTED_ON_TRYING_TO_FIX_IT = 10;
                  */
-                if (cbExistingGuardians.Text == "Choose a guardian to add to this child")
-                {
-                    btnNewGuardian_Click(btnSave, EventArgs.Empty);                    
-                }
-                else //An existing guardian was selected. Code to attach is handled by the 'add existing guardian' button.
+                if (cbExistingGuardians.Text != "Choose a guardian to add to this child")
                 {
                     btnAddExistingGuardian_Click(btnSave, EventArgs.Empty);
                 }
 
                 //STEP 2:
                 //Validate the child has at least one guardian.
-                if(dgvGuardians.RowCount < 0)
+                if(dgvGuardians.RowCount <= 0)
                 {
                     MessageBox.Show("The new child must have at least one guardian.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
                     return;
@@ -521,5 +536,10 @@ namespace GreatHomeChildcare
                 { errorProvider1.SetError(mc, ""); }
         }
 
+        private void cbExistingGuardians_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            //Don't allow typing in the control.
+            e.Handled = true;
+        }
     }
 }
