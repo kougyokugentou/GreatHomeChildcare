@@ -76,7 +76,7 @@ namespace GreatHomeChildcare
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
                 string strQuery = "UPDATE Children SET FirstName = @First_Name, LastName = @Last_Name, " +
-                "DOB = @_dob, address = @_address, race = @_race, gender = @_gender, photo = @_photo" +
+                "DOB = @_dob, address = @_address, race = @_race, gender = @_gender, photo = @_photo " +
                 "WHERE id = @_id;";
 
                 cnn.Execute(strQuery, new
@@ -333,21 +333,18 @@ WHERE Guardians.id = @id
         // ***************** Read *******************
 
         /* Checks to see if this is the first time the application has run.
-         * by counting the number of guardians in the guardian table.
+         * by counting the number of admins in the guardian table.
          * INPUT: void from program, count of guardians from db.
-         * OUTPUT: boolean true/false.
+         * OUTPUT: integer
          */
-        internal bool isFirstTimeRun()
+        internal int GetNumAdmins()
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
-                string strQuery = "SELECT COUNT(*) FROM Guardians";
-                int num_guardians = cnn.Query<int>(strQuery).SingleOrDefault();
+                string strQuery = "SELECT COUNT(*) FROM Guardians WHERE isAdmin = 1";
+                int num_admins = cnn.Query<int>(strQuery).SingleOrDefault();
 
-                if (num_guardians > 0)
-                    return false;
-                else
-                    return true;
+                return num_admins;
             }
         }
         // ***************** Update *****************
