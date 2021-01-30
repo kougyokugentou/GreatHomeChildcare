@@ -17,7 +17,7 @@ namespace GreatHomeChildcare
 
         //Global instance of the SqliteDataAccess object.
         SqliteDataAccess SqliteDataAccess = new SqliteDataAccess();
-        Child child;
+        Child child = new Child();
         public static int guardian_id;
 
         enum Gender
@@ -39,6 +39,8 @@ namespace GreatHomeChildcare
          */
         private void frmChildCrud_Load(object sender, EventArgs e)
         {
+            photoPictureBox.Tag = DEFAULT_PIC_TAG;
+
             FillGenderComboBox();
             FillGuardiansComboBox();
 
@@ -99,7 +101,7 @@ namespace GreatHomeChildcare
             firstNameTextBox.Text = child.FirstName;
             lastNameTextBox.Text = child.LastName;
             raceTextBox.Text = child.race;
-            
+
             //Load the gender combo box based from enum value.
             //ref: chuck costarella
             Enum.TryParse<Gender>(child.gender, out genderOut);
@@ -107,7 +109,19 @@ namespace GreatHomeChildcare
 
             dOBMonthCalendar.SelectionStart = DateTime.Parse(child.DOB);
             addressTextBox.Text = child.address;
-            photoPictureBox.Image = (child.photo != null) ? ImageWrangler.ByteArrayToImage(child.photo) : Properties.Resources.child;
+
+            //Load the child photo, if any.
+            if (child.photo != null)
+            {
+                photoPictureBox.Image = ImageWrangler.ByteArrayToImage(child.photo);
+                photoPictureBox.Tag = CUSTOM_PIC_TAG;
+            }
+            else
+            {
+                photoPictureBox.Image = Properties.Resources.child;
+                photoPictureBox.Tag = DEFAULT_PIC_TAG;
+            }
+
             LoadGuardiansForChild(child);
         }
 
@@ -124,7 +138,7 @@ namespace GreatHomeChildcare
 
             foreach (Guardian g in guardians)
             {
-                dgvGuardians.Rows.Add(g.id, g.LastName, g.FirstName, g.PhoneNumber, g.EmailAddress);
+                dgvGuardians.Rows.Add(g.id, g.isAdmin, g.LastName, g.FirstName, g.PhoneNumber, g.EmailAddress);
             }
         }
 
@@ -145,6 +159,11 @@ namespace GreatHomeChildcare
         private void btnPhotoFromCam_Click(object sender, EventArgs e)
         {
             MessageBox.Show("From cam");
+            return;
+
+            //TED: Be sure you set this somewhere along the way
+            //after you wrangle the damn camera.
+            photoPictureBox.Tag = CUSTOM_PIC_TAG;
         }
 
         /* On click of the button, open a file picker dialog box
@@ -266,6 +285,8 @@ namespace GreatHomeChildcare
             Form frmGCrud = new frmGuardianCrud();
             frmGCrud.FormClosed += new FormClosedEventHandler(GCrudFormClosed);
             frmGCrud.Show();
+            
+            //TODO: BUG? Investigate to see if this is the cause.
             Hide();
         }
 
@@ -297,11 +318,30 @@ namespace GreatHomeChildcare
          */
         private void btnDeleteGuardian_Click(object sender, EventArgs e)
         {
+            /* Get the guardian's "isAdmin" value so we can check
+             * to see if we are going to delete the last admin in the db.
+             */
+            int isAdmin = (int)dgvGuardians.CurrentRow.Cells[1].Value;
+            int count_admins = 0;
+
+            if(isAdmin == 1)
+            {
+                count_admins = SqliteDataAccess.GetNumAdmins();
+                count_admins--;
+
+                if(count_admins <= 0)
+                {
+                    MessageBox.Show("You are removing the last known admin, that would break this program. Will not continue.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+                    return;
+                }
+            }
+
             /* Get the guardian's database ID which is secretly hidden
              * in the datagrid view at column 0. Since value is an
              * Object, cast it to Int because that's what we know it is.
              */
             guardian_id = (int)dgvGuardians.CurrentRow.Cells[0].Value;
+
 
             DialogResult dr = MessageBox.Show(">>WARNING!! Deleting the guardian will delete all attendence records associated with the guardian for all children.\n\rYOU CANNOT RECOVER OR UNDO THIS OPERATION.\n\rTHIS IS YOUR FINAL WARNING.\n\rDo you wish to continue?","Great Home Childcare",MessageBoxButtons.YesNoCancel,MessageBoxIcon.None);
 
@@ -408,6 +448,7 @@ namespace GreatHomeChildcare
                     return;
                 }
 
+                //TODO: BUG: Inserting a new child happens before the above guardian stuff is done;
                 /* STEP 3:
                  * Add new child
                  * The form has already been validated...
