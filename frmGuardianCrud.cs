@@ -38,7 +38,7 @@ namespace GreatHomeChildcare
             /* If it's the first time run of this program
              * then setup the initial admin user.
              */
-            if(SqliteDataAccess.isFirstTimeRun())
+            if(SqliteDataAccess.GetNumAdmins() <= 0)
             {
                 isAdminComboBox.SelectedItem = IsAdmin.Yes;
                 isAdminComboBox.Enabled = false;
@@ -89,8 +89,7 @@ namespace GreatHomeChildcare
         private void btnSaveClose_Click(object sender, EventArgs e)
         {
             Guardian checkExistingGuardian = new Guardian();
-
-            MessageBox.Show("Save and close clicked");
+            int num_admins;
 
             this.Validate();
             this.ValidateChildren();
@@ -107,12 +106,12 @@ namespace GreatHomeChildcare
 
             checkExistingGuardian = SqliteDataAccess.GetGuardianByPin(Int32.Parse(strPin));
 
-            if(checkExistingGuardian != null)
+            //If this is a new guardian, check to see if that pin is in use.
+            if(idNumericUpDown.Value == 0 && checkExistingGuardian != null)
             {
                 MessageBox.Show("Please choose a different PIN number.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
                 return;
             }
-
 
             guardian.id = Int32.Parse(idNumericUpDown.Value.ToString());
             guardian.LastName = lastNameTextBox.Text;
@@ -127,6 +126,18 @@ namespace GreatHomeChildcare
             }
             else
             {
+                //Check to see if no admins will be left over.
+                num_admins = SqliteDataAccess.GetNumAdmins();
+                num_admins--;
+
+                if ((IsAdmin)isAdminComboBox.SelectedItem == IsAdmin.No
+                    && num_admins <= 0)
+                {
+                    MessageBox.Show("You are removing the last known admin, that would break this program.\n\rThe IsAdmin selection has changed to YES, please re-check the form entry then resubmit.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+                    isAdminComboBox.SelectedItem = IsAdmin.Yes;
+                    return;
+                }
+
                 SqliteDataAccess.UpdateGuardian(guardian);
             }
 
