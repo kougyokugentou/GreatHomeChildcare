@@ -104,6 +104,13 @@ namespace GreatHomeChildcare
                 }
             }
 
+            // validate pin
+            if(strPin.Length < 4)
+            {
+                MessageBox.Show("Please enter a 4-digit pin number.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+                return;
+            }
+
             checkExistingGuardian = SqliteDataAccess.GetGuardianByPin(Int32.Parse(strPin));
 
             //If this is a new guardian, check to see if that pin is in use.
