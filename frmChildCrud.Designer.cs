@@ -45,6 +45,12 @@
             this.addressTextBox = new System.Windows.Forms.TextBox();
             this.lblGuardians = new System.Windows.Forms.Label();
             this.dgvGuardians = new System.Windows.Forms.DataGridView();
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.isAdmin = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PhoneNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EmailAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnAddExistingGuardian = new System.Windows.Forms.Button();
             this.btnEditGuardian = new System.Windows.Forms.Button();
             this.btnDeleteGuardian = new System.Windows.Forms.Button();
@@ -61,12 +67,6 @@
             this.cbExistingGuardians = new System.Windows.Forms.ComboBox();
             this.btnNewGuardian = new System.Windows.Forms.Button();
             this.childBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.isAdmin = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.LastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PhoneNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EmailAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
             firstNameLabel = new System.Windows.Forms.Label();
             lastNameLabel = new System.Windows.Forms.Label();
             raceLabel = new System.Windows.Forms.Label();
@@ -191,6 +191,7 @@
             // genderComboBox
             // 
             this.genderComboBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.childBindingSource, "gender", true));
+            this.genderComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.genderComboBox.FormattingEnabled = true;
             this.genderComboBox.Location = new System.Drawing.Point(174, 107);
             this.genderComboBox.Name = "genderComboBox";
@@ -236,6 +237,56 @@
             this.dgvGuardians.RowTemplate.Height = 24;
             this.dgvGuardians.Size = new System.Drawing.Size(979, 106);
             this.dgvGuardians.TabIndex = 12;
+            // 
+            // id
+            // 
+            this.id.HeaderText = "id";
+            this.id.MinimumWidth = 6;
+            this.id.Name = "id";
+            this.id.ReadOnly = true;
+            this.id.Visible = false;
+            this.id.Width = 125;
+            // 
+            // isAdmin
+            // 
+            this.isAdmin.HeaderText = "isAdmin";
+            this.isAdmin.MinimumWidth = 6;
+            this.isAdmin.Name = "isAdmin";
+            this.isAdmin.ReadOnly = true;
+            this.isAdmin.Visible = false;
+            this.isAdmin.Width = 125;
+            // 
+            // LastName
+            // 
+            this.LastName.HeaderText = "LastName";
+            this.LastName.MinimumWidth = 6;
+            this.LastName.Name = "LastName";
+            this.LastName.ReadOnly = true;
+            this.LastName.Width = 125;
+            // 
+            // FirstName
+            // 
+            this.FirstName.HeaderText = "FirstName";
+            this.FirstName.MinimumWidth = 6;
+            this.FirstName.Name = "FirstName";
+            this.FirstName.ReadOnly = true;
+            this.FirstName.Width = 125;
+            // 
+            // PhoneNumber
+            // 
+            this.PhoneNumber.HeaderText = "PhoneNumber";
+            this.PhoneNumber.MinimumWidth = 6;
+            this.PhoneNumber.Name = "PhoneNumber";
+            this.PhoneNumber.ReadOnly = true;
+            this.PhoneNumber.Width = 125;
+            // 
+            // EmailAddress
+            // 
+            this.EmailAddress.HeaderText = "EmailAddress";
+            this.EmailAddress.MinimumWidth = 6;
+            this.EmailAddress.Name = "EmailAddress";
+            this.EmailAddress.ReadOnly = true;
+            this.EmailAddress.Width = 125;
             // 
             // btnAddExistingGuardian
             // 
@@ -386,6 +437,7 @@
             this.cbExistingGuardians.Name = "cbExistingGuardians";
             this.cbExistingGuardians.Size = new System.Drawing.Size(171, 24);
             this.cbExistingGuardians.TabIndex = 26;
+            this.cbExistingGuardians.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cbExistingGuardians_KeyPress);
             // 
             // btnNewGuardian
             // 
@@ -403,56 +455,6 @@
             // childBindingSource
             // 
             this.childBindingSource.DataSource = typeof(GreatHomeChildcare.Models.Child);
-            // 
-            // id
-            // 
-            this.id.HeaderText = "id";
-            this.id.MinimumWidth = 6;
-            this.id.Name = "id";
-            this.id.ReadOnly = true;
-            this.id.Visible = false;
-            this.id.Width = 125;
-            // 
-            // isAdmin
-            // 
-            this.isAdmin.HeaderText = "isAdmin";
-            this.isAdmin.MinimumWidth = 6;
-            this.isAdmin.Name = "isAdmin";
-            this.isAdmin.ReadOnly = true;
-            this.isAdmin.Visible = false;
-            this.isAdmin.Width = 125;
-            // 
-            // LastName
-            // 
-            this.LastName.HeaderText = "LastName";
-            this.LastName.MinimumWidth = 6;
-            this.LastName.Name = "LastName";
-            this.LastName.ReadOnly = true;
-            this.LastName.Width = 125;
-            // 
-            // FirstName
-            // 
-            this.FirstName.HeaderText = "FirstName";
-            this.FirstName.MinimumWidth = 6;
-            this.FirstName.Name = "FirstName";
-            this.FirstName.ReadOnly = true;
-            this.FirstName.Width = 125;
-            // 
-            // PhoneNumber
-            // 
-            this.PhoneNumber.HeaderText = "PhoneNumber";
-            this.PhoneNumber.MinimumWidth = 6;
-            this.PhoneNumber.Name = "PhoneNumber";
-            this.PhoneNumber.ReadOnly = true;
-            this.PhoneNumber.Width = 125;
-            // 
-            // EmailAddress
-            // 
-            this.EmailAddress.HeaderText = "EmailAddress";
-            this.EmailAddress.MinimumWidth = 6;
-            this.EmailAddress.Name = "EmailAddress";
-            this.EmailAddress.ReadOnly = true;
-            this.EmailAddress.Width = 125;
             // 
             // frmChildCrud
             // 
