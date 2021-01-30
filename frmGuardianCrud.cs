@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using GreatHomeChildcare.Models;
 
@@ -94,6 +88,8 @@ namespace GreatHomeChildcare
          */
         private void btnSaveClose_Click(object sender, EventArgs e)
         {
+            Guardian checkExistingGuardian = new Guardian();
+
             MessageBox.Show("Save and close clicked");
 
             this.Validate();
@@ -108,6 +104,15 @@ namespace GreatHomeChildcare
                     return;
                 }
             }
+
+            checkExistingGuardian = SqliteDataAccess.GetGuardianByPin(Int32.Parse(strPin));
+
+            if(checkExistingGuardian != null)
+            {
+                MessageBox.Show("Please choose a different PIN number.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+                return;
+            }
+
 
             guardian.id = Int32.Parse(idNumericUpDown.Value.ToString());
             guardian.LastName = lastNameTextBox.Text;
