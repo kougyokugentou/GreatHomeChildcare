@@ -39,18 +39,12 @@
             System.Windows.Forms.Label dOBLabel;
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.firstNameTextBox = new System.Windows.Forms.TextBox();
-            this.childBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.lastNameTextBox = new System.Windows.Forms.TextBox();
             this.raceTextBox = new System.Windows.Forms.TextBox();
             this.genderComboBox = new System.Windows.Forms.ComboBox();
             this.addressTextBox = new System.Windows.Forms.TextBox();
             this.lblGuardians = new System.Windows.Forms.Label();
             this.dgvGuardians = new System.Windows.Forms.DataGridView();
-            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.LastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PhoneNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EmailAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnAddExistingGuardian = new System.Windows.Forms.Button();
             this.btnEditGuardian = new System.Windows.Forms.Button();
             this.btnDeleteGuardian = new System.Windows.Forms.Button();
@@ -66,6 +60,13 @@
             this.lblExistingGuardians = new System.Windows.Forms.Label();
             this.cbExistingGuardians = new System.Windows.Forms.ComboBox();
             this.btnNewGuardian = new System.Windows.Forms.Button();
+            this.childBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.isAdmin = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PhoneNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EmailAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
             firstNameLabel = new System.Windows.Forms.Label();
             lastNameLabel = new System.Windows.Forms.Label();
             raceLabel = new System.Windows.Forms.Label();
@@ -73,11 +74,11 @@
             photoLabel = new System.Windows.Forms.Label();
             addressLabel = new System.Windows.Forms.Label();
             dOBLabel = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.childBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvGuardians)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.photoPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.idNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.childBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // firstNameLabel
@@ -169,10 +170,6 @@
             this.firstNameTextBox.TabIndex = 2;
             this.firstNameTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.String_TextBox_Validating);
             // 
-            // childBindingSource
-            // 
-            this.childBindingSource.DataSource = typeof(GreatHomeChildcare.Models.Child);
-            // 
             // lastNameTextBox
             // 
             this.lastNameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.childBindingSource, "LastName", true));
@@ -227,6 +224,7 @@
             this.dgvGuardians.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvGuardians.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.id,
+            this.isAdmin,
             this.LastName,
             this.FirstName,
             this.PhoneNumber,
@@ -238,47 +236,6 @@
             this.dgvGuardians.RowTemplate.Height = 24;
             this.dgvGuardians.Size = new System.Drawing.Size(979, 106);
             this.dgvGuardians.TabIndex = 12;
-            // 
-            // id
-            // 
-            this.id.HeaderText = "id";
-            this.id.MinimumWidth = 6;
-            this.id.Name = "id";
-            this.id.ReadOnly = true;
-            this.id.Visible = false;
-            this.id.Width = 125;
-            // 
-            // LastName
-            // 
-            this.LastName.HeaderText = "LastName";
-            this.LastName.MinimumWidth = 6;
-            this.LastName.Name = "LastName";
-            this.LastName.ReadOnly = true;
-            this.LastName.Width = 125;
-            // 
-            // FirstName
-            // 
-            this.FirstName.HeaderText = "FirstName";
-            this.FirstName.MinimumWidth = 6;
-            this.FirstName.Name = "FirstName";
-            this.FirstName.ReadOnly = true;
-            this.FirstName.Width = 125;
-            // 
-            // PhoneNumber
-            // 
-            this.PhoneNumber.HeaderText = "PhoneNumber";
-            this.PhoneNumber.MinimumWidth = 6;
-            this.PhoneNumber.Name = "PhoneNumber";
-            this.PhoneNumber.ReadOnly = true;
-            this.PhoneNumber.Width = 125;
-            // 
-            // EmailAddress
-            // 
-            this.EmailAddress.HeaderText = "EmailAddress";
-            this.EmailAddress.MinimumWidth = 6;
-            this.EmailAddress.Name = "EmailAddress";
-            this.EmailAddress.ReadOnly = true;
-            this.EmailAddress.Width = 125;
             // 
             // btnAddExistingGuardian
             // 
@@ -443,6 +400,60 @@
             this.btnNewGuardian.UseVisualStyleBackColor = true;
             this.btnNewGuardian.Click += new System.EventHandler(this.btnNewGuardian_Click);
             // 
+            // childBindingSource
+            // 
+            this.childBindingSource.DataSource = typeof(GreatHomeChildcare.Models.Child);
+            // 
+            // id
+            // 
+            this.id.HeaderText = "id";
+            this.id.MinimumWidth = 6;
+            this.id.Name = "id";
+            this.id.ReadOnly = true;
+            this.id.Visible = false;
+            this.id.Width = 125;
+            // 
+            // isAdmin
+            // 
+            this.isAdmin.HeaderText = "isAdmin";
+            this.isAdmin.MinimumWidth = 6;
+            this.isAdmin.Name = "isAdmin";
+            this.isAdmin.ReadOnly = true;
+            this.isAdmin.Visible = false;
+            this.isAdmin.Width = 125;
+            // 
+            // LastName
+            // 
+            this.LastName.HeaderText = "LastName";
+            this.LastName.MinimumWidth = 6;
+            this.LastName.Name = "LastName";
+            this.LastName.ReadOnly = true;
+            this.LastName.Width = 125;
+            // 
+            // FirstName
+            // 
+            this.FirstName.HeaderText = "FirstName";
+            this.FirstName.MinimumWidth = 6;
+            this.FirstName.Name = "FirstName";
+            this.FirstName.ReadOnly = true;
+            this.FirstName.Width = 125;
+            // 
+            // PhoneNumber
+            // 
+            this.PhoneNumber.HeaderText = "PhoneNumber";
+            this.PhoneNumber.MinimumWidth = 6;
+            this.PhoneNumber.Name = "PhoneNumber";
+            this.PhoneNumber.ReadOnly = true;
+            this.PhoneNumber.Width = 125;
+            // 
+            // EmailAddress
+            // 
+            this.EmailAddress.HeaderText = "EmailAddress";
+            this.EmailAddress.MinimumWidth = 6;
+            this.EmailAddress.Name = "EmailAddress";
+            this.EmailAddress.ReadOnly = true;
+            this.EmailAddress.Width = 125;
+            // 
             // frmChildCrud
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -479,11 +490,11 @@
             this.Name = "frmChildCrud";
             this.Text = "Child Management : Great Home Childcare";
             this.Load += new System.EventHandler(this.frmChildCrud_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.childBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvGuardians)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.photoPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.idNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.childBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -509,16 +520,17 @@
         private System.Windows.Forms.PictureBox photoPictureBox;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.NumericUpDown idNumericUpDown;
-        private System.Windows.Forms.DataGridViewTextBoxColumn id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn LastName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FirstName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PhoneNumber;
-        private System.Windows.Forms.DataGridViewTextBoxColumn EmailAddress;
         private System.Windows.Forms.MonthCalendar dOBMonthCalendar;
         private System.Windows.Forms.OpenFileDialog pic_openFileDialog;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.Label lblExistingGuardians;
         private System.Windows.Forms.ComboBox cbExistingGuardians;
         private System.Windows.Forms.Button btnNewGuardian;
+        private System.Windows.Forms.DataGridViewTextBoxColumn id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn isAdmin;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LastName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FirstName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PhoneNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn EmailAddress;
     }
 }
