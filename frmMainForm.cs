@@ -72,6 +72,9 @@ namespace GreatHomeChildcare
          */
         private void PopulateButton(Child child_in, Control controls_in)
         {
+            Attendance studentStatus = new Attendance();
+            string btnText = String.Empty;
+
             Control.ControlCollection nested_controls = controls_in.Controls;
             foreach(Control c in nested_controls)
             {
@@ -81,16 +84,32 @@ namespace GreatHomeChildcare
                     pb.Image = child_in.photo == null ? Properties.Resources.child : ImageWrangler.ByteArrayToImage(child_in.photo);
                 }
 
-                //TODO: BUG: If the child is new and does not have sign in/out status, program crashes.
-                //Fix: if studentStatus is null, set new var to "NONE YET", else set new var to actual status.
-
                 if (c is Button)
                 {
                     Button btn = (Button)c;
-                    Attendance studentStatus = SqliteDataAccess.GetChildSignInOut(child_in);
-                    string btnText = child_in.DisplayName + "\n\r"
-                                   + "Status: Signed " + studentStatus.in_out.ToUpper() + "\n\r"
-                                   + studentStatus.timestamp;
+                    studentStatus = SqliteDataAccess.GetChildSignInOut(child_in);
+
+                    if(studentStatus != null)
+                    {
+                        btnText = child_in.DisplayName + "\n\r"
+                            + "Status: Signed " + studentStatus.in_out.ToUpper() + "\n\r"
+                            + studentStatus.timestamp;
+                    }
+                    else //it's a new student.
+                    {
+                        /* The studentStatus object must be reinitialized here as
+                         * GetChildSignInOut can return null. If so; then
+                         * studentStatus is also null and is no longer an Attendence object.
+                         */
+                        studentStatus = new Attendance();
+
+                        //Set the status to out for the button display and the update panel color.
+                        studentStatus.in_out = "out";
+
+                        btnText = child_in.DisplayName + "\n\r"
+                            + "Status: Signed " + studentStatus.in_out.ToUpper() + "\n\r"
+                            + "No attendence record.";
+                    }
 
                     //shove the child into the Tag property which is a type of 'object' for later retrieval.
                     //see also: cheap hax
