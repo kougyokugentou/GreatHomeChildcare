@@ -33,6 +33,21 @@ namespace GreatHomeChildcare
 
         // ***************** Read *******************
 
+        /* Gets the next available child_id from the sqlite database.
+         * INPUT: void
+         * OUTPUT: integer
+         */
+        internal int GetNextChildID()
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string strQuery = "SELECT seq FROM sqlite_sequence WHERE name = 'Children';";
+                int output = cnn.Query<int>(strQuery).SingleOrDefault();
+                output++;
+                return output;
+            }
+        }
+
         /* Gets a single child from the sqlite database
          * provided an id number.
          * INPUT: integer id
