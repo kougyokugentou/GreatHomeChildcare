@@ -81,6 +81,9 @@ namespace GreatHomeChildcare
                     pb.Image = child_in.photo == null ? Properties.Resources.child : ImageWrangler.ByteArrayToImage(child_in.photo);
                 }
 
+                //TODO: BUG: If the child is new and does not have sign in/out status, program crashes.
+                //Fix: if studentStatus is null, set new var to "NONE YET", else set new var to actual status.
+
                 if (c is Button)
                 {
                     Button btn = (Button)c;
