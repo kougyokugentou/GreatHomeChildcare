@@ -124,12 +124,12 @@ namespace GreatHomeChildcare
          */
         private void frmPinEntry_Load(object sender, EventArgs e)
         {
-            bool bIsFirstTime = false;
+            int num_admins = 0;
             DialogResult dr;
 
-            bIsFirstTime = SqliteDataAccess.isFirstTimeRun();
+            num_admins = SqliteDataAccess.GetNumAdmins();
 
-            if(bIsFirstTime)
+            if(num_admins <= 0)
             {
                 dr = MessageBox.Show("Program not setup yet. Setup now?", "Great Home Childcare", MessageBoxButtons.YesNo, MessageBoxIcon.None);
 
