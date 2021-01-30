@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GreatHomeChildcare.Models
+﻿namespace GreatHomeChildcare.Models
 {
     /* The authorized_guardian class and table acts
      * as a bridge table in the database to provide
