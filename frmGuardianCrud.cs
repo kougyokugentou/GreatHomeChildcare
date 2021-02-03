@@ -121,11 +121,12 @@ namespace GreatHomeChildcare
             }
 
             guardian.id = Int32.Parse(idNumericUpDown.Value.ToString());
-            guardian.LastName = lastNameTextBox.Text;
-            guardian.FirstName = firstNameTextBox.Text;
+            guardian.LastName = ImageWrangler.CapitalizeFirstLetter(lastNameTextBox.Text);
+            guardian.FirstName = ImageWrangler.CapitalizeFirstLetter(firstNameTextBox.Text);
             guardian.PhoneNumber = long.Parse(phoneNumberNumericUpDown.Value.ToString());
             guardian.EmailAddress = emailAddressTextBox.Text;
             guardian.PinNumber = Int32.Parse(strPin);
+            guardian.isAdmin = (int)isAdminComboBox.SelectedItem;
 
             if(guardian.id == 0) // new guardian
             {
