@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace GreatHomeChildcare
 {
     partial class frmReports
@@ -31,6 +33,10 @@ namespace GreatHomeChildcare
         {
             this.cbChildPicker = new System.Windows.Forms.ComboBox();
             this.lblFilter = new System.Windows.Forms.Label();
+            this.dtpFrom = new System.Windows.Forms.DateTimePicker();
+            this.dtpTo = new System.Windows.Forms.DateTimePicker();
+            this.lblFrom = new System.Windows.Forms.Label();
+            this.lblTo = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // cbChildPicker
@@ -52,11 +58,56 @@ namespace GreatHomeChildcare
             this.lblFilter.TabIndex = 1;
             this.lblFilter.Text = "Filter";
             // 
+            // dtpFrom
+            // 
+            this.dtpFrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpFrom.Location = new System.Drawing.Point(13, 177);
+            this.dtpFrom.Name = "dtpFrom";
+            this.dtpFrom.Size = new System.Drawing.Size(121, 22);
+            this.dtpFrom.TabIndex = 2;
+            this.dtpFrom.MaxDate = DateTime.Now;
+            this.dtpFrom.CloseUp += new System.EventHandler(this.dtpFrom_CloseUp);
+            this.dtpFrom.DropDown += new System.EventHandler(this.dtpFrom_DropDown);
+            // 
+            // dtpTo
+            // 
+            this.dtpTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpTo.Location = new System.Drawing.Point(12, 257);
+            this.dtpTo.Name = "dtpTo";
+            this.dtpTo.Size = new System.Drawing.Size(121, 22);
+            this.dtpTo.TabIndex = 3;
+
+            //Ensure the To date is not before the From date.
+            this.dtpTo.MinDate = this.dtpFrom.Value;
+            this.dtpTo.MaxDate = DateTime.Now;
+            // 
+            // lblFrom
+            // 
+            this.lblFrom.AutoSize = true;
+            this.lblFrom.Location = new System.Drawing.Point(12, 154);
+            this.lblFrom.Name = "lblFrom";
+            this.lblFrom.Size = new System.Drawing.Size(40, 17);
+            this.lblFrom.TabIndex = 4;
+            this.lblFrom.Text = "From";
+            // 
+            // lblTo
+            // 
+            this.lblTo.AutoSize = true;
+            this.lblTo.Location = new System.Drawing.Point(12, 234);
+            this.lblTo.Name = "lblTo";
+            this.lblTo.Size = new System.Drawing.Size(25, 17);
+            this.lblTo.TabIndex = 5;
+            this.lblTo.Text = "To";
+            // 
             // frmReports
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.lblTo);
+            this.Controls.Add(this.lblFrom);
+            this.Controls.Add(this.dtpTo);
+            this.Controls.Add(this.dtpFrom);
             this.Controls.Add(this.lblFilter);
             this.Controls.Add(this.cbChildPicker);
             this.Name = "frmReports";
@@ -71,5 +122,9 @@ namespace GreatHomeChildcare
 
         private System.Windows.Forms.ComboBox cbChildPicker;
         private System.Windows.Forms.Label lblFilter;
+        private System.Windows.Forms.DateTimePicker dtpFrom;
+        private System.Windows.Forms.DateTimePicker dtpTo;
+        private System.Windows.Forms.Label lblFrom;
+        private System.Windows.Forms.Label lblTo;
     }
 }

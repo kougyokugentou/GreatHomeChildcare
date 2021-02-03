@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using GreatHomeChildcare.Models;
 
+//REF:
+//https://stackoverflow.com/questions/9780800/what-event-is-raised-when-a-user-interacts-with-the-datetimepicker-control
+
 namespace GreatHomeChildcare
 {
     public partial class frmReports : Form
@@ -41,6 +44,24 @@ namespace GreatHomeChildcare
             children.Insert(0, everyoneSelection);
 
             cbChildPicker.DataSource = children;
+        }
+
+        //DTP shenanigans ref stackexchange
+        private void dtpFrom_ValueChanged(object sender, EventArgs e)
+        {
+            //Update the to date, but not before the From date.
+            dtpTo.MinDate = dtpFrom.Value;
+        }
+
+        private void dtpFrom_DropDown(object sender, EventArgs e)
+        {
+            dtpFrom.ValueChanged -= dtpFrom_ValueChanged;
+        }
+
+        private void dtpFrom_CloseUp(object sender, EventArgs e)
+        {
+            dtpFrom.ValueChanged += dtpFrom_ValueChanged;
+            dtpFrom_ValueChanged(sender, e);
         }
     }
 }
