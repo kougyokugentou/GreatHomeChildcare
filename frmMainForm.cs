@@ -40,9 +40,9 @@ namespace GreatHomeChildcare
             }
 
             //If the guardian has no children, show a message.
-            if (children == null)
+            if (children.Count == 0)
             {
-                lblNoChildren.Visible = true;
+                lblInstructions.Text = "You don\'t have any children. Please have an admin assign your children in the program.";
                 return;
             }
 
