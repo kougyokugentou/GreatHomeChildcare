@@ -66,6 +66,7 @@
             this.lblExistingGuardians = new System.Windows.Forms.Label();
             this.cbExistingGuardians = new System.Windows.Forms.ComboBox();
             this.btnNewGuardian = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
             this.childBindingSource = new System.Windows.Forms.BindingSource(this.components);
             firstNameLabel = new System.Windows.Forms.Label();
             lastNameLabel = new System.Windows.Forms.Label();
@@ -392,7 +393,7 @@
             // idNumericUpDown
             // 
             this.idNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.childBindingSource, "id", true));
-            this.idNumericUpDown.Location = new System.Drawing.Point(905, 125);
+            this.idNumericUpDown.Location = new System.Drawing.Point(905, 202);
             this.idNumericUpDown.Name = "idNumericUpDown";
             this.idNumericUpDown.ReadOnly = true;
             this.idNumericUpDown.Size = new System.Drawing.Size(76, 22);
@@ -452,6 +453,19 @@
             this.btnNewGuardian.UseVisualStyleBackColor = true;
             this.btnNewGuardian.Click += new System.EventHandler(this.btnNewGuardian_Click);
             // 
+            // btnDelete
+            // 
+            this.btnDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnDelete.ImageIndex = 4;
+            this.btnDelete.ImageList = this.imageList1;
+            this.btnDelete.Location = new System.Drawing.Point(834, 143);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(159, 37);
+            this.btnDelete.TabIndex = 29;
+            this.btnDelete.Text = "DELETE CHILD";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
             // childBindingSource
             // 
             this.childBindingSource.DataSource = typeof(GreatHomeChildcare.Models.Child);
@@ -461,6 +475,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1004, 657);
+            this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnNewGuardian);
             this.Controls.Add(this.lblExistingGuardians);
             this.Controls.Add(this.cbExistingGuardians);
@@ -534,5 +549,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn FirstName;
         private System.Windows.Forms.DataGridViewTextBoxColumn PhoneNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn EmailAddress;
+        private System.Windows.Forms.Button btnDelete;
     }
 }
