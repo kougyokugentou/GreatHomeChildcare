@@ -122,6 +122,7 @@ namespace GreatHomeChildcare
         private void btnQuit_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Thank you for using the program! Your data has been saved. Good bye!", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+            //TODO: I got the program to crash here by exiting from reports form then clicking quit??
             Environment.Exit(0);
         }
     }
