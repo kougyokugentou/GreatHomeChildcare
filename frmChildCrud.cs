@@ -336,29 +336,41 @@ namespace GreatHomeChildcare
             Show();
         }
 
+        /* Code to see if we are removing the last 
+         * admin guardian from the program
+         * INPUT: void
+         * OUTPUT: bool t/f
+         */
+        private bool CheckIfLastAdmin()
+        {
+            int count_admins = 0;
+
+            count_admins = SqliteDataAccess.GetNumAdmins();
+            count_admins--;
+
+            if (count_admins <= 0)
+                { return true; }
+            else
+                { return false; }
+        }
         /* Irrevocably deletes a guardian and all attendence data
          * for that guardian out of the database.
          * INPUT: guardian
          * OUTPUT: void
          */
+        //TODO: Check to see if we orphan a child by removing the guardian from all children.
+        //We may not need to do this provided the above save sanity check.
         private void btnDeleteGuardian_Click(object sender, EventArgs e)
         {
             /* Get the guardian's "isAdmin" value so we can check
              * to see if we are going to delete the last admin in the db.
              */
             int isAdmin = (int)dgvGuardians.CurrentRow.Cells[1].Value;
-            int count_admins = 0;
 
-            if(isAdmin == 1)
+            if(isAdmin == 1 && CheckIfLastAdmin())
             {
-                count_admins = SqliteDataAccess.GetNumAdmins();
-                count_admins--;
-
-                if(count_admins <= 0)
-                {
-                    MessageBox.Show("You are removing the last known admin, that would break this program. Will not continue.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
-                    return;
-                }
+                MessageBox.Show("You are removing the last known admin, that would break this program. Will not continue.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+                return;
             }
 
             /* Get the guardian's database ID which is secretly hidden
@@ -547,6 +559,68 @@ namespace GreatHomeChildcare
         {
             //Don't allow typing in the control.
             e.Handled = true;
+        }
+
+        /* Deletes a child.
+         * The user has been aptly warned.
+         */
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            //if it's a new child, fuhgettaboutit.
+            if (idNumericUpDown.Value == 0)
+            {
+                MessageBox.Show("Unable to delete this child as it is new. Either cancel or save.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+                return;
+            }
+
+            string strWarning = ">>WARNING!!<< Deleting this child will:\n\r" +
+                "1) Delete all attendence records of this child.\n\r" +
+                "2) Detach this child from all guardians.\n\r" +
+                "3) Look for any guardians with no other children,\n\r" +
+                "3.1) For those guardians, delete all attendence records for those guardians.\n\r" +
+                "3.2) Delete those guardians whom have no other children.\n\r" +
+                "4) Delete the child from the database.\n\r\n\r" +
+                "YOU CANNOT RECOVER OR UNDO THIS OPERATION.\n\rTHIS IS YOUR FINAL WARNING.\n\r\n\r" +
+                "Do you wish to continue?";
+            DialogResult dr = MessageBox.Show(strWarning, "Great Home Childcare", MessageBoxButtons.YesNoCancel, MessageBoxIcon.None);
+
+            if(dr == DialogResult.Yes)
+            {
+                MessageBox.Show("Code to-do: delete child");
+                return;
+
+                //Step 1: Delete attendence data.
+                SqliteDataAccess.DeleteAttendenceForChild(child);
+
+                //Step 2: Find other guardians of this child who don't have any more children assigned.
+                List<Guardian> OrphanedGuardians = new List<Guardian>();
+                OrphanedGuardians = SqliteDataAccess.GetOrphanedGuardians();
+
+                //Step 3: Find orphaned guardians.
+                //Iterate through each guardian.
+                foreach(Guardian g in OrphanedGuardians)
+                {
+                    //if the guardian is admin
+                    //Check to see if this is the last admin. If so, don't delete it.
+                    if (g.isAdmin == 1 && CheckIfLastAdmin())
+                        { continue; }
+
+                    //Step 4: Delete the orphaned guardian.
+                    //Goodbye, guardian...
+                    SqliteDataAccess.DeleteGuardian(g);
+                }
+
+                //Step 4: So long, sweet prince.
+                SqliteDataAccess.DeleteChild(child);
+
+                //Show a message then close this crud form.
+                MessageBox.Show("Child deleted.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+                Close();
+            }
+            else
+            {
+                MessageBox.Show("Delete canceled, no changes have been made.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+            }
         }
     }
 }
