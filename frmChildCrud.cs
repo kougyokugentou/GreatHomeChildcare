@@ -225,6 +225,10 @@ namespace GreatHomeChildcare
          */
         private void btnAddExistingGuardian_Click(object sender, EventArgs e)
         {
+            //Perform sanity check, ensure all data is filled except picture
+            this.Validate();
+            this.ValidateChildren();
+
             int iOctomomCheck;
 
             //If the user did not select a guardian from the drop-down list.
@@ -267,6 +271,10 @@ namespace GreatHomeChildcare
          */
         private void btnNewGuardian_Click(object sender, EventArgs e)
         {
+            //Perform sanity check, ensure all data is filled except picture
+            this.Validate();
+            this.ValidateChildren();
+
             guardian_id = -1; //ENSURE!!!!
 
             ShowGuardianCrudForm();
@@ -296,8 +304,6 @@ namespace GreatHomeChildcare
             Form frmGCrud = new frmGuardianCrud();
             frmGCrud.FormClosed += new FormClosedEventHandler(GCrudFormClosed);
             frmGCrud.Show();
-            
-            //TODO: BUG? Investigate to see if this is the cause.
             Hide();
         }
 
@@ -396,6 +402,7 @@ namespace GreatHomeChildcare
         {
             //Perform sanity check, ensure all data is filled except picture
             this.Validate();
+            this.ValidateChildren();
 
             // Check to see if any control is in error.
             foreach (Control c in errorProvider1.ContainerControl.Controls)
@@ -411,10 +418,10 @@ namespace GreatHomeChildcare
             child.id = (int)idNumericUpDown.Value;
             child.address = addressTextBox.Text;
             child.DOB = dOBMonthCalendar.SelectionStart.ToShortDateString();
-            child.FirstName = firstNameTextBox.Text;
+            child.FirstName = ImageWrangler.CapitalizeFirstLetter(firstNameTextBox.Text);
             child.gender = genderComboBox.Text;
-            child.LastName = lastNameTextBox.Text;
-            child.race = raceTextBox.Text;
+            child.LastName = ImageWrangler.CapitalizeFirstLetter(lastNameTextBox.Text);
+            child.race = ImageWrangler.CapitalizeFirstLetter(raceTextBox.Text);
 
             if (photoPictureBox.Tag.ToString() == DEFAULT_PIC_TAG)
                 child.photo = null;
