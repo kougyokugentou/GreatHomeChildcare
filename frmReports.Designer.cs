@@ -37,6 +37,9 @@ namespace GreatHomeChildcare
             this.dtpTo = new System.Windows.Forms.DateTimePicker();
             this.lblFrom = new System.Windows.Forms.Label();
             this.lblTo = new System.Windows.Forms.Label();
+            this.dgvReports = new System.Windows.Forms.DataGridView();
+            this.ChildDisplayName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvReports)).BeginInit();
             this.SuspendLayout();
             // 
             // cbChildPicker
@@ -48,6 +51,7 @@ namespace GreatHomeChildcare
             this.cbChildPicker.Name = "cbChildPicker";
             this.cbChildPicker.Size = new System.Drawing.Size(121, 24);
             this.cbChildPicker.TabIndex = 0;
+            this.cbChildPicker.SelectionChangeCommitted += new System.EventHandler(this.cbChildPicker_SelectionChangeCommitted);
             // 
             // lblFilter
             // 
@@ -62,10 +66,10 @@ namespace GreatHomeChildcare
             // 
             this.dtpFrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpFrom.Location = new System.Drawing.Point(13, 177);
+            this.dtpFrom.MaxDate = new System.DateTime(2021, 2, 3, 12, 52, 11, 370);
             this.dtpFrom.Name = "dtpFrom";
             this.dtpFrom.Size = new System.Drawing.Size(121, 22);
             this.dtpFrom.TabIndex = 2;
-            this.dtpFrom.MaxDate = DateTime.Now;
             this.dtpFrom.CloseUp += new System.EventHandler(this.dtpFrom_CloseUp);
             this.dtpFrom.DropDown += new System.EventHandler(this.dtpFrom_DropDown);
             // 
@@ -73,13 +77,11 @@ namespace GreatHomeChildcare
             // 
             this.dtpTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpTo.Location = new System.Drawing.Point(12, 257);
+            this.dtpTo.MaxDate = new System.DateTime(2021, 2, 3, 12, 52, 11, 383);
+            this.dtpTo.MinDate = this.dtpFrom.Value;
             this.dtpTo.Name = "dtpTo";
             this.dtpTo.Size = new System.Drawing.Size(121, 22);
             this.dtpTo.TabIndex = 3;
-
-            //Ensure the To date is not before the From date.
-            this.dtpTo.MinDate = this.dtpFrom.Value;
-            this.dtpTo.MaxDate = DateTime.Now;
             // 
             // lblFrom
             // 
@@ -99,11 +101,35 @@ namespace GreatHomeChildcare
             this.lblTo.TabIndex = 5;
             this.lblTo.Text = "To";
             // 
+            // dgvReports
+            // 
+            this.dgvReports.AllowUserToAddRows = false;
+            this.dgvReports.AllowUserToDeleteRows = false;
+            this.dgvReports.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvReports.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ChildDisplayName});
+            this.dgvReports.Location = new System.Drawing.Point(204, 39);
+            this.dgvReports.Name = "dgvReports";
+            this.dgvReports.ReadOnly = true;
+            this.dgvReports.RowHeadersWidth = 51;
+            this.dgvReports.RowTemplate.Height = 24;
+            this.dgvReports.Size = new System.Drawing.Size(565, 367);
+            this.dgvReports.TabIndex = 6;
+            // 
+            // ChildDisplayName
+            // 
+            this.ChildDisplayName.HeaderText = "Child";
+            this.ChildDisplayName.MinimumWidth = 6;
+            this.ChildDisplayName.Name = "ChildDisplayName";
+            this.ChildDisplayName.ReadOnly = true;
+            this.ChildDisplayName.Width = 125;
+            // 
             // frmReports
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.dgvReports);
             this.Controls.Add(this.lblTo);
             this.Controls.Add(this.lblFrom);
             this.Controls.Add(this.dtpTo);
@@ -113,6 +139,7 @@ namespace GreatHomeChildcare
             this.Name = "frmReports";
             this.Text = "Reports : Great Home Childcare";
             this.Load += new System.EventHandler(this.frmReports_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvReports)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -126,5 +153,7 @@ namespace GreatHomeChildcare
         private System.Windows.Forms.DateTimePicker dtpTo;
         private System.Windows.Forms.Label lblFrom;
         private System.Windows.Forms.Label lblTo;
+        private System.Windows.Forms.DataGridView dgvReports;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ChildDisplayName;
     }
 }
