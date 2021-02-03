@@ -109,6 +109,20 @@ namespace GreatHomeChildcare
         }
 
         // ***************** Delete *****************
+
+        /* Deletes a child from the database.
+         * INPUT: child
+         * OUTPUT: void
+         */
+        internal void DeleteChild(Child child_in)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string strQuery = "DELETE FROM Children WHERE id = @id;";
+                cnn.Execute(strQuery, child_in);
+            }
+        }
+
         #endregion
 
         #region guardian
@@ -124,6 +138,25 @@ namespace GreatHomeChildcare
         }
 
         // ***************** Read *****************
+
+        /* Gets a list of orphaned guardians
+         * after a child has been deleted.
+         * INPUT: void
+         * OUTPUT: list of guardian objects or null.
+         */
+        internal List<Guardian> GetOrphanedGuardians()
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string sqlQuery = "SELECT * FROM Guardians " +
+                    "LEFT OUTER JOIN Authorized_Guardians " +
+                    "ON Guardians.id = Authorized_Guardians.guardian_id " +
+                    "WHERE Authorized_Guardians.child_id IS NULL;";
+
+                var output = cnn.Query<Guardian>(sqlQuery);
+                return output.ToList();
+            }
+        }
 
         /* Gets a single guardian from the DB given db id.
          * INPUT: integer
@@ -364,6 +397,14 @@ WHERE Guardians.id = @id
         }
         // ***************** Update *****************
         // ***************** Delete *****************
+        internal void DeleteAttendenceForChild(Child child_in)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string strQuery = "DELETE FROM Attendence WHERE child_id=@id;";
+                cnn.Execute(strQuery, child_in);
+            }
+        }
         #endregion
 
         #region reports
