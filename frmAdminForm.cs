@@ -55,10 +55,17 @@ namespace GreatHomeChildcare
             Close();
         }
 
-        //TODO: new form to generate reports
+        /* VS generated delegate to handle report button clicking
+         * Pops up the report form and hides this one.
+         */
         private void btnReports_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Reports button clicked.");
+            Form frmRep = new frmReports();
+
+            //We can use the same event handler here, don't mind the name.
+            frmRep.FormClosed += new FormClosedEventHandler(CrudFormClosed);
+            frmRep.Show();
+            Hide();
         }
 
         /* Pop-open a new form for crud operations for children
