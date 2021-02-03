@@ -245,7 +245,7 @@ namespace GreatHomeChildcare
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmPinEntry";
             this.Text = "Great Home Childcare";
-            this.Load += new System.EventHandler(this.frmPinEntry_Load);
+            this.Shown += new System.EventHandler(this.frmPinEntry_Shown);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

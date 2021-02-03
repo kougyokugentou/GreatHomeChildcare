@@ -2,6 +2,8 @@
 using System.Windows.Forms;
 using GreatHomeChildcare.Models;
 
+//Refs
+// https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.shown?redirectedfrom=MSDN&view=net-5.0
 namespace GreatHomeChildcare
 {
     public partial class frmPinEntry : Form
@@ -121,15 +123,20 @@ namespace GreatHomeChildcare
         /* Checks to see if this is the first-ever time the application has
          * run by querying number of rows in Guardian table.
          * If number of rows <= 0, we must setup an admin user in the guardian table.
+         * The Shown event is only raised the first time a form is displayed; subsequently
+         * minimizing, maximizing, restoring, hiding, showing, or invalidating and repainting
+         * will not raise this event. Ref: Microsoft
          */
-        private void frmPinEntry_Load(object sender, EventArgs e)
+        private void frmPinEntry_Shown(object sender, EventArgs e)
         {
+            Hide();
+
             int num_admins = 0;
             DialogResult dr;
 
             num_admins = SqliteDataAccess.GetNumAdmins();
 
-            if(num_admins <= 0)
+            if (num_admins <= 0)
             {
                 dr = MessageBox.Show("Program not setup yet. Setup now?", "Great Home Childcare", MessageBoxButtons.YesNo, MessageBoxIcon.None);
 
@@ -146,6 +153,10 @@ namespace GreatHomeChildcare
                     MessageBox.Show("Come back when you are ready to setup the program!", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
                     Close();
                 }
+            }
+            else
+            {
+                Show();
             }
         }
     }
