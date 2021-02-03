@@ -37,7 +37,6 @@ namespace GreatHomeChildcare
             System.Windows.Forms.Label isAdminLabel;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmGuardianCrud));
             this.idNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.guardianBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.lastNameTextBox = new System.Windows.Forms.TextBox();
             this.firstNameTextBox = new System.Windows.Forms.TextBox();
             this.phoneNumberNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -63,23 +62,24 @@ namespace GreatHomeChildcare
             this.btnCE = new System.Windows.Forms.Button();
             this.btn9 = new System.Windows.Forms.Button();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.guardianBindingSource = new System.Windows.Forms.BindingSource(this.components);
             lastNameLabel = new System.Windows.Forms.Label();
             firstNameLabel = new System.Windows.Forms.Label();
             phoneNumberLabel = new System.Windows.Forms.Label();
             emailAddressLabel = new System.Windows.Forms.Label();
             isAdminLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.idNumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.guardianBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.phoneNumberNumericUpDown)).BeginInit();
             this.panelPinEntry.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.guardianBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // lastNameLabel
             // 
             lastNameLabel.AutoSize = true;
-            lastNameLabel.Location = new System.Drawing.Point(12, 9);
+            lastNameLabel.Location = new System.Drawing.Point(150, 15);
             lastNameLabel.Name = "lastNameLabel";
             lastNameLabel.Size = new System.Drawing.Size(80, 17);
             lastNameLabel.TabIndex = 2;
@@ -88,7 +88,7 @@ namespace GreatHomeChildcare
             // firstNameLabel
             // 
             firstNameLabel.AutoSize = true;
-            firstNameLabel.Location = new System.Drawing.Point(150, 9);
+            firstNameLabel.Location = new System.Drawing.Point(12, 15);
             firstNameLabel.Name = "firstNameLabel";
             firstNameLabel.Size = new System.Drawing.Size(80, 17);
             firstNameLabel.TabIndex = 3;
@@ -132,26 +132,22 @@ namespace GreatHomeChildcare
             this.idNumericUpDown.TabStop = false;
             this.idNumericUpDown.Visible = false;
             // 
-            // guardianBindingSource
-            // 
-            this.guardianBindingSource.DataSource = typeof(GreatHomeChildcare.Models.Guardian);
-            // 
             // lastNameTextBox
             // 
             this.lastNameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.guardianBindingSource, "LastName", true));
-            this.lastNameTextBox.Location = new System.Drawing.Point(15, 29);
+            this.lastNameTextBox.Location = new System.Drawing.Point(153, 35);
             this.lastNameTextBox.Name = "lastNameTextBox";
             this.lastNameTextBox.Size = new System.Drawing.Size(100, 22);
-            this.lastNameTextBox.TabIndex = 3;
+            this.lastNameTextBox.TabIndex = 2;
             this.lastNameTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.String_TextBox_Validating);
             // 
             // firstNameTextBox
             // 
             this.firstNameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.guardianBindingSource, "FirstName", true));
-            this.firstNameTextBox.Location = new System.Drawing.Point(153, 29);
+            this.firstNameTextBox.Location = new System.Drawing.Point(15, 35);
             this.firstNameTextBox.Name = "firstNameTextBox";
             this.firstNameTextBox.Size = new System.Drawing.Size(100, 22);
-            this.firstNameTextBox.TabIndex = 4;
+            this.firstNameTextBox.TabIndex = 1;
             this.firstNameTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.String_TextBox_Validating);
             // 
             // phoneNumberNumericUpDown
@@ -430,6 +426,10 @@ namespace GreatHomeChildcare
             // 
             this.errorProvider1.ContainerControl = this;
             // 
+            // guardianBindingSource
+            // 
+            this.guardianBindingSource.DataSource = typeof(GreatHomeChildcare.Models.Guardian);
+            // 
             // frmGuardianCrud
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -454,12 +454,12 @@ namespace GreatHomeChildcare
             this.Text = "Guardian Management: Great Home Childcare";
             this.Load += new System.EventHandler(this.frmGuardianCrud_Load);
             ((System.ComponentModel.ISupportInitialize)(this.idNumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.guardianBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.phoneNumberNumericUpDown)).EndInit();
             this.panelPinEntry.ResumeLayout(false);
             this.panelPinEntry.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.guardianBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
