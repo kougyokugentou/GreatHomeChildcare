@@ -18,6 +18,7 @@ namespace GreatHomeChildcare
     {
         //globals for cheap access.
         SqliteDataAccess SqliteDataAccess = new SqliteDataAccess();
+        List<Child> AllChildren = new List<Child>();
 
         public frmReports()
         {
@@ -27,11 +28,11 @@ namespace GreatHomeChildcare
         private void frmReports_Load(object sender, EventArgs e)
         {
             LoadFilterComboBox();
+            RefreshReportDgv();
         }
 
         private void LoadFilterComboBox()
         {
-            List<Child> children = new List<Child>();
             Child everyoneSelection = new Child();
 
             /* cheap hack since you can't add an item to
@@ -40,10 +41,18 @@ namespace GreatHomeChildcare
             everyoneSelection.id = 0;
             everyoneSelection.DisplayName = "Everyone";
 
-            children = SqliteDataAccess.GetAllChildren();
-            children.Insert(0, everyoneSelection);
+            AllChildren = SqliteDataAccess.GetAllChildren();
+            AllChildren.Insert(0, everyoneSelection);
 
-            cbChildPicker.DataSource = children;
+            cbChildPicker.DataSource = AllChildren;
+        }
+
+        /* Updates the on-screen display datagridview
+         * upon selecting a new child from the drop-down box.
+         */        
+        private void cbChildPicker_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            RefreshReportDgv();
         }
 
         //DTP shenanigans ref stackexchange
@@ -62,6 +71,22 @@ namespace GreatHomeChildcare
         {
             dtpFrom.ValueChanged += dtpFrom_ValueChanged;
             dtpFrom_ValueChanged(sender, e);
+        }
+
+        //Refresh the datagrid view.
+        private void RefreshReportDgv()
+        {
+            dgvReports.Rows.Clear();
+
+            //First do the everyone case.
+            if(cbChildPicker.Text == "Everyone")
+            {
+                
+            }
+            else //load an individual child
+            {
+                
+            }
         }
     }
 }
