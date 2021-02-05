@@ -36,3 +36,10 @@ CREATE TABLE "Authorized_Guardians" (
 	FOREIGN KEY("child_id") REFERENCES "Children"("id"),
 	FOREIGN KEY("guardian_id") REFERENCES "Guardians"("id")	
 );
+
+CREATE TRIGGER trgUpdateTimestampToLocal AFTER INSERT ON Attendence
+BEGIN
+	UPDATE Attendence
+	SET timestamp = datetime(timestamp, 'localtime')
+	WHERE id = new.id;
+END;
