@@ -124,6 +124,7 @@
     <Compile Include="Models\Authorized_Guardian.cs" />
     <Compile Include="Models\Child.cs" />
     <Compile Include="Models\Guardian.cs" />
+    <Compile Include="Models\Reports.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqliteDataAccess.cs" />

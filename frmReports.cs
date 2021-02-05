@@ -77,16 +77,34 @@ namespace GreatHomeChildcare
         private void RefreshReportDgv()
         {
             dgvReports.Rows.Clear();
-
+            
             //First do the everyone case.
             if(cbChildPicker.Text == "Everyone")
             {
-                
+                foreach(DateTime day in EachDay(dtpFrom.Value,dtpTo.Value))
+                {
+
+                }
             }
             else //load an individual child
             {
-                
+                Child child = (Child)cbChildPicker.SelectedItem;
+                AttendenceSingleInOutData in_data = new AttendenceSingleInOutData();
+                AttendenceSingleInOutData out_data = new AttendenceSingleInOutData();
+
+                foreach (DateTime day in EachDay(dtpFrom.Value, dtpTo.Value))
+                {
+                    in_data = SqliteDataAccess.GetAttendenceByStatusForChildByDay(child, "in", day.ToString("yyyy-MM-dd"));
+                    out_data = SqliteDataAccess.GetAttendenceByStatusForChildByDay(child, "out",day.ToString("yyyy-MM-dd"));
+                }
             }
+        }
+
+        //https://stackoverflow.com/questions/1847580/how-do-i-loop-through-a-date-range
+        public IEnumerable<DateTime> EachDay(DateTime from, DateTime thru)
+        {
+            for (var day = from.Date; day.Date <= thru.Date; day = day.AddDays(1))
+                yield return day;
         }
     }
 }

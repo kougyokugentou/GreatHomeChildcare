@@ -12,5 +12,5 @@ INSERT INTO Authorized_Guardians(child_id, guardian_id) VALUES (2,2);
 INSERT INTO Authorized_Guardians(child_id, guardian_id) VALUES (3,1);
 
 INSERT INTO Attendence(child_id, guardian_id,in_out) VALUES (1,2,"in");
-INSERT INTO Attendence(child_id, guardian_id,in_out) VALUES (2,2,"out");
-INSERT INTO Attendence(child_id, guardian_id,in_out) VALUES (3,1,"out");
+INSERT INTO Attendence(child_id, guardian_id,in_out) VALUES (2,2,"in");
+INSERT INTO Attendence(child_id, guardian_id,in_out) VALUES (3,1,"in");
