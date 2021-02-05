@@ -8,4 +8,15 @@
         public string in_out { get; set; }
         public string timestamp { get; set; }
     }
+
+    //For the report screen.
+    class AttendenceSingleInOutData
+    {
+        public string ChildFirstName { get; set; }
+        public string ChildLastName { get; set; }
+        public string in_out { get; set; }
+        public string GuardianFirstname { get; set; }
+        public string GuardianLastName { get; set; }
+        public string timestamp { get; set; }
+    }
 }
