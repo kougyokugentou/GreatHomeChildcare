@@ -27,6 +27,13 @@ namespace GreatHomeChildcare
 
         private void frmReports_Load(object sender, EventArgs e)
         {
+            //cannot select from a future date.
+            this.dtpFrom.MaxDate = DateTime.Now;
+
+            //Ensure the To date is not before the From date.
+            this.dtpTo.MinDate = this.dtpFrom.Value;
+            this.dtpTo.MaxDate = DateTime.Now;
+
             LoadFilterComboBox();
             RefreshReportDgv();
         }

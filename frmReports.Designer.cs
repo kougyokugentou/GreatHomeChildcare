@@ -66,11 +66,9 @@ namespace GreatHomeChildcare
             // 
             this.dtpFrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpFrom.Location = new System.Drawing.Point(13, 177);
-            this.dtpFrom.MaxDate = new System.DateTime(2021, 2, 3, 12, 52, 11, 370);
             this.dtpFrom.Name = "dtpFrom";
             this.dtpFrom.Size = new System.Drawing.Size(121, 22);
             this.dtpFrom.TabIndex = 2;
-            this.dtpFrom.Value = new System.DateTime(2021, 2, 3, 12, 52, 11, 370);
             this.dtpFrom.CloseUp += new System.EventHandler(this.dtpFrom_CloseUp);
             this.dtpFrom.DropDown += new System.EventHandler(this.dtpFrom_DropDown);
             // 
@@ -78,12 +76,9 @@ namespace GreatHomeChildcare
             // 
             this.dtpTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpTo.Location = new System.Drawing.Point(12, 257);
-            this.dtpTo.MaxDate = new System.DateTime(2021, 2, 3, 12, 52, 11, 383);
-            this.dtpTo.MinDate = this.dtpFrom.Value;
             this.dtpTo.Name = "dtpTo";
             this.dtpTo.Size = new System.Drawing.Size(121, 22);
             this.dtpTo.TabIndex = 3;
-            this.dtpTo.Value = new System.DateTime(2021, 2, 3, 12, 52, 11, 383);
             // 
             // lblFrom
             // 
