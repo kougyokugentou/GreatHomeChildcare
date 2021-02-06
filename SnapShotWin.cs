@@ -1,0 +1,104 @@
+﻿using System;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Threading;
+using System.Windows.Forms;
+using OpenCvSharp;
+using OpenCvSharp.Extensions;
+using GreatHomeChildcare.Models;
+
+
+namespace GreatHomeChildcare
+{
+    public partial class SnapShotWin : Form
+    {
+        SqliteDataAccess SqliteDataAccess = new SqliteDataAccess();
+        Child child;
+        VideoCapture capture;
+        Mat frame;
+        Bitmap image;
+        private Thread camera;
+        bool isCameraRunning = false;
+        private void CaptureCamera()
+        {
+            camera = new Thread(new ThreadStart(CaptureCameraCallback));
+            camera.Start();
+        }
+        private void CaptureCameraCallback()
+        {
+            frame = new Mat();
+            capture = new VideoCapture(0);
+            capture.Open(0);
+
+            if (capture.IsOpened())
+            {
+                while (isCameraRunning)
+                {
+
+                    capture.Read(frame);
+                    image = BitmapConverter.ToBitmap(frame);
+                    if (pictureBox1.Image != null)
+                    {
+                        pictureBox1.Image.Dispose();
+                    }
+                    pictureBox1.Image = image;
+                }
+            }
+        }
+
+        public SnapShotWin()
+        {
+            InitializeComponent();
+        }
+
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (button1.Text.Equals("Start"))
+            {
+                CaptureCamera();
+                button1.Text = "Stop";
+                isCameraRunning = true;
+            }
+            else
+            {
+                capture.Release();
+                button1.Text = "Start";
+                isCameraRunning = false;
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (isCameraRunning)
+            {
+                Bitmap snapshot = new Bitmap(pictureBox1.Image);
+                byte[] pic_in = BitmapToByte(snapshot);
+                child.id = child.id;
+                child.address = child.address;
+                child.DOB = child.DOB;
+                child.FirstName = child.FirstName;
+                child.gender = child.gender;
+                child.LastName = child.LastName;
+                child.race = child.race;
+                child.photo = pic_in;
+                SqliteDataAccess.UpdateChild(child);
+                isCameraRunning = false;
+                Close();
+            }
+            else
+            {
+                MessageBox.Show("Cannot take picture if camera is not active.");
+            }
+        }
+        /**
+         * Simple method for converting a Bitmap to a byte array.
+         * @return byte array that can be used to call up an image.
+         */
+        private byte[] BitmapToByte(Bitmap image)
+        {
+            ImageConverter converter = new ImageConverter();
+            return (byte[])converter.ConvertTo(image, typeof(byte[]));
+        }
+    }
+}
