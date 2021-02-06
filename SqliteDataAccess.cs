@@ -347,37 +347,6 @@ WHERE Guardians.id = @id
 
         // ***************** Read *****************
 
-        /* Gets the first "in" or last "out" attendence for a child given a date string.
-         * INPUTS: child, "in"/"out", date short string as YYYY-MM-DD%
-         * hardest ef'in query ever, took 2 hours to write/debug wtf was going wrong,
-         * don't put your parameters 'in between', it doesn't work.
-         */
-        internal AttendenceSingleInOutData GetAttendenceByStatusForChildByDay(Child child_in, string in_out, string shortDateString)
-        {
-            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
-            {
-                //Must wildcard for the like operator
-                shortDateString += "%";
-
-                string minMax = in_out == "out" ? "max" : "min";
-
-                string strQuery = "SELECT Children.FirstName as ChildFirstName, Children.LastName as ChildLastName, in_out, " +
-                    "Guardians.FirstName as GuardianFirstName, Guardians.LastName as GuardianLastName, timestamp " +
-                    "FROM Attendence " +
-                    "INNER JOIN Children on Attendence.child_id = Children.id " +
-                    "INNER JOIN Guardians on Attendence.guardian_id = Guardians.id " +
-                    "WHERE Attendence.id = (SELECT "+minMax+ "(Attendence.id) FROM Attendence WHERE child_id = @_child_id AND in_out = @_in_out AND timestamp LIKE @_timestamp);";
-
-                var output = cnn.Query<AttendenceSingleInOutData>(strQuery, new 
-                {
-                    _child_id = child_in.id,
-                    _in_out = in_out,
-                    _timestamp = shortDateString
-                }).SingleOrDefault();
-
-                return output;
-            }
-        }
         /* gets a single child in/out status.
          * INPUT Child
          * OUTPUT string "in" or "out", plus the timestamp.
@@ -441,6 +410,86 @@ WHERE Guardians.id = @id
         #region reports
         // ***************** Create *****************
         // ***************** Read *******************
+
+        /* Gets the first "in" or last "out" attendence for a child given a date string.
+         * INPUTS: child, "in"/"out", date short string as YYYY-MM-DD
+         * hardest ef'in query ever, took 2 hours to write/debug wtf was going wrong,
+         * don't put your parameters 'in between', it doesn't work.
+         */
+        internal AttendenceSingleInOutData GetAttendenceByStatusForChildByDay(Child child_in, string in_out, string shortDateString)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                //Must wildcard for the like operator
+                shortDateString += "%";
+
+                string minMax = in_out == "out" ? "max" : "min";
+
+                string strQuery = "SELECT Children.FirstName as ChildFirstName, Children.LastName as ChildLastName, in_out, " +
+                    "Guardians.FirstName as GuardianFirstName, Guardians.LastName as GuardianLastName, timestamp " +
+                    "FROM Attendence " +
+                    "INNER JOIN Children on Attendence.child_id = Children.id " +
+                    "INNER JOIN Guardians on Attendence.guardian_id = Guardians.id " +
+                    "WHERE Attendence.id = (SELECT " + minMax + "(Attendence.id) FROM Attendence WHERE child_id = @_child_id AND in_out = @_in_out AND timestamp LIKE @_timestamp);";
+
+                var output = cnn.Query<AttendenceSingleInOutData>(strQuery, new
+                {
+                    _child_id = child_in.id,
+                    _in_out = in_out,
+                    _timestamp = shortDateString
+                }).SingleOrDefault();
+
+                return output;
+            }
+        }
+
+        /* Gets all report data for a specific date.
+         * The reports form iterates through this.
+         * input: date short string as YYYY-MM-DD
+         * output: List<ReportData>
+         */
+        internal List<ReportData>GetReportData(string shortDateString, Child child)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                //Must wildcard for the like operator
+                shortDateString += "%";
+                string strQuery = string.Empty;
+
+                if (child == null)
+                {
+                    strQuery = "SELECT Children.FirstName as ChildFirstName, Children.LastName as ChildLastName, in_out, " +
+                        "Guardians.FirstName as GuardianFirstName, Guardians.LastName as GuardianLastName, timestamp " +
+                        "FROM Attendence " +
+                        "INNER JOIN Children on Attendence.child_id = Children.id " +
+                        "INNER JOIN Guardians on Attendence.guardian_id = Guardians.id " +
+                        "WHERE timestamp LIKE @_timestamp;";
+
+                    var output = cnn.Query<ReportData>(strQuery, new 
+                    { 
+                        _timestamp = shortDateString,
+                    });
+                    return output.ToList();
+                }
+                else
+                {
+                    strQuery = "SELECT Children.FirstName as ChildFirstName, Children.LastName as ChildLastName, in_out, " +
+                        "Guardians.FirstName as GuardianFirstName, Guardians.LastName as GuardianLastName, timestamp " +
+                        "FROM Attendence " +
+                        "INNER JOIN Children on Attendence.child_id = Children.id " +
+                        "INNER JOIN Guardians on Attendence.guardian_id = Guardians.id " +
+                        "WHERE timestamp LIKE @_timestamp " +
+                        "AND child_id = @_child_id;";
+
+                    var output = cnn.Query<ReportData>(strQuery, new
+                    {
+                        _timestamp = shortDateString,
+                        _child_id = child.id
+                    });
+                    return output.ToList();
+                }
+            }
+        }
         // ***************** Update *****************
         // ***************** Delete *****************
         #endregion
