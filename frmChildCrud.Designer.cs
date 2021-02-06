@@ -46,11 +46,12 @@
             this.lblGuardians = new System.Windows.Forms.Label();
             this.dgvGuardians = new System.Windows.Forms.DataGridView();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.isAdmin = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PhoneNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EmailAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnAddGuardian = new System.Windows.Forms.Button();
+            this.btnAddExistingGuardian = new System.Windows.Forms.Button();
             this.btnEditGuardian = new System.Windows.Forms.Button();
             this.btnDeleteGuardian = new System.Windows.Forms.Button();
             this.btnPhotoFromCam = new System.Windows.Forms.Button();
@@ -60,9 +61,13 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.idNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.dOBMonthCalendar = new System.Windows.Forms.MonthCalendar();
-            this.childBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.pic_openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.lblExistingGuardians = new System.Windows.Forms.Label();
+            this.cbExistingGuardians = new System.Windows.Forms.ComboBox();
+            this.btnNewGuardian = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.childBindingSource = new System.Windows.Forms.BindingSource(this.components);
             firstNameLabel = new System.Windows.Forms.Label();
             lastNameLabel = new System.Windows.Forms.Label();
             raceLabel = new System.Windows.Forms.Label();
@@ -73,8 +78,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvGuardians)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.photoPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.idNumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.childBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.childBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // firstNameLabel
@@ -146,6 +151,7 @@
             this.imageList1.Images.SetKeyName(5, "Edit_16x.png");
             this.imageList1.Images.SetKeyName(6, "SaveClose_16x.png");
             this.imageList1.Images.SetKeyName(7, "OpenfileDialog_16x.png");
+            this.imageList1.Images.SetKeyName(8, "Add_16x.png");
             // 
             // dOBLabel
             // 
@@ -163,6 +169,7 @@
             this.firstNameTextBox.Name = "firstNameTextBox";
             this.firstNameTextBox.Size = new System.Drawing.Size(100, 22);
             this.firstNameTextBox.TabIndex = 2;
+            this.firstNameTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.String_TextBox_Validating);
             // 
             // lastNameTextBox
             // 
@@ -171,6 +178,7 @@
             this.lastNameTextBox.Name = "lastNameTextBox";
             this.lastNameTextBox.Size = new System.Drawing.Size(100, 22);
             this.lastNameTextBox.TabIndex = 4;
+            this.lastNameTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.String_TextBox_Validating);
             // 
             // raceTextBox
             // 
@@ -179,15 +187,18 @@
             this.raceTextBox.Name = "raceTextBox";
             this.raceTextBox.Size = new System.Drawing.Size(100, 22);
             this.raceTextBox.TabIndex = 6;
+            this.raceTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.String_TextBox_Validating);
             // 
             // genderComboBox
             // 
             this.genderComboBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.childBindingSource, "gender", true));
+            this.genderComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.genderComboBox.FormattingEnabled = true;
             this.genderComboBox.Location = new System.Drawing.Point(174, 107);
             this.genderComboBox.Name = "genderComboBox";
             this.genderComboBox.Size = new System.Drawing.Size(121, 24);
             this.genderComboBox.TabIndex = 8;
+            this.genderComboBox.Validating += new System.ComponentModel.CancelEventHandler(this.genderComboBox_Validating);
             // 
             // addressTextBox
             // 
@@ -197,6 +208,7 @@
             this.addressTextBox.Name = "addressTextBox";
             this.addressTextBox.Size = new System.Drawing.Size(283, 79);
             this.addressTextBox.TabIndex = 10;
+            this.addressTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.String_TextBox_Validating);
             // 
             // lblGuardians
             // 
@@ -214,6 +226,7 @@
             this.dgvGuardians.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvGuardians.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.id,
+            this.isAdmin,
             this.LastName,
             this.FirstName,
             this.PhoneNumber,
@@ -234,6 +247,15 @@
             this.id.ReadOnly = true;
             this.id.Visible = false;
             this.id.Width = 125;
+            // 
+            // isAdmin
+            // 
+            this.isAdmin.HeaderText = "isAdmin";
+            this.isAdmin.MinimumWidth = 6;
+            this.isAdmin.Name = "isAdmin";
+            this.isAdmin.ReadOnly = true;
+            this.isAdmin.Visible = false;
+            this.isAdmin.Width = 125;
             // 
             // LastName
             // 
@@ -267,29 +289,29 @@
             this.EmailAddress.ReadOnly = true;
             this.EmailAddress.Width = 125;
             // 
-            // btnAddGuardian
+            // btnAddExistingGuardian
             // 
-            this.btnAddGuardian.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddGuardian.ImageKey = "AddButton_16x.png";
-            this.btnAddGuardian.ImageList = this.imageList1;
-            this.btnAddGuardian.Location = new System.Drawing.Point(18, 439);
-            this.btnAddGuardian.Name = "btnAddGuardian";
-            this.btnAddGuardian.Size = new System.Drawing.Size(168, 26);
-            this.btnAddGuardian.TabIndex = 13;
-            this.btnAddGuardian.Text = "Add Guardian";
-            this.btnAddGuardian.UseVisualStyleBackColor = true;
-            this.btnAddGuardian.Click += new System.EventHandler(this.btnAddGuardian_Click);
+            this.btnAddExistingGuardian.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAddExistingGuardian.ImageKey = "AddButton_16x.png";
+            this.btnAddExistingGuardian.ImageList = this.imageList1;
+            this.btnAddExistingGuardian.Location = new System.Drawing.Point(206, 441);
+            this.btnAddExistingGuardian.Name = "btnAddExistingGuardian";
+            this.btnAddExistingGuardian.Size = new System.Drawing.Size(241, 75);
+            this.btnAddExistingGuardian.TabIndex = 13;
+            this.btnAddExistingGuardian.Text = "Add Chosen Existing\r\nGuardian (from Dropdown)\r\nto Child";
+            this.btnAddExistingGuardian.UseVisualStyleBackColor = true;
+            this.btnAddExistingGuardian.Click += new System.EventHandler(this.btnAddExistingGuardian_Click);
             // 
             // btnEditGuardian
             // 
             this.btnEditGuardian.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnEditGuardian.ImageIndex = 5;
             this.btnEditGuardian.ImageList = this.imageList1;
-            this.btnEditGuardian.Location = new System.Drawing.Point(305, 439);
+            this.btnEditGuardian.Location = new System.Drawing.Point(756, 438);
             this.btnEditGuardian.Name = "btnEditGuardian";
-            this.btnEditGuardian.Size = new System.Drawing.Size(185, 26);
+            this.btnEditGuardian.Size = new System.Drawing.Size(225, 34);
             this.btnEditGuardian.TabIndex = 14;
-            this.btnEditGuardian.Text = "Edit Guardian";
+            this.btnEditGuardian.Text = "Edit Selected Guardian";
             this.btnEditGuardian.UseVisualStyleBackColor = true;
             this.btnEditGuardian.Click += new System.EventHandler(this.btnEditGuardian_Click);
             // 
@@ -298,11 +320,11 @@
             this.btnDeleteGuardian.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnDeleteGuardian.ImageIndex = 4;
             this.btnDeleteGuardian.ImageList = this.imageList1;
-            this.btnDeleteGuardian.Location = new System.Drawing.Point(634, 439);
+            this.btnDeleteGuardian.Location = new System.Drawing.Point(756, 478);
             this.btnDeleteGuardian.Name = "btnDeleteGuardian";
-            this.btnDeleteGuardian.Size = new System.Drawing.Size(175, 26);
+            this.btnDeleteGuardian.Size = new System.Drawing.Size(225, 38);
             this.btnDeleteGuardian.TabIndex = 15;
-            this.btnDeleteGuardian.Text = "Delete Guardian";
+            this.btnDeleteGuardian.Text = "Delete Selected Guardian";
             this.btnDeleteGuardian.UseVisualStyleBackColor = true;
             this.btnDeleteGuardian.Click += new System.EventHandler(this.btnDeleteGuardian_Click);
             // 
@@ -371,7 +393,7 @@
             // idNumericUpDown
             // 
             this.idNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.childBindingSource, "id", true));
-            this.idNumericUpDown.Location = new System.Drawing.Point(905, 125);
+            this.idNumericUpDown.Location = new System.Drawing.Point(905, 202);
             this.idNumericUpDown.Name = "idNumericUpDown";
             this.idNumericUpDown.ReadOnly = true;
             this.idNumericUpDown.Size = new System.Drawing.Size(76, 22);
@@ -386,10 +408,7 @@
             this.dOBMonthCalendar.MaxSelectionCount = 1;
             this.dOBMonthCalendar.Name = "dOBMonthCalendar";
             this.dOBMonthCalendar.TabIndex = 25;
-            // 
-            // childBindingSource
-            // 
-            this.childBindingSource.DataSource = typeof(GreatHomeChildcare.Models.Child);
+            this.dOBMonthCalendar.Validating += new System.ComponentModel.CancelEventHandler(this.dOBMonthCalendar_Validating);
             // 
             // pic_openFileDialog
             // 
@@ -403,11 +422,63 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
+            // lblExistingGuardians
+            // 
+            this.lblExistingGuardians.AutoSize = true;
+            this.lblExistingGuardians.Location = new System.Drawing.Point(12, 441);
+            this.lblExistingGuardians.Name = "lblExistingGuardians";
+            this.lblExistingGuardians.Size = new System.Drawing.Size(130, 17);
+            this.lblExistingGuardians.TabIndex = 27;
+            this.lblExistingGuardians.Text = "Existing Guardians:";
+            // 
+            // cbExistingGuardians
+            // 
+            this.cbExistingGuardians.FormattingEnabled = true;
+            this.cbExistingGuardians.Location = new System.Drawing.Point(12, 464);
+            this.cbExistingGuardians.Name = "cbExistingGuardians";
+            this.cbExistingGuardians.Size = new System.Drawing.Size(171, 24);
+            this.cbExistingGuardians.TabIndex = 26;
+            this.cbExistingGuardians.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cbExistingGuardians_KeyPress);
+            // 
+            // btnNewGuardian
+            // 
+            this.btnNewGuardian.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnNewGuardian.ImageIndex = 8;
+            this.btnNewGuardian.ImageList = this.imageList1;
+            this.btnNewGuardian.Location = new System.Drawing.Point(540, 442);
+            this.btnNewGuardian.Name = "btnNewGuardian";
+            this.btnNewGuardian.Size = new System.Drawing.Size(195, 66);
+            this.btnNewGuardian.TabIndex = 28;
+            this.btnNewGuardian.Text = "Create New Guardian\r\n&& Add to Child";
+            this.btnNewGuardian.UseVisualStyleBackColor = true;
+            this.btnNewGuardian.Click += new System.EventHandler(this.btnNewGuardian_Click);
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnDelete.ImageIndex = 4;
+            this.btnDelete.ImageList = this.imageList1;
+            this.btnDelete.Location = new System.Drawing.Point(834, 143);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(159, 37);
+            this.btnDelete.TabIndex = 29;
+            this.btnDelete.Text = "DELETE CHILD";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // childBindingSource
+            // 
+            this.childBindingSource.DataSource = typeof(GreatHomeChildcare.Models.Child);
+            // 
             // frmChildCrud
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1004, 608);
+            this.ClientSize = new System.Drawing.Size(1004, 657);
+            this.Controls.Add(this.btnDelete);
+            this.Controls.Add(this.btnNewGuardian);
+            this.Controls.Add(this.lblExistingGuardians);
+            this.Controls.Add(this.cbExistingGuardians);
             this.Controls.Add(dOBLabel);
             this.Controls.Add(this.dOBMonthCalendar);
             this.Controls.Add(this.idNumericUpDown);
@@ -419,7 +490,7 @@
             this.Controls.Add(this.btnPhotoFromCam);
             this.Controls.Add(this.btnDeleteGuardian);
             this.Controls.Add(this.btnEditGuardian);
-            this.Controls.Add(this.btnAddGuardian);
+            this.Controls.Add(this.btnAddExistingGuardian);
             this.Controls.Add(this.dgvGuardians);
             this.Controls.Add(this.lblGuardians);
             this.Controls.Add(addressLabel);
@@ -439,8 +510,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvGuardians)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.photoPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.idNumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.childBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.childBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -456,7 +527,7 @@
         private System.Windows.Forms.TextBox addressTextBox;
         private System.Windows.Forms.Label lblGuardians;
         private System.Windows.Forms.DataGridView dgvGuardians;
-        private System.Windows.Forms.Button btnAddGuardian;
+        private System.Windows.Forms.Button btnAddExistingGuardian;
         private System.Windows.Forms.Button btnEditGuardian;
         private System.Windows.Forms.Button btnDeleteGuardian;
         private System.Windows.Forms.Button btnPhotoFromCam;
@@ -466,13 +537,18 @@
         private System.Windows.Forms.PictureBox photoPictureBox;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.NumericUpDown idNumericUpDown;
+        private System.Windows.Forms.MonthCalendar dOBMonthCalendar;
+        private System.Windows.Forms.OpenFileDialog pic_openFileDialog;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
+        private System.Windows.Forms.Label lblExistingGuardians;
+        private System.Windows.Forms.ComboBox cbExistingGuardians;
+        private System.Windows.Forms.Button btnNewGuardian;
         private System.Windows.Forms.DataGridViewTextBoxColumn id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn isAdmin;
         private System.Windows.Forms.DataGridViewTextBoxColumn LastName;
         private System.Windows.Forms.DataGridViewTextBoxColumn FirstName;
         private System.Windows.Forms.DataGridViewTextBoxColumn PhoneNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn EmailAddress;
-        private System.Windows.Forms.MonthCalendar dOBMonthCalendar;
-        private System.Windows.Forms.OpenFileDialog pic_openFileDialog;
-        private System.Windows.Forms.ErrorProvider errorProvider1;
+        private System.Windows.Forms.Button btnDelete;
     }
 }

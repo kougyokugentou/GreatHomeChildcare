@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using GreatHomeChildcare.Models;
 
@@ -45,9 +40,9 @@ namespace GreatHomeChildcare
             }
 
             //If the guardian has no children, show a message.
-            if (children == null)
+            if (children.Count == 0)
             {
-                lblNoChildren.Visible = true;
+                lblInstructions.Text = "You don\'t have any children. Please have an admin assign your children in the program.";
                 return;
             }
 
@@ -77,6 +72,9 @@ namespace GreatHomeChildcare
          */
         private void PopulateButton(Child child_in, Control controls_in)
         {
+            Attendance studentStatus = new Attendance();
+            string btnText = String.Empty;
+
             Control.ControlCollection nested_controls = controls_in.Controls;
             foreach(Control c in nested_controls)
             {
@@ -89,10 +87,29 @@ namespace GreatHomeChildcare
                 if (c is Button)
                 {
                     Button btn = (Button)c;
-                    Attendance studentStatus = SqliteDataAccess.GetChildSignInOut(child_in);
-                    string btnText = child_in.DisplayName + "\n\r"
-                                   + "Status: Signed " + studentStatus.in_out.ToUpper() + "\n\r"
-                                   + studentStatus.timestamp;
+                    studentStatus = SqliteDataAccess.GetChildSignInOut(child_in);
+
+                    if(studentStatus != null)
+                    {
+                        btnText = child_in.DisplayName + "\n\r"
+                            + "Status: Signed " + studentStatus.in_out.ToUpper() + "\n\r"
+                            + studentStatus.timestamp;
+                    }
+                    else //it's a new student.
+                    {
+                        /* The studentStatus object must be reinitialized here as
+                         * GetChildSignInOut can return null. If so; then
+                         * studentStatus is also null and is no longer an Attendence object.
+                         */
+                        studentStatus = new Attendance();
+
+                        //Set the status to out for the button display and the update panel color.
+                        studentStatus.in_out = "out";
+
+                        btnText = child_in.DisplayName + "\n\r"
+                            + "Status: Signed " + studentStatus.in_out.ToUpper() + "\n\r"
+                            + "No attendence record.";
+                    }
 
                     //shove the child into the Tag property which is a type of 'object' for later retrieval.
                     //see also: cheap hax

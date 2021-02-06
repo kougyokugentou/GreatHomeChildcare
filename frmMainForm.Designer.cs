@@ -42,7 +42,6 @@ namespace GreatHomeChildcare
             this.btnChild3 = new System.Windows.Forms.Button();
             this.picturebox_child3 = new System.Windows.Forms.PictureBox();
             this.panelChild4 = new System.Windows.Forms.Panel();
-            this.lblNoChildren = new System.Windows.Forms.Label();
             this.btnChild4 = new System.Windows.Forms.Button();
             this.picturebox_child4 = new System.Windows.Forms.PictureBox();
             this.panelChild5 = new System.Windows.Forms.Panel();
@@ -222,7 +221,6 @@ namespace GreatHomeChildcare
             // panelChild4
             // 
             this.panelChild4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelChild4.Controls.Add(this.lblNoChildren);
             this.panelChild4.Controls.Add(this.btnChild4);
             this.panelChild4.Controls.Add(this.picturebox_child4);
             this.panelChild4.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -231,17 +229,6 @@ namespace GreatHomeChildcare
             this.panelChild4.Size = new System.Drawing.Size(238, 120);
             this.panelChild4.TabIndex = 6;
             this.panelChild4.Visible = false;
-            // 
-            // lblNoChildren
-            // 
-            this.lblNoChildren.AutoSize = true;
-            this.lblNoChildren.Location = new System.Drawing.Point(80, 40);
-            this.lblNoChildren.Name = "lblNoChildren";
-            this.lblNoChildren.Size = new System.Drawing.Size(563, 17);
-            this.lblNoChildren.TabIndex = 2;
-            this.lblNoChildren.Text = "You don\'t have any children. Please have an admin assign your children in the pro" +
-    "gram.";
-            this.lblNoChildren.Visible = false;
             // 
             // btnChild4
             // 
@@ -431,7 +418,7 @@ namespace GreatHomeChildcare
             // lblInstructions
             // 
             this.lblInstructions.AutoSize = true;
-            this.lblInstructions.Location = new System.Drawing.Point(61, 24);
+            this.lblInstructions.Location = new System.Drawing.Point(84, 24);
             this.lblInstructions.Name = "lblInstructions";
             this.lblInstructions.Size = new System.Drawing.Size(573, 17);
             this.lblInstructions.TabIndex = 2;
@@ -469,7 +456,6 @@ namespace GreatHomeChildcare
             this.panelChild3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picturebox_child3)).EndInit();
             this.panelChild4.ResumeLayout(false);
-            this.panelChild4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picturebox_child4)).EndInit();
             this.panelChild5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picturebox_child5)).EndInit();
@@ -517,7 +503,6 @@ namespace GreatHomeChildcare
         private System.Windows.Forms.Button btnChild9;
         private System.Windows.Forms.PictureBox picturebox_child9;
         private System.Windows.Forms.Button btnChild1;
-        private System.Windows.Forms.Label lblNoChildren;
         private System.Windows.Forms.Label lblInstructions;
         private System.Windows.Forms.Button btnDone;
     }

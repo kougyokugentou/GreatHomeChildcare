@@ -126,11 +126,18 @@
     <Compile Include="frmPinEntry.Designer.cs">
       <DependentUpon>frmPinEntry.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmReports.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmReports.Designer.cs">
+      <DependentUpon>frmReports.cs</DependentUpon>
+    </Compile>
     <Compile Include="ImageWrangler.cs" />
     <Compile Include="Models\Attendance.cs" />
     <Compile Include="Models\Authorized_Guardian.cs" />
     <Compile Include="Models\Child.cs" />
     <Compile Include="Models\Guardian.cs" />
+    <Compile Include="Models\Reports.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SnapShotWin.cs">
@@ -160,6 +167,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmPinEntry.resx">
       <DependentUpon>frmPinEntry.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmReports.resx">
+      <DependentUpon>frmReports.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

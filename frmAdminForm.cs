@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using GreatHomeChildcare.Models;
 
@@ -60,13 +55,23 @@ namespace GreatHomeChildcare
             Close();
         }
 
-        //TODO: new form to generate reports
+        /* VS generated delegate to handle report button clicking
+         * Pops up the report form and hides this one.
+         */
         private void btnReports_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Reports button clicked.");
+            Form frmRep = new frmReports();
+
+            //We can use the same event handler here, don't mind the name.
+            frmRep.FormClosed += new FormClosedEventHandler(CrudFormClosed);
+            frmRep.Show();
+            Hide();
         }
 
-        //TODO: new form to add a new child and their guardian(s)
+        /* Pop-open a new form for crud operations for children
+         * and their guardians. Be sure you set the child_id
+         * to -1 here just to be on the super-safe side.
+         */
         private void btnAdd_Click(object sender, EventArgs e)
         {
             child_id = -1; //ENSURE!!!!
@@ -74,8 +79,10 @@ namespace GreatHomeChildcare
             ShowChildCrudForm();
         }
 
-        //TODO: new form(or same form as adding) for updating children
-        //PB&J: get currently selected row from dgv, then pass to GetChildByID() to get Child object.
+        /* Call the same crud form for adding a new child
+         * but store the child_id so the crud form
+         * can pick it up on form load.
+         */
         private void btnUpdate_Click(object sender, EventArgs e)
         {
             /* Get the child's database ID which is secretly hidden
@@ -86,7 +93,13 @@ namespace GreatHomeChildcare
 
             ShowChildCrudForm();
         }
-
+        
+        /* Seperate function to show the crud form
+         * because both the add and the update buttons
+         * will show the same crud form.
+         * INPUT: void
+         * OUTPUT: void
+         */
         private void ShowChildCrudForm()
         {
             Form frmCrud = new frmChildCrud();
@@ -102,9 +115,14 @@ namespace GreatHomeChildcare
             Show();
         }
 
+        /* Allow the admin to quit the program as a normal login
+         * will not be able to exit the attendence program
+         * from the main pin screen on the shared tablet.
+         */
         private void btnQuit_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Thank you for using the program! Your data has been saved. Good bye!", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+            //TODO: I got the program to crash here by exiting from reports form then clicking quit??
             Environment.Exit(0);
         }
     }

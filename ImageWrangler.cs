@@ -39,5 +39,31 @@ namespace GreatHomeChildcare
                 return Image.FromStream(ms);
             }
         }
+
+        /* Nowhere else to put this.
+         * Capitalize the first letter of a given string
+         * then return the string.
+         * Ref: https://www.educative.io/edpresso/how-to-capitalize-the-first-letter-of-a-string-in-c-sharp
+         */
+        public static string CapitalizeFirstLetter(string str)
+        {
+            if (str.Length <= 0)
+                return null;
+            else if (str.Length == 1)
+                return char.ToUpper(str[0]).ToString();
+            else
+            {
+                string output = string.Empty;
+                output = char.ToUpper(str[0]).ToString();
+
+                int i = 1;
+                for(i=1; i < str.Length; i++)
+                {
+                    output += char.ToLower(str[i]).ToString();
+                }
+
+                return output;
+            }
+        }
     }
 }

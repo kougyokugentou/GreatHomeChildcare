@@ -1,12 +1,9 @@
 ﻿using Dapper;
-using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SQLite;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GreatHomeChildcare.Models;
 
 /* REFERENCES:
@@ -28,13 +25,28 @@ namespace GreatHomeChildcare
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
-                string strQuery = "INSERT INTO STUDENTS (FirstName, LastName, DOB, address, race, gender, photo)" +
+                string strQuery = "INSERT INTO Children (FirstName, LastName, DOB, address, race, gender, photo)" +
                     "VALUES (@FirstName, @LastName, @DOB, @address, @race, @gender, @photo);";
                 cnn.Execute(strQuery, child);
             }
         }
 
         // ***************** Read *******************
+
+        /* Gets the next available child_id from the sqlite database.
+         * INPUT: void
+         * OUTPUT: integer
+         */
+        internal int GetNextChildID()
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string strQuery = "SELECT seq FROM sqlite_sequence WHERE name = 'Children';";
+                int output = cnn.Query<int>(strQuery).SingleOrDefault();
+                output++;
+                return output;
+            }
+        }
 
         /* Gets a single child from the sqlite database
          * provided an id number.
@@ -79,7 +91,7 @@ namespace GreatHomeChildcare
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
                 string strQuery = "UPDATE Children SET FirstName = @First_Name, LastName = @Last_Name, " +
-                "DOB = @_dob, address = @_address, race = @_race, gender = @_gender, photo = @_photo" +
+                "DOB = @_dob, address = @_address, race = @_race, gender = @_gender, photo = @_photo " +
                 "WHERE id = @_id;";
 
                 cnn.Execute(strQuery, new
@@ -97,12 +109,82 @@ namespace GreatHomeChildcare
         }
 
         // ***************** Delete *****************
+
+        /* Deletes a child from the database.
+         * INPUT: child
+         * OUTPUT: void
+         */
+        internal void DeleteChild(Child child_in)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string strQuery = "DELETE FROM Children WHERE id = @id;";
+                cnn.Execute(strQuery, child_in);
+            }
+        }
+
         #endregion
 
         #region guardian
         // ***************** Create *****************
+        internal void InsertNewGuardian(Guardian guardian_in)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string strQuery = "INSERT INTO Guardians (FirstName, LastName, PhoneNumber, EmailAddress, PinNumber, IsAdmin)" +
+                    "VALUES (@FirstName, @LastName, @PhoneNumber, @EmailAddress, @PinNumber, @IsAdmin);";
+                cnn.Execute(strQuery, guardian_in);
+            }
+        }
 
         // ***************** Read *****************
+
+        /* Gets a list of orphaned guardians
+         * after a child has been deleted.
+         * INPUT: void
+         * OUTPUT: list of guardian objects or null.
+         */
+        internal List<Guardian> GetOrphanedGuardians()
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string sqlQuery = "SELECT * FROM Guardians " +
+                    "LEFT OUTER JOIN Authorized_Guardians " +
+                    "ON Guardians.id = Authorized_Guardians.guardian_id " +
+                    "WHERE Authorized_Guardians.child_id IS NULL;";
+
+                var output = cnn.Query<Guardian>(sqlQuery);
+                return output.ToList();
+            }
+        }
+
+        /* Gets a single guardian from the DB given db id.
+         * INPUT: integer
+         * OUTPUT Guardian object or null
+         */
+        internal Guardian GetGuardianById(int id_in)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string sqlQuery = "SELECT * FROM Guardians WHERE id=@id;";
+                Guardian output = cnn.Query<Guardian>(sqlQuery, new { id = id_in }).SingleOrDefault();
+                return output;
+            }
+        }
+
+        /* Gets all guardians from the DB.
+         * INPUT: void
+         * OUTPUT: list of guardian objects.
+         */
+        internal List<Guardian> GetAllGuardians()
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string strQuery = "SELECT * FROM Guardians ORDER BY LastName ASC;";
+                var output = cnn.Query<Guardian>(strQuery);
+                return output.ToList();
+            }
+        }
 
         /* Gets all guardians for a single child.
          * INPUT: Child
@@ -132,13 +214,63 @@ namespace GreatHomeChildcare
             }
         }
         // ***************** Update *****************
+        internal void UpdateGuardian(Guardian guardian_in)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string strQuery = "UPDATE Guardians SET FirstName = @FirstName, LastName = @LastName, " +
+                    "PhoneNumber = @PhoneNumber, EmailAddress = @EmailAddress, PinNumber = @PinNumber, " +
+                    "isAdmin = @isAdmin WHERE id=@id";
+                cnn.Execute(strQuery, guardian_in);
+            }
+        }
+
         // ***************** Delete *****************
+        internal void DeleteGuardian(Guardian guardian_in)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string strQuery = "DELETE FROM Guardians WHERE id = @id;";
+                cnn.Execute(strQuery, guardian_in);
+            }
+        }
         #endregion
 
         #region authorized_guardians
         // ***************** Create *****************
 
+        /* Add a guardian as an authorized_guardian of a specific child.
+         * INPUT: child, guardian
+         * OUTPUT: void to program, new row in authorized_guardian table of sql db.
+         */
+        internal void AddNewGuardianToChild(Child child_in, Guardian guardian_in)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string strQuery = "INSERT INTO Authorized_Guardians (child_id, guardian_id) VALUES (@_child_id, @_guardian_id);";
+                cnn.Execute(strQuery, new
+                {
+                    _child_id = child_in.id,
+                    _guardian_id = guardian_in.id
+                });
+            }
+        }
+
         // ***************** Read *****************
+
+        /* Check for octomom.
+         * INPUT: Guardian
+         * OUTPUT: integer Count of children per guardian.
+         */
+        internal int CheckForOctomom(Guardian guardian_in)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string strQuery = "SELECT COUNT(child_id) from Authorized_Guardians WHERE guardian_id = @id;";
+                int output = cnn.Query<int>(strQuery, guardian_in).SingleOrDefault();
+                return output;
+            }
+        }
 
         /* Gets a list of all children per a specific guardian.
          * INPUT: Guardian
@@ -173,6 +305,16 @@ WHERE Guardians.id = @id
         }
         // ***************** Update *****************
         // ***************** Delete *****************
+
+        internal void RemoveGuardianFromAllChildren(Guardian guardian_in)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string strQuery = "DELETE FROM Authorized_Guardians WHERE guardian_id = @id;";
+                cnn.Execute(strQuery, guardian_in);
+            }
+        }
+
         #endregion
 
         #region attendance
@@ -205,6 +347,37 @@ WHERE Guardians.id = @id
 
         // ***************** Read *****************
 
+        /* Gets the first "in" or last "out" attendence for a child given a date string.
+         * INPUTS: child, "in"/"out", date short string as YYYY-MM-DD%
+         * hardest ef'in query ever, took 2 hours to write/debug wtf was going wrong,
+         * don't put your parameters 'in between', it doesn't work.
+         */
+        internal AttendenceSingleInOutData GetAttendenceByStatusForChildByDay(Child child_in, string in_out, string shortDateString)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                //Must wildcard for the like operator
+                shortDateString += "%";
+
+                string minMax = in_out == "out" ? "max" : "min";
+
+                string strQuery = "SELECT Children.FirstName as ChildFirstName, Children.LastName as ChildLastName, in_out, " +
+                    "Guardians.FirstName as GuardianFirstName, Guardians.LastName as GuardianLastName, timestamp " +
+                    "FROM Attendence " +
+                    "INNER JOIN Children on Attendence.child_id = Children.id " +
+                    "INNER JOIN Guardians on Attendence.guardian_id = Guardians.id " +
+                    "WHERE Attendence.id = (SELECT "+minMax+ "(Attendence.id) FROM Attendence WHERE child_id = @_child_id AND in_out = @_in_out AND timestamp LIKE @_timestamp);";
+
+                var output = cnn.Query<AttendenceSingleInOutData>(strQuery, new 
+                {
+                    _child_id = child_in.id,
+                    _in_out = in_out,
+                    _timestamp = shortDateString
+                }).SingleOrDefault();
+
+                return output;
+            }
+        }
         /* gets a single child in/out status.
          * INPUT Child
          * OUTPUT string "in" or "out", plus the timestamp.
@@ -223,6 +396,15 @@ WHERE Guardians.id = @id
         // ***************** Update *****************
 
         // ***************** Delete *****************
+        internal void DeleteAttendenceForGuardian(Guardian for_guardian)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string strQuery = "DELETE FROM Attendence WHERE guardian_id = @id;";
+                cnn.Execute(strQuery, for_guardian);
+            }
+        }
+
         #endregion
 
         #region misc
@@ -230,25 +412,30 @@ WHERE Guardians.id = @id
         // ***************** Read *******************
 
         /* Checks to see if this is the first time the application has run.
-         * by counting the number of guardians in the guardian table.
+         * by counting the number of admins in the guardian table.
          * INPUT: void from program, count of guardians from db.
-         * OUTPUT: boolean true/false.
+         * OUTPUT: integer
          */
-        internal bool isFirstTimeRun()
+        internal int GetNumAdmins()
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
-                string strQuery = "SELECT COUNT(*) FROM Guardians";
-                int num_guardians = cnn.Query<int>(strQuery).SingleOrDefault();
+                string strQuery = "SELECT COUNT(*) FROM Guardians WHERE isAdmin = 1";
+                int num_admins = cnn.Query<int>(strQuery).SingleOrDefault();
 
-                if (num_guardians > 0)
-                    return false;
-                else
-                    return true;
+                return num_admins;
             }
         }
         // ***************** Update *****************
         // ***************** Delete *****************
+        internal void DeleteAttendenceForChild(Child child_in)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string strQuery = "DELETE FROM Attendence WHERE child_id=@id;";
+                cnn.Execute(strQuery, child_in);
+            }
+        }
         #endregion
 
         #region reports
