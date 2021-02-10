@@ -348,6 +348,7 @@ WHERE Guardians.id = @id
 
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
+                //TODO: Bug Fix strStudentStatus is null
                 string strInOut = (strStudentStatus.in_out == "in" ? "out" : "in");
                 string strQuery = "INSERT INTO Attendence(child_id, guardian_id,in_out) VALUES(@child_id, @guardian_id, @in_out)";
                 cnn.Execute(strQuery, new
