@@ -170,12 +170,16 @@ namespace GreatHomeChildcare
         private void btnPhotoFromCam_Click(object sender, EventArgs e)
         {
 
-            MessageBox.Show("From cam");
+            // MessageBox.Show("From cam");
+            int child_id = frmAdminForm.child_id;
+            SnapShotWin openWebCam = new SnapShotWin(child_id);
+            openWebCam.Show();
+            photoPictureBox.Tag = CUSTOM_PIC_TAG;
             return;
 
             //TED: Be sure you set this somewhere along the way
             //after you wrangle the damn camera.
-            photoPictureBox.Tag = CUSTOM_PIC_TAG;
+            
         }
 
         /* On click of the button, open a file picker dialog box

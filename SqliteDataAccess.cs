@@ -108,6 +108,20 @@ namespace GreatHomeChildcare
             }
         }
 
+        internal void AddWebCamPhoto(Child child)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string strQuery = "UPDATE Children SET photo = @_photo WHERE id = @_id;";
+
+                cnn.Execute(strQuery, new
+                {
+                    _id = child.id,
+                    _photo = child.photo
+                });
+            }
+        }
+
         // ***************** Delete *****************
 
         /* Deletes a child from the database.

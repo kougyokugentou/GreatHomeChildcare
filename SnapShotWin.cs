@@ -16,7 +16,7 @@ namespace GreatHomeChildcare
         Child child;
         VideoCapture capture;
         Mat frame;
-        Bitmap image;
+        Image image;
         private Thread camera;
         bool isCameraRunning = false;
         private void CaptureCamera()
@@ -46,9 +46,10 @@ namespace GreatHomeChildcare
             }
         }
 
-        public SnapShotWin()
+        public SnapShotWin(int id)
         {
             InitializeComponent();
+            child = SqliteDataAccess.GetChildByID(id);
         }
 
 
@@ -72,17 +73,29 @@ namespace GreatHomeChildcare
         {
             if (isCameraRunning)
             {
+                byte[] pic_in;
                 Bitmap snapshot = new Bitmap(pictureBox1.Image);
-                byte[] pic_in = BitmapToByte(snapshot);
-                child.id = child.id;
-                child.address = child.address;
-                child.DOB = child.DOB;
-                child.FirstName = child.FirstName;
-                child.gender = child.gender;
-                child.LastName = child.LastName;
-                child.race = child.race;
+                try
+                {
+                    Image image = (Image)snapshot;
+                    ImageConverter _imageConverter = new ImageConverter();
+                    pic_in = (byte[])_imageConverter.ConvertTo(snapshot, typeof(byte[]));
+                } catch(Exception ex)
+                {
+                    MessageBox.Show("Unable to picture.  Try again.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+                    return;
+                }
+                try
+                {
+                    child.id = child.id;
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("This child has not been created yet.  Save the child first and then come back.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+                    return;
+                }
                 child.photo = pic_in;
-                SqliteDataAccess.UpdateChild(child);
+                SqliteDataAccess.AddWebCamPhoto(child);
                 isCameraRunning = false;
                 Close();
             }
