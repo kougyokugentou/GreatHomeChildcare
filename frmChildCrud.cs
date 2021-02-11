@@ -475,7 +475,8 @@ namespace GreatHomeChildcare
                  * does not correctly work; and the program saves the child before attaching a new guardian
                  * any god damn ways.... so fuck you. HOURS_WASTED_ON_TRYING_TO_FIX_IT = 10;
                  */
-                if (cbExistingGuardians.Text != "Choose a guardian to add to this child")
+                if (cbExistingGuardians.Text != "Choose a guardian to add to this child"
+                    && dgvGuardians.RowCount <= 0) //No guardians have been added with 'add existing guardian'
                 {
                     btnAddExistingGuardian_Click(btnSave, EventArgs.Empty);
                 }
