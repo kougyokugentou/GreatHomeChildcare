@@ -403,6 +403,7 @@ namespace GreatHomeChildcare
                 
                 MessageBox.Show("The guardian has been deleted.");
                 LoadGuardiansForChild(child);
+                FillGuardiansComboBox();
             }
             else
             {
