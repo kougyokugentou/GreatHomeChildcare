@@ -348,8 +348,19 @@ WHERE Guardians.id = @id
 
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
-                //TODO: Bug Fix strStudentStatus is null
-                string strInOut = (strStudentStatus.in_out == "in" ? "out" : "in");
+                string strInOut = string.Empty;
+
+                if (strStudentStatus != null)
+                {
+                    strInOut = (strStudentStatus.in_out == "in" ? "out" : "in");
+                }
+                else
+                {
+                    //Happens when a new child is added to the DB and they
+                    //don't have any existing status. We will sign them in.
+                    strInOut = "in";
+                }
+
                 string strQuery = "INSERT INTO Attendence(child_id, guardian_id,in_out) VALUES(@child_id, @guardian_id, @in_out)";
                 cnn.Execute(strQuery, new
                 {
