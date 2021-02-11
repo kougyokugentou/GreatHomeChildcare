@@ -74,10 +74,6 @@ namespace GreatHomeChildcare
             guardians = SqliteDataAccess.GetAllGuardians();
 
             cbExistingGuardians.DataSource = null;
-
-            //TODO: check if needed.
-            //cbExistingGuardians.Items.Clear();
-
             cbExistingGuardians.DataSource = guardians;
             cbExistingGuardians.DisplayMember = "DisplayName";
             cbExistingGuardians.Text = "Choose a guardian to add to this child";
@@ -327,7 +323,6 @@ namespace GreatHomeChildcare
             int next_child_id = 0;
 
             //We added a new guardian.
-            //TODO: TEST
             if(gFromGCrudForm.id == 0)
             {
                 Guardian gToAddToChild = new Guardian();
@@ -452,7 +447,6 @@ namespace GreatHomeChildcare
             else
                 child.photo = ImageWrangler.ImageToByteArray(photoPictureBox.Image);
 
-            //TODO: test
             if(child.id > 0) //Should be all that's needed.....
             {
                 // Ensure the child has at least one guardian.
@@ -495,7 +489,6 @@ namespace GreatHomeChildcare
                     return;
                 }
 
-                //TODO: BUG: Inserting a new child happens before the above guardian stuff is done;
                 /* STEP 3:
                  * Add new child
                  * The form has already been validated...
