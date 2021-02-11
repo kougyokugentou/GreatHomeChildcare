@@ -247,8 +247,14 @@ namespace GreatHomeChildcare
             // the individual guardian object.
             Guardian newGuardian = (Guardian)cbExistingGuardians.SelectedItem;
 
+            //We are attaching a guardian to a new child.
+            //This occurs when clicking this button instead of new guardian.
+            int next_child_id = SqliteDataAccess.GetNextChildID();
+            if (child.id <= 0)
+                { child.id = next_child_id; }
+
             //Check to see if newGuardian is already a guardian of this child.
-            foreach(DataGridViewRow row in dgvGuardians.Rows)
+            foreach (DataGridViewRow row in dgvGuardians.Rows)
             {
                 if((int)row.Cells[0].Value == newGuardian.id)
                 {
@@ -593,9 +599,6 @@ namespace GreatHomeChildcare
 
             if(dr == DialogResult.Yes)
             {
-                MessageBox.Show("Code to-do: delete child");
-                return;
-
                 //Step 1: Delete attendence data.
                 SqliteDataAccess.DeleteAttendenceForChild(child);
 
