@@ -39,6 +39,7 @@
             System.Windows.Forms.Label dOBLabel;
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.firstNameTextBox = new System.Windows.Forms.TextBox();
+            this.childBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.lastNameTextBox = new System.Windows.Forms.TextBox();
             this.raceTextBox = new System.Windows.Forms.TextBox();
             this.genderComboBox = new System.Windows.Forms.ComboBox();
@@ -67,7 +68,6 @@
             this.cbExistingGuardians = new System.Windows.Forms.ComboBox();
             this.btnNewGuardian = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
-            this.childBindingSource = new System.Windows.Forms.BindingSource(this.components);
             firstNameLabel = new System.Windows.Forms.Label();
             lastNameLabel = new System.Windows.Forms.Label();
             raceLabel = new System.Windows.Forms.Label();
@@ -75,11 +75,11 @@
             photoLabel = new System.Windows.Forms.Label();
             addressLabel = new System.Windows.Forms.Label();
             dOBLabel = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.childBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvGuardians)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.photoPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.idNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.childBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // firstNameLabel
@@ -170,6 +170,10 @@
             this.firstNameTextBox.Size = new System.Drawing.Size(100, 22);
             this.firstNameTextBox.TabIndex = 2;
             this.firstNameTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.String_TextBox_Validating);
+            // 
+            // childBindingSource
+            // 
+            this.childBindingSource.DataSource = typeof(GreatHomeChildcare.Models.Child);
             // 
             // lastNameTextBox
             // 
@@ -374,6 +378,7 @@
             this.photoPictureBox.Location = new System.Drawing.Point(653, 19);
             this.photoPictureBox.Name = "photoPictureBox";
             this.photoPictureBox.Size = new System.Drawing.Size(156, 161);
+            this.photoPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.photoPictureBox.TabIndex = 22;
             this.photoPictureBox.TabStop = false;
             // 
@@ -466,10 +471,6 @@
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
-            // childBindingSource
-            // 
-            this.childBindingSource.DataSource = typeof(GreatHomeChildcare.Models.Child);
-            // 
             // frmChildCrud
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -507,11 +508,11 @@
             this.Name = "frmChildCrud";
             this.Text = "Child Management : Great Home Childcare";
             this.Load += new System.EventHandler(this.frmChildCrud_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.childBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvGuardians)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.photoPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.idNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.childBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

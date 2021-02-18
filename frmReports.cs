@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,6 +14,7 @@ using GreatHomeChildcare.Models;
 
 //REF:
 //https://stackoverflow.com/questions/9780800/what-event-is-raised-when-a-user-interacts-with-the-datetimepicker-control
+//https://stackoverflow.com/questions/2884356/how-do-i-auto-size-columns-through-the-excel-interop-objects
 
 namespace GreatHomeChildcare
 {
@@ -213,18 +215,29 @@ namespace GreatHomeChildcare
             && saveFileDialogReport.FileName != "")
             {
                 string filename = saveFileDialogReport.FileName;
-                List<ReportData> lstReport = new List<ReportData>();
-                lstReport = GenerateReport();
-
-                //Now with that monkey business out of the way
-                //let's get on with actually saving the file.
-                TextWriter textWriter = new StreamWriter(filename);
-                CsvWriter csvWriter = new CsvWriter(textWriter);
-                csvWriter.WriteRecords(lstReport);
-
-                textWriter.Close();
+                SaveCSV(filename);
                 MessageBox.Show("Report Saved", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
             }
+        }
+
+        /* Function to save report data to a CSV file.
+         * Seperated away from the button "save to csv" so
+         * the "print" functionality can use it too.
+         * INPUT: string filename
+         * OUTPUT: csv file to disk.
+         */
+        private void SaveCSV(string filename)
+        {
+            List<ReportData> lstReport = new List<ReportData>();
+            lstReport = GenerateReport();
+
+            //Now with that monkey business out of the way
+            //let's get on with actually saving the file.
+            TextWriter textWriter = new StreamWriter(filename);
+            CsvWriter csvWriter = new CsvWriter(textWriter);
+            csvWriter.WriteRecords(lstReport);
+
+            textWriter.Close();
         }
 
         private List<ReportData> GenerateReport()
@@ -268,6 +281,67 @@ namespace GreatHomeChildcare
             }
 
             //TODO: figure out a way to actually implement printing. It's one of the toolbox things.
+            //1: Get temp environment variable
+            DialogResult dr = PrintDialog.ShowDialog();
+
+            if (dr == DialogResult.OK) //print
+            {
+                string filename = Environment.GetEnvironmentVariable("TEMP");
+                filename += @"\GHCReport.csv";
+
+                //Check to see if the file exists. If so, delete it.
+                try
+                {
+                    if (File.Exists(filename))
+                    {
+                        File.Delete(filename);
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("Please close Excel and try again.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+                    return;
+                }
+
+
+                //Write the CSV.
+                SaveCSV(filename);
+
+                //Check again to see if writing the CSV was successful.
+                //If not, show a message.
+                if (!File.Exists(filename))
+                {
+                    MessageBox.Show("Could not save temporary file to print the report.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+                    return;
+                }
+
+                //Cheaply print via Excel.
+                Microsoft.Office.Interop.Excel.Application excel = new Microsoft.Office.Interop.Excel.Application();
+                excel.Visible = false;
+                excel.DisplayAlerts = false;
+
+                Microsoft.Office.Interop.Excel.Workbook workbook = excel.Workbooks.Open(filename);
+                Microsoft.Office.Interop.Excel.Worksheet worksheet = workbook.Sheets[1];
+
+                //ref: stack exchange
+                worksheet.Columns.AutoFit();
+
+                //print to default printer.
+                worksheet.PrintOutEx(Type.Missing, Type.Missing, 
+                    Type.Missing, Type.Missing, Type.Missing, 
+                    Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+
+                // Cleanup Excel
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                Marshal.FinalReleaseComObject(worksheet);
+
+                workbook.Close(false, Type.Missing, Type.Missing);
+                Marshal.FinalReleaseComObject(workbook);
+
+                excel.Quit();
+                Marshal.FinalReleaseComObject(excel);
+            }
         }
     }
 }

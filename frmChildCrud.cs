@@ -74,10 +74,6 @@ namespace GreatHomeChildcare
             guardians = SqliteDataAccess.GetAllGuardians();
 
             cbExistingGuardians.DataSource = null;
-
-            //TODO: check if needed.
-            //cbExistingGuardians.Items.Clear();
-
             cbExistingGuardians.DataSource = guardians;
             cbExistingGuardians.DisplayMember = "DisplayName";
             cbExistingGuardians.Text = "Choose a guardian to add to this child";
@@ -252,8 +248,14 @@ namespace GreatHomeChildcare
             // the individual guardian object.
             Guardian newGuardian = (Guardian)cbExistingGuardians.SelectedItem;
 
+            //We are attaching a guardian to a new child.
+            //This occurs when clicking this button instead of new guardian.
+            int next_child_id = SqliteDataAccess.GetNextChildID();
+            if (child.id <= 0)
+                { child.id = next_child_id; }
+
             //Check to see if newGuardian is already a guardian of this child.
-            foreach(DataGridViewRow row in dgvGuardians.Rows)
+            foreach (DataGridViewRow row in dgvGuardians.Rows)
             {
                 if((int)row.Cells[0].Value == newGuardian.id)
                 {
@@ -326,7 +328,6 @@ namespace GreatHomeChildcare
             int next_child_id = 0;
 
             //We added a new guardian.
-            //TODO: TEST
             if(gFromGCrudForm.id == 0)
             {
                 Guardian gToAddToChild = new Guardian();
@@ -408,6 +409,7 @@ namespace GreatHomeChildcare
                 
                 MessageBox.Show("The guardian has been deleted.");
                 LoadGuardiansForChild(child);
+                FillGuardiansComboBox();
             }
             else
             {
@@ -450,7 +452,6 @@ namespace GreatHomeChildcare
             else
                 child.photo = ImageWrangler.ImageToByteArray(photoPictureBox.Image);
 
-            //TODO: test
             if(child.id > 0) //Should be all that's needed.....
             {
                 // Ensure the child has at least one guardian.
@@ -479,7 +480,8 @@ namespace GreatHomeChildcare
                  * does not correctly work; and the program saves the child before attaching a new guardian
                  * any god damn ways.... so fuck you. HOURS_WASTED_ON_TRYING_TO_FIX_IT = 10;
                  */
-                if (cbExistingGuardians.Text != "Choose a guardian to add to this child")
+                if (cbExistingGuardians.Text != "Choose a guardian to add to this child"
+                    && dgvGuardians.RowCount <= 0) //No guardians have been added with 'add existing guardian'
                 {
                     btnAddExistingGuardian_Click(btnSave, EventArgs.Empty);
                 }
@@ -492,7 +494,6 @@ namespace GreatHomeChildcare
                     return;
                 }
 
-                //TODO: BUG: Inserting a new child happens before the above guardian stuff is done;
                 /* STEP 3:
                  * Add new child
                  * The form has already been validated...
@@ -596,9 +597,6 @@ namespace GreatHomeChildcare
 
             if(dr == DialogResult.Yes)
             {
-                MessageBox.Show("Code to-do: delete child");
-                return;
-
                 //Step 1: Delete attendence data.
                 SqliteDataAccess.DeleteAttendenceForChild(child);
 

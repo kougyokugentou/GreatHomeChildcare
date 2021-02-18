@@ -50,6 +50,7 @@ namespace GreatHomeChildcare
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.btnPrint = new System.Windows.Forms.Button();
             this.saveFileDialogReport = new System.Windows.Forms.SaveFileDialog();
+            this.PrintDialog = new System.Windows.Forms.PrintDialog();
             ((System.ComponentModel.ISupportInitialize)(this.dgvReports)).BeginInit();
             this.SuspendLayout();
             // 
@@ -217,6 +218,10 @@ namespace GreatHomeChildcare
             this.saveFileDialogReport.Filter = "CSV Files|*.csv";
             this.saveFileDialogReport.Title = "Save Report";
             // 
+            // PrintDialog
+            // 
+            this.PrintDialog.UseEXDialog = true;
+            // 
             // frmReports
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -260,5 +265,6 @@ namespace GreatHomeChildcare
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.Button btnPrint;
         private System.Windows.Forms.SaveFileDialog saveFileDialogReport;
+        private System.Windows.Forms.PrintDialog PrintDialog;
     }
 }
