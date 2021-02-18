@@ -117,7 +117,7 @@ namespace GreatHomeChildcare
                 cnn.Execute(strQuery, new
                 {
                     _id = child.id,
-                    _photo = child.photo
+                    _photo = child.photo ?? null
                 });
             }
         }

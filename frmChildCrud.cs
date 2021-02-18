@@ -174,12 +174,17 @@ namespace GreatHomeChildcare
             int child_id = frmAdminForm.child_id;
             SnapShotWin openWebCam = new SnapShotWin(child_id);
             openWebCam.Show();
-            photoPictureBox.Tag = CUSTOM_PIC_TAG;
             return;
 
             //TED: Be sure you set this somewhere along the way
             //after you wrangle the damn camera.
             
+        }
+        public void changeImageFromCam()
+        {
+            photoPictureBox.Image = ImageWrangler.ByteArrayToImage(child.photo);
+            photoPictureBox.Tag = CUSTOM_PIC_TAG;
+            MessageBox.Show("Tag has been changed to Custom.");
         }
 
         /* On click of the button, open a file picker dialog box

@@ -3,10 +3,11 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Threading;
 using System.Windows.Forms;
+using System.Text;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
 using GreatHomeChildcare.Models;
-
+using System.IO;
 
 namespace GreatHomeChildcare
 {
@@ -75,12 +76,16 @@ namespace GreatHomeChildcare
             {
                 byte[] pic_in;
                 Bitmap snapshot = new Bitmap(pictureBox1.Image);
+
                 try
                 {
-                    Image image = (Image)snapshot;
-                    ImageConverter _imageConverter = new ImageConverter();
-                    pic_in = (byte[])_imageConverter.ConvertTo(snapshot, typeof(byte[]));
-                } catch(Exception ex)
+                    using (var stream = new MemoryStream())
+                    {
+                        snapshot.Save(stream, ImageFormat.Png);
+                        pic_in = stream.ToArray();
+                    }
+                }
+                catch (Exception ex)
                 {
                     MessageBox.Show("Unable to picture.  Try again.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
                     return;
@@ -89,14 +94,15 @@ namespace GreatHomeChildcare
                 {
                     child.id = child.id;
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show("This child has not been created yet.  Save the child first and then come back.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
                     return;
                 }
                 child.photo = pic_in;
-                SqliteDataAccess.AddWebCamPhoto(child);
+                SqliteDataAccess.UpdateChild(child);
                 isCameraRunning = false;
+
                 Close();
             }
             else
