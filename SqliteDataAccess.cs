@@ -33,6 +33,20 @@ namespace GreatHomeChildcare
 
         // ***************** Read *******************
 
+        /* Gets a child's photo from the DB given a child id.
+         * INPUT: child
+         * OUTPUT: byte[]
+         */
+        internal byte[] GetChildPhoto(Child child)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                string strQuery = "SELECT photo FROM Children WHERE id = @id;";
+                byte[] output = cnn.Query<byte[]>(strQuery, child).SingleOrDefault();
+                return output;
+            }
+        }
+
         /* Gets the next available child_id from the sqlite database.
          * INPUT: void
          * OUTPUT: integer
