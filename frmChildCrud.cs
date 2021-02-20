@@ -165,22 +165,27 @@ namespace GreatHomeChildcare
         //TODO: Ted, find a better way to do this than I did.
         private void btnPhotoFromCam_Click(object sender, EventArgs e)
         {
+            //Validate this is not a new child.
+            if (idNumericUpDown.Value <= 0)
+            {
+                MessageBox.Show("Please save the child then try taking the photo again.", "Great Home Childcare", MessageBoxButtons.OK, MessageBoxIcon.None);
+                return;
+            }
 
-            // MessageBox.Show("From cam");
-            int child_id = frmAdminForm.child_id;
+            int child_id = Int32.Parse(idNumericUpDown.Value.ToString());
             SnapShotWin openWebCam = new SnapShotWin(child_id);
+            openWebCam.FormClosed += new FormClosedEventHandler(openWebCamFormClosed);
             openWebCam.Show();
             return;
-
-            //TED: Be sure you set this somewhere along the way
-            //after you wrangle the damn camera.
-            
         }
-        public void changeImageFromCam()
+
+        //Move the picture onto the child crud form.
+        private void openWebCamFormClosed(object sender, FormClosedEventArgs e)
         {
-            photoPictureBox.Image = ImageWrangler.ByteArrayToImage(child.photo);
+            byte[] bytePic = SqliteDataAccess.GetChildPhoto(child);
+            Image imgKidPic = ImageWrangler.ByteArrayToImage(bytePic);
+            photoPictureBox.Image = imgKidPic;
             photoPictureBox.Tag = CUSTOM_PIC_TAG;
-            MessageBox.Show("Tag has been changed to Custom.");
         }
 
         /* On click of the button, open a file picker dialog box
@@ -319,7 +324,7 @@ namespace GreatHomeChildcare
             Hide();
         }
 
-        //Show this admin screen after the child crud form is closed.
+        //Show this screen after the child crud form is closed.
         private void GCrudFormClosed(object sender, FormClosedEventArgs e)
         {
             //This TOTALLY works!!!
