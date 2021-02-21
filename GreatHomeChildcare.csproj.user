@@ -2,7 +2,7 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <PublishUrlHistory>M:\down\GreatHomeChildcare\|publish\</PublishUrlHistory>
-    <InstallUrlHistory>http://kougyoku.freeshell.org/down/DBWizard/</InstallUrlHistory>
+    <InstallUrlHistory>http://kougyoku.freeshell.org/down/GreatHomeChildcare/|http://kougyoku.freeshell.org/down/DBWizard/</InstallUrlHistory>
     <SupportUrlHistory />
     <UpdateUrlHistory />
     <BootstrapperUrlHistory />
