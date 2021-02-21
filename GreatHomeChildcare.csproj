@@ -19,7 +19,7 @@
     <PublishUrl>M:\down\GreatHomeChildcare\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateEnabled>true</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>Days</UpdateIntervalUnits>
@@ -29,10 +29,11 @@
     <InstallUrl>http://kougyoku.freeshell.org/down/DBWizard/</InstallUrl>
     <ProductName>GreatHomeChildcare</ProductName>
     <PublisherName>Great Home Childcare</PublisherName>
-    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationRevision>1</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -56,6 +57,18 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>attendanceProgram.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>0449EF1C122FEE7F99FD661A97DBDA780C25262A</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>GreatHomeChildcare_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CsvHelper, Version=12.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
@@ -153,6 +166,7 @@
     <EmbeddedResource Include="SnapShotWin.resx">
       <DependentUpon>SnapShotWin.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="GreatHomeChildcare_TemporaryKey.pfx" />
     <None Include="Properties\DataSources\GreatHomeChildcare.Models.Child.datasource" />
     <None Include="Properties\DataSources\GreatHomeChildcare.Models.Guardian.datasource" />
     <None Include="Resources\child.png" />
